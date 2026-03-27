@@ -38,7 +38,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/#pricing"
+                  href="/pricing"
                   className="text-sm text-text-muted transition-colors hover:text-text-secondary"
                 >
                   料金プラン

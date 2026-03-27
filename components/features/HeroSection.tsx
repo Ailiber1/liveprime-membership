@@ -157,7 +157,7 @@ export default function HeroSection() {
             今すぐ始める
           </Link>
           <Link
-            href="/#pricing"
+            href="/pricing"
             className="w-full rounded-lg border border-border px-8 py-3.5 text-sm font-medium text-text-primary transition-colors hover:border-text-muted sm:w-auto"
           >
             プランを見る

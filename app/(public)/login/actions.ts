@@ -30,18 +30,40 @@ export async function loginWithGoogle() {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${siteUrl}/auth/callback`,
-    },
-  });
+  try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${siteUrl}/auth/callback`,
+      },
+    });
 
-  if (error) {
-    return { error: "Google認証に失敗しました。" };
-  }
+    if (error) {
+      // Google Providerが未設定の場合のエラーハンドリング
+      if (
+        error.message.includes("provider") ||
+        error.message.includes("not enabled") ||
+        error.message.includes("unsupported")
+      ) {
+        return {
+          error:
+            "Google認証は現在設定中です。メールアドレスでのログインをご利用ください。",
+        };
+      }
+      return { error: "Google認証に失敗しました。しばらくしてからお試しください。" };
+    }
 
-  if (data.url) {
-    redirect(data.url);
+    if (data.url) {
+      redirect(data.url);
+    }
+  } catch (e) {
+    // redirect()はエラーをスローするので、それを再スローする
+    if (e instanceof Error && e.message === "NEXT_REDIRECT") {
+      throw e;
+    }
+    return {
+      error:
+        "Google認証は現在設定中です。メールアドレスでのログインをご利用ください。",
+    };
   }
 }
