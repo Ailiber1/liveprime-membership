@@ -86,6 +86,7 @@ export default async function VideoDetailPage({
     .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at")
     .eq("is_published", true)
     .neq("id", video.id)
+    .order("created_at", { ascending: false })
     .limit(4);
 
   return (
@@ -214,7 +215,7 @@ export default async function VideoDetailPage({
                   <div
                     className="relative h-20 w-32 shrink-0 overflow-hidden rounded-lg"
                     style={{
-                      background: gradients[i % gradients.length],
+                      background: gradients[rv.title.length % gradients.length],
                     }}
                   >
                     <div className="absolute inset-0 flex items-center justify-center">

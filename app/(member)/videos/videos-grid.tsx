@@ -154,7 +154,7 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
               {/* サムネイル */}
               <div
                 className="relative aspect-video"
-                style={{ background: gradients[i % gradients.length] }}
+                style={{ background: gradients[video.title.length % gradients.length] }}
               >
                 {/* 再生ボタン */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
