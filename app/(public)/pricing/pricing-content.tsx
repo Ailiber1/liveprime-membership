@@ -232,18 +232,18 @@ export default function PricingContent() {
 
         {/* 月払い/年払いトグル */}
         <div className="mb-10 flex flex-col items-center gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <span className={`text-sm ${!isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
               月払い
             </span>
             <button
               onClick={() => setIsYearly(!isYearly)}
-              className="relative h-7 w-12 shrink-0 rounded-full bg-border transition-colors"
+              className="relative h-8 w-14 shrink-0 rounded-full bg-border transition-colors"
               aria-label="年払いに切り替え"
             >
               <span
-                className={`absolute top-0.5 h-6 w-6 rounded-full bg-primary transition-transform ${
-                  isYearly ? "translate-x-[22px]" : "translate-x-0.5"
+                className={`absolute top-1 h-6 w-6 rounded-full bg-primary transition-transform duration-200 ${
+                  isYearly ? "translate-x-[26px]" : "translate-x-1"
                 }`}
               />
             </button>
