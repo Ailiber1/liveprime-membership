@@ -6,12 +6,14 @@ import WhySection from "@/components/features/WhySection";
 import TestimonialsSection from "@/components/features/TestimonialsSection";
 import HowItWorksSection from "@/components/features/HowItWorksSection";
 import CTASection from "@/components/features/CTASection";
+import StarBackground from "@/components/features/StarBackground";
 
 export default function Home() {
   return (
     <>
+      <StarBackground />
       <Header />
-      <main>
+      <main className="relative z-[1]">
         <HeroSection />
         <FeaturesSection />
         <WhySection />

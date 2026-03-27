@@ -179,7 +179,7 @@ export default function FeaturesSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 sm:py-28 overflow-hidden bg-bg-deep"
+      className="relative py-20 sm:py-28 overflow-hidden bg-transparent"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-6 text-center">
         <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">

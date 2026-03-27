@@ -97,7 +97,7 @@ export default function TestimonialsSection() {
     <section
       id="testimonials"
       ref={sectionRef}
-      className="relative py-24 sm:py-32 bg-bg-deep overflow-hidden"
+      className="relative py-24 sm:py-32 bg-transparent overflow-hidden"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
         <div className="text-center">
@@ -113,8 +113,8 @@ export default function TestimonialsSection() {
       {/* 自動スライド */}
       <div className="testimonial-fade opacity-0 mt-14 sm:mt-16 relative">
         {/* 左右フェード */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-r from-bg-deep to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-l from-bg-deep to-transparent" />
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-r from-[#0a0a0f] to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-l from-[#0a0a0f] to-transparent" />
 
         <div className="flex testimonial-scroll gap-5 pl-5">
           {loopedTestimonials.map((t, i) => (

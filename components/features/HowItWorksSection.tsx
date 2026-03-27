@@ -47,7 +47,7 @@ export default function HowItWorksSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 sm:py-32 bg-bg-deep"
+      className="relative py-24 sm:py-32 bg-transparent"
     >
       <div className="mx-auto max-w-5xl px-5 sm:px-6">
         <div className="text-center">

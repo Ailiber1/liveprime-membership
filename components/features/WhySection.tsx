@@ -112,7 +112,7 @@ export default function WhySection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 sm:py-32 overflow-hidden bg-bg-deep"
+      className="relative py-24 sm:py-32 overflow-hidden bg-transparent"
     >
       <canvas
         ref={canvasRef}
