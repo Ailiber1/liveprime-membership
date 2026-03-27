@@ -11,40 +11,40 @@ interface ContentCard {
 
 const contents: ContentCard[] = [
   {
-    title: "イラスト配信 — キャラクターデザインの描き方",
+    title: "VTuber配信テクニック — 初心者からデビューまで",
+    creator: "星宮 ルナ",
+    category: "VTuber",
+    duration: "LIVE",
+  },
+  {
+    title: "ゲーム実況ライブ — 最新RPG初見プレイ",
+    creator: "佐藤 ユウキ",
+    category: "ゲーム配信",
+    duration: "LIVE",
+  },
+  {
+    title: "歌枠ライブ — リクエスト受付中",
+    creator: "鈴木 あかり",
+    category: "歌配信",
+    duration: "LIVE",
+  },
+  {
+    title: "イラスト制作ライブ — キャラデザ配信",
     creator: "水瀬 ひかる",
-    category: "イラスト",
+    category: "お絵描き配信",
     duration: "1:15:00",
   },
   {
-    title: "アニメーション制作の舞台裏",
-    creator: "佐藤 美咲",
-    category: "アニメ",
-    duration: "45:00",
-  },
-  {
-    title: "弾き語りライブ — 夜のアコースティック",
-    creator: "山本 健太",
-    category: "音楽",
+    title: "FPS大会ライブ — チーム戦リアルタイム実況",
+    creator: "高橋 レン",
+    category: "eスポーツ",
     duration: "LIVE",
   },
   {
-    title: "UIデザイン実践 — アプリを0から作る",
-    creator: "田中 裕也",
-    category: "デザイン",
-    duration: "1:30:00",
-  },
-  {
-    title: "料理配信 — 本格フレンチをおうちで",
+    title: "ASMR配信 — 睡眠導入ライブ",
     creator: "中村 あかり",
-    category: "料理",
-    duration: "38:00",
-  },
-  {
-    title: "ゲーム実況 — RPG完全攻略ライブ",
-    creator: "鈴木 あかり",
-    category: "ゲーム",
-    duration: "LIVE",
+    category: "ASMR",
+    duration: "23:00開始",
   },
 ];
 
