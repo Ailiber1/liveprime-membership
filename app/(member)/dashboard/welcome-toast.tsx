@@ -39,38 +39,36 @@ export default function WelcomeToast() {
       shown.current = true;
       setActivatePlan({ plan, interval });
       window.history.replaceState({}, "", "/dashboard");
+      // 自動でStripe Checkoutに遷移
+      autoActivate(plan, interval);
     }
   }, [searchParams, showToast]);
 
-  async function handleActivate() {
-    if (!activatePlan) return;
+  async function autoActivate(plan: string, interval: string) {
     setActivating(true);
-
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          planId: activatePlan.plan,
-          interval: activatePlan.interval,
-        }),
+        body: JSON.stringify({ planId: plan, interval }),
       });
-
       const data = await res.json();
-
       if (!res.ok) {
         throw new Error(data.error || "Checkout sessionの作成に失敗しました");
       }
-
       if (data.url) {
         window.location.href = data.url;
       }
     } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "エラーが発生しました";
+      const message = err instanceof Error ? err.message : "エラーが発生しました";
       showToast(message, "error");
       setActivating(false);
     }
+  }
+
+  async function handleActivate() {
+    if (!activatePlan) return;
+    autoActivate(activatePlan.plan, activatePlan.interval);
   }
 
   if (!activatePlan) return null;
@@ -81,29 +79,25 @@ export default function WelcomeToast() {
   return (
     <div className="mb-6 rounded-lg border border-primary/30 bg-primary/5 p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm font-medium text-text-primary">
-            {label}プラン（{intervalLabel}）を有効化しますか？
-          </p>
-          <p className="mt-0.5 text-xs text-text-muted">
-            登録時に選択したプランです。決済画面へ進みます。
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <div>
+            <p className="text-sm font-medium text-text-primary">
+              {label}プラン（{intervalLabel}）の決済画面に移動中...
+            </p>
+            <p className="mt-0.5 text-xs text-text-muted">
+              しばらくお待ちください。自動で決済画面に遷移します。
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setActivatePlan(null)}
-            className="rounded-lg border border-border px-4 py-2 text-xs text-text-muted transition-colors hover:border-text-muted"
-          >
-            あとで
-          </button>
+        {!activating && (
           <button
             onClick={handleActivate}
-            disabled={activating}
-            className="rounded-lg bg-primary px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-primary-hover disabled:opacity-60"
+            className="rounded-lg bg-primary px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-primary-hover"
           >
-            {activating ? "処理中..." : "プランを有効化"}
+            決済画面へ
           </button>
-        </div>
+        )}
       </div>
     </div>
   );

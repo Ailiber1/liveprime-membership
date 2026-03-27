@@ -11,9 +11,35 @@ export function validateCsrf(request: NextRequest): NextResponse | null {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
+  // 許可するOriginリスト（Vercelのプレビューデプロイも含む）
+  const allowedOrigins: string[] = [
+    new URL(siteUrl).origin,
+    "http://localhost:3000",
+  ];
+
+  // Vercelのデプロイ URL（プレビュー含む）を許可
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl) {
+    allowedOrigins.push(`https://${vercelUrl}`);
+  }
+  const vercelBranchUrl = process.env.VERCEL_BRANCH_URL;
+  if (vercelBranchUrl) {
+    allowedOrigins.push(`https://${vercelBranchUrl}`);
+  }
+  const vercelProjectUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProjectUrl) {
+    allowedOrigins.push(`https://${vercelProjectUrl}`);
+  }
+
+  function isAllowed(checkOrigin: string): boolean {
+    return allowedOrigins.some(
+      (allowed) => checkOrigin === allowed
+    ) || checkOrigin.endsWith(".vercel.app");
+  }
+
   // Origin ヘッダーがあればそれで検証
   if (origin) {
-    if (origin === siteUrl || origin === new URL(siteUrl).origin) {
+    if (isAllowed(origin)) {
       return null; // OK
     }
     return NextResponse.json(
@@ -26,8 +52,7 @@ export function validateCsrf(request: NextRequest): NextResponse | null {
   if (referer) {
     try {
       const refererOrigin = new URL(referer).origin;
-      const allowedOrigin = new URL(siteUrl).origin;
-      if (refererOrigin === allowedOrigin) {
+      if (isAllowed(refererOrigin)) {
         return null; // OK
       }
     } catch {
