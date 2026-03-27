@@ -68,7 +68,7 @@ export default function FeaturesSection() {
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const total = contents.length;
-  const radius = 350; // 円の半径（px）— 小さいほどカード同士が近い
+  const radius = 500; // 円の半径（px）
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
@@ -122,13 +122,13 @@ export default function FeaturesSection() {
     // 円周上の位置を計算
     const x = Math.sin(angle) * radius;
     const z = Math.cos(angle) * radius - radius; // 手前が0、奥がマイナス
-    const rotateY = -angle * (180 / Math.PI) * 1.3; // ラジアン→度（強めの回転）
+    const rotateY = -angle * (180 / Math.PI) * 1.5; // ラジアン→度（強い回転で3D感）
 
     // 奥にあるほど暗く小さく
     const isCenter = offset === 0;
     const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
-    const scale = isCenter ? 1 : 0.55 + depthRatio * 0.45;
-    const opacity = isCenter ? 1 : 0.15 + depthRatio * 0.5;
+    const scale = isCenter ? 1 : 0.4 + depthRatio * 0.35;
+    const opacity = isCenter ? 1 : 0.1 + depthRatio * 0.4;
     const zIndex = isCenter ? 30 : Math.round(depthRatio * 20);
     const isClickable = Math.abs(offset) <= 1;
 
@@ -159,7 +159,7 @@ export default function FeaturesSection() {
       {/* 3D円形カルーセル */}
       <div
         className="content-fade opacity-0 mt-12 sm:mt-16 relative"
-        style={{ perspective: "1000px" }}
+        style={{ perspective: "800px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
