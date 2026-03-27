@@ -96,6 +96,12 @@ export default function FeaturesSection() {
     } catch { /* 音声未対応時は無視 */ }
   }, []);
 
+  // 効果音なしで移動（自動回転用）
+  const silentNext = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % total);
+  }, [total]);
+
+  // 効果音ありで移動（ユーザー操作用）
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
     playSwish();
@@ -112,11 +118,11 @@ export default function FeaturesSection() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
-    intervalRef.current = setInterval(next, 2800);
+    intervalRef.current = setInterval(silentNext, 2800);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [next, isHovered]);
+  }, [silentNext, isHovered]);
 
   // フェードイン
   useEffect(() => {
