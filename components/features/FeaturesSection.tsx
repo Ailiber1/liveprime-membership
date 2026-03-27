@@ -7,6 +7,7 @@ interface ContentCard {
   creator: string;
   category: string;
   duration: string;
+  thumbnail?: string;
 }
 
 const contents: ContentCard[] = [
@@ -15,6 +16,7 @@ const contents: ContentCard[] = [
     creator: "星宮 ルナ",
     category: "VTuber",
     duration: "LIVE",
+    thumbnail: "/thumbnails/01-vtuber.png",
   },
   {
     title: "ゲーム実況ライブ — 最新RPG初見プレイ",
@@ -105,6 +107,9 @@ export default function FeaturesSection() {
             >
               {/* サムネイル領域 */}
               <div className="relative aspect-video bg-[#151520]">
+                {item.thumbnail && (
+                  <img src={item.thumbnail} alt={item.title} className="absolute inset-0 h-full w-full object-cover" />
+                )}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
