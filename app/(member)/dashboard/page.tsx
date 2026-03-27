@@ -85,9 +85,9 @@ export default async function DashboardPage() {
   const completedCount = watchHistory?.filter((w) => w.completed).length || 0;
 
   const planLabels: Record<string, string> = {
-    free: "Free",
-    standard: "Standard",
-    premium: "Premium",
+    free: "無料プラン",
+    standard: "スタンダード",
+    premium: "プレミアム",
   };
 
   const statusLabels: Record<string, { label: string; color: string }> = {
