@@ -112,23 +112,7 @@ button[type="submit"]:active,
   background: var(--color-border);
 }
 
-/* コンテンツカードの自動スライド */
-@keyframes scroll-x {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-25%);
-  }
-}
-
-.animate-scroll-x {
-  animation: scroll-x 45s linear infinite;
-}
-
-.animate-scroll-x:hover {
-  animation-play-state: paused;
-}
+/* 3Dカルーセル用のスクロールバー非表示は維持 */
 
 /* ローディングバーアニメーション */
 @keyframes loading-bar {

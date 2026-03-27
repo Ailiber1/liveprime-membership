@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 
 interface ContentCard {
@@ -59,16 +59,34 @@ const contents: ContentCard[] = [
   },
 ];
 
-// 無限ループ用に配列を2倍にする
-const loopedContents = [...contents, ...contents, ...contents, ...contents];
-
 export default function FeaturesSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [current, setCurrent] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const total = contents.length;
 
+  const next = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prev = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  // 自動回転（4秒間隔、ホバー時停止）
+  useEffect(() => {
+    if (isHovered) return;
+    intervalRef.current = setInterval(next, 4000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [next, isHovered]);
+
+  // フェードインアニメーション
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -80,12 +98,39 @@ export default function FeaturesSection() {
       },
       { threshold: 0.1 }
     );
-
     const els = section.querySelectorAll(".content-fade");
     els.forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, []);
+
+  // カードの位置を計算（中央が0、左が負、右が正）
+  function getCardStyle(index: number) {
+    let offset = index - current;
+    // 最短距離でループ
+    if (offset > total / 2) offset -= total;
+    if (offset < -total / 2) offset += total;
+
+    const absOffset = Math.abs(offset);
+    const isCenterCard = offset === 0;
+
+    // 表示範囲外は非表示
+    if (absOffset > 2) {
+      return { opacity: 0, transform: "translateX(0) scale(0.5)", zIndex: 0, pointerEvents: "none" as const };
+    }
+
+    const translateX = offset * 280;
+    const scale = isCenterCard ? 1 : 0.8 - absOffset * 0.05;
+    const rotateY = offset * -15;
+    const zIndex = 10 - absOffset;
+    const opacity = isCenterCard ? 1 : 0.6 - (absOffset - 1) * 0.2;
+
+    return {
+      transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+      zIndex,
+      opacity: Math.max(opacity, 0.3),
+      pointerEvents: (absOffset <= 1 ? "auto" : "none") as "auto" | "none",
+    };
+  }
 
   return (
     <section
@@ -102,53 +147,109 @@ export default function FeaturesSection() {
         </h2>
       </div>
 
-      {/* 自動スライド */}
-      <div className="content-fade opacity-0 mt-10 relative">
-        {/* 左右のフェードグラデーション */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 sm:w-24 bg-gradient-to-r from-[#0a0a0f] to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-24 bg-gradient-to-l from-[#0a0a0f] to-transparent" />
+      {/* 3Dカルーセル */}
+      <div
+        className="content-fade opacity-0 mt-14 relative"
+        style={{ perspective: "1200px" }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative mx-auto flex items-center justify-center" style={{ height: "320px" }}>
+          {contents.map((item, i) => {
+            const style = getCardStyle(i);
+            const isCenterCard = i === current;
 
-        <div className="flex animate-scroll-x gap-5 pl-5">
-          {loopedContents.map((item, i) => (
-            <Link
-              key={`${item.title}-${i}`}
-              href={`/videos/${item.id}`}
-              prefetch={true}
-              className="group/card relative flex-shrink-0 w-[280px] sm:w-[320px] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-3 hover:z-20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
-            >
-              {/* サムネイル領域 */}
-              <div className="relative aspect-video bg-[#151520]">
-                {item.thumbnail && (
-                  <img src={item.thumbnail} alt={item.title} className="absolute inset-0 h-full w-full object-cover" />
-                )}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
-                  <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-                    <svg width="22" height="22" viewBox="0 0 16 16" fill="white">
-                      <path d="M4 2l10 6-10 6V2z" />
-                    </svg>
-                  </div>
+            return (
+              <Link
+                key={item.id}
+                href={`/videos/${item.id}`}
+                prefetch={true}
+                className={`absolute w-[300px] sm:w-[360px] rounded-xl overflow-hidden cursor-pointer transition-all duration-500 ease-out ${
+                  isCenterCard ? "shadow-[0_20px_60px_rgba(0,0,0,0.7)]" : "shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
+                }`}
+                style={{
+                  ...style,
+                  transformStyle: "preserve-3d",
+                }}
+                onClick={(e) => {
+                  if (!isCenterCard && Math.abs(i - current) <= 2) {
+                    e.preventDefault();
+                    setCurrent(i);
+                  }
+                }}
+              >
+                {/* サムネイル */}
+                <div className="relative aspect-video bg-[#151520]">
+                  {item.thumbnail && (
+                    <img src={item.thumbnail} alt={item.title} className="absolute inset-0 h-full w-full object-cover" />
+                  )}
+                  {isCenterCard && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                      <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                        <svg width="22" height="22" viewBox="0 0 16 16" fill="white">
+                          <path d="M4 2l10 6-10 6V2z" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                  <span className="absolute top-3 left-3 rounded bg-[#0a0a0f]/80 px-2 py-0.5 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+                    {item.category}
+                  </span>
+                  <span className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-[10px] font-medium backdrop-blur-sm ${
+                    item.duration === "LIVE"
+                      ? "bg-[#f59e0b]/90 text-[#0a0a0f]"
+                      : "bg-[#0a0a0f]/80 text-white/80"
+                  }`}>
+                    {item.duration}
+                  </span>
                 </div>
-                <span className="absolute top-3 left-3 rounded bg-[#0a0a0f]/80 px-2 py-0.5 text-[10px] font-medium text-white/80 backdrop-blur-sm">
-                  {item.category}
-                </span>
-                <span className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-[10px] font-medium backdrop-blur-sm ${
-                  item.duration === "LIVE"
-                    ? "bg-[#f59e0b]/90 text-[#0a0a0f]"
-                    : "bg-[#0a0a0f]/80 text-white/80"
-                }`}>
-                  {item.duration}
-                </span>
-              </div>
-              {/* 情報 */}
-              <div className="p-4 bg-[#111118]">
-                <h3 className="text-sm font-medium text-white leading-snug line-clamp-2">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-xs text-[#5a5a72]">
-                  {item.creator}
-                </p>
-              </div>
-            </Link>
+                {/* 情報 */}
+                <div className="p-4 bg-[#111118]">
+                  <h3 className="text-sm font-medium text-white leading-snug line-clamp-1">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1.5 text-xs text-[#5a5a72]">
+                    {item.creator}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* 左右ナビボタン */}
+        <button
+          onClick={prev}
+          className="absolute left-4 sm:left-12 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white transition-colors hover:bg-white/20"
+          aria-label="前へ"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          onClick={next}
+          className="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white transition-colors hover:bg-white/20"
+          aria-label="次へ"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
+
+        {/* ドットインジケーター */}
+        <div className="mt-8 flex items-center justify-center gap-2">
+          {contents.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === current
+                  ? "w-6 bg-[#f59e0b]"
+                  : "w-1.5 bg-[rgba(255,255,255,0.15)] hover:bg-[rgba(255,255,255,0.3)]"
+              }`}
+              aria-label={`コンテンツ ${i + 1}`}
+            />
           ))}
         </div>
       </div>
