@@ -122,13 +122,13 @@ export default function FeaturesSection() {
     // 円周上の位置を計算
     const x = Math.sin(angle) * radius;
     const z = Math.cos(angle) * radius - radius; // 手前が0、奥がマイナス
-    const rotateY = -angle * (180 / Math.PI) * 1.5; // ラジアン→度（強い回転で3D感）
+    const rotateY = -angle * (180 / Math.PI); // ラジアン→度（円軌道に忠実）
 
     // 奥にあるほど暗く小さく
     const isCenter = offset === 0;
     const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
-    const scale = isCenter ? 1 : 0.4 + depthRatio * 0.35;
-    const opacity = isCenter ? 1 : 0.1 + depthRatio * 0.4;
+    const scale = isCenter ? 1 : 0.5 + depthRatio * 0.35;
+    const opacity = isCenter ? 1 : 0.2 + depthRatio * 0.5;
     const zIndex = isCenter ? 30 : Math.round(depthRatio * 20);
     const isClickable = Math.abs(offset) <= 1;
 
@@ -159,7 +159,7 @@ export default function FeaturesSection() {
       {/* 3D円形カルーセル */}
       <div
         className="content-fade opacity-0 mt-12 sm:mt-16 relative"
-        style={{ perspective: "800px" }}
+        style={{ perspective: "1200px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
