@@ -178,7 +178,7 @@ export default function FeaturesSection() {
                 key={item.id}
                 href={`/videos/${item.id}`}
                 prefetch={true}
-                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-[400ms] ease-[cubic-bezier(0.33,1,0.68,1)] ${
+                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-[transform,opacity,box-shadow] duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   isCenter
                     ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_80px_rgba(245,158,11,0.12),0_0_160px_rgba(245,158,11,0.04)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
@@ -211,28 +211,16 @@ export default function FeaturesSection() {
                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] to-[#0c0c14]" />
                   )}
 
-                  {/* 湾曲シャドウ — カードが曲面に見える効果 */}
+                  {/* サイドカードの軽い影 */}
                   {!isCenter && (
-                    <>
-                      {/* 内側の影（曲面の暗い部分） */}
-                      <div
-                        className="pointer-events-none absolute inset-0"
-                        style={{
-                          background: cardOffset > 0
-                            ? "linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 60%)"
-                            : "linear-gradient(to left, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 60%)",
-                        }}
-                      />
-                      {/* 端のハイライト（曲面に光が当たる部分） */}
-                      <div
-                        className="pointer-events-none absolute inset-0"
-                        style={{
-                          background: cardOffset > 0
-                            ? "linear-gradient(to left, rgba(255,255,255,0.04) 0%, transparent 15%)"
-                            : "linear-gradient(to right, rgba(255,255,255,0.04) 0%, transparent 15%)",
-                        }}
-                      />
-                    </>
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background: cardOffset > 0
+                          ? "linear-gradient(to right, rgba(0,0,0,0.25) 0%, transparent 30%)"
+                          : "linear-gradient(to left, rgba(0,0,0,0.25) 0%, transparent 30%)",
+                      }}
+                    />
                   )}
 
                   {isCenter && (
@@ -277,7 +265,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             next();
-            const id = setInterval(next, 120);
+            const id = setInterval(next, 150);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
@@ -291,7 +279,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             prev();
-            const id = setInterval(prev, 120);
+            const id = setInterval(prev, 150);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
