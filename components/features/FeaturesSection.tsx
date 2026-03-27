@@ -140,6 +140,7 @@ export default function FeaturesSection() {
       zIndex,
       pointerEvents: (isClickable ? "auto" : "none") as "auto" | "none",
       isCenter,
+      offset,
     };
   }
 
@@ -170,7 +171,7 @@ export default function FeaturesSection() {
           style={{ height: "620px", transformStyle: "preserve-3d" }}
         >
           {contents.map((item, i) => {
-            const { isCenter, ...style } = getCardStyle(i);
+            const { isCenter, offset: cardOffset, ...style } = getCardStyle(i);
 
             return (
               <Link
@@ -208,6 +209,18 @@ export default function FeaturesSection() {
                     />
                   ) : (
                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] to-[#0c0c14]" />
+                  )}
+
+                  {/* 湾曲シャドウ — カードが曲面に見える効果 */}
+                  {!isCenter && (
+                    <div
+                      className="pointer-events-none absolute inset-0"
+                      style={{
+                        background: cardOffset > 0
+                          ? "linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 40%)"
+                          : "linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 40%)",
+                      }}
+                    />
                   )}
 
                   {isCenter && (
