@@ -68,7 +68,7 @@ export default async function SuccessPage({ searchParams }: Props) {
               left: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
               animationDuration: `${2.5 + Math.random() * 2}s`,
-              backgroundColor: ["#ff0054", "#f5b731", "#6c5ce7", "#2ed573", "#fff"][i % 5],
+              backgroundColor: ["#f0f0f5", "#8b8ba3", "#5a5a72", "#f59e0b", "#f0f0f5"][i % 5],
               width: `${6 + Math.random() * 6}px`,
               height: `${6 + Math.random() * 6}px`,
               borderRadius: i % 3 === 0 ? "50%" : i % 3 === 1 ? "2px" : "0",
@@ -91,7 +91,7 @@ export default async function SuccessPage({ searchParams }: Props) {
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="success-check-icon text-white"
+              className="success-check-icon text-text-primary"
             >
               <polyline points="6 12 10 16 18 8" />
             </svg>
@@ -104,7 +104,7 @@ export default async function SuccessPage({ searchParams }: Props) {
         </h1>
 
         <p className="mt-3 text-base text-text-secondary sm:text-lg">
-          <span className="font-semibold text-accent">{planName}プラン</span>が有効化されました
+          <span className="font-semibold text-text-primary">{planName}プラン</span>が有効化されました
         </p>
 
         {/* 機能リスト */}
@@ -116,21 +116,19 @@ export default async function SuccessPage({ searchParams }: Props) {
             {features.map((feature) => (
               <li key={feature.label} className="flex items-center gap-3">
                 {feature.available ? (
-                  <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-success/20">
-                    <svg
-                      width="12"
-                      height="12"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-success"
-                    >
-                      <polyline points="6 12 10 16 18 8" />
-                    </svg>
-                  </div>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="shrink-0 text-text-secondary"
+                  >
+                    <polyline points="6 12 10 16 18 8" />
+                  </svg>
                 ) : (
                   <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
                     <svg
@@ -156,7 +154,7 @@ export default async function SuccessPage({ searchParams }: Props) {
                   {feature.label}
                 </span>
                 {!feature.available && (
-                  <span className="ml-auto rounded-full bg-accent/10 px-2 py-0.5 text-[10px] font-medium text-accent">
+                  <span className="ml-auto text-[10px] text-text-muted">
                     Premium限定
                   </span>
                 )}
@@ -168,7 +166,7 @@ export default async function SuccessPage({ searchParams }: Props) {
         {/* メール送信通知セクション */}
         <div className="mt-6 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/15">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
               <svg
                 width="20"
                 height="20"
@@ -178,7 +176,7 @@ export default async function SuccessPage({ searchParams }: Props) {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="text-accent"
+                className="text-text-muted"
               >
                 <rect x="2" y="4" width="20" height="16" rx="2" />
                 <path d="M22 4l-10 8L2 4" />
@@ -199,7 +197,7 @@ export default async function SuccessPage({ searchParams }: Props) {
         </div>
 
         {/* テスト環境バナー */}
-        <div className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-accent/20 bg-accent/5 px-3 py-2">
+        <div className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] px-3 py-2">
           <svg
             width="14"
             height="14"
@@ -209,12 +207,12 @@ export default async function SuccessPage({ searchParams }: Props) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-accent"
+            className="text-text-muted"
           >
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
             <path d="M7 11V7a5 5 0 0 1 10 0v4" />
           </svg>
-          <span className="text-[11px] font-medium text-accent/80">
+          <span className="text-[11px] font-medium text-text-muted">
             テスト環境 — 実際の課金は発生していません
           </span>
         </div>
@@ -290,11 +288,11 @@ export default async function SuccessPage({ searchParams }: Props) {
           width: 80px;
           height: 80px;
           border-radius: 50%;
-          background: linear-gradient(135deg, #2ed573, #1e9e50);
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 0 40px rgba(46, 213, 115, 0.3);
         }
 
         .success-check-icon {
@@ -324,7 +322,7 @@ function SuccessWithLoginPrompt({ planName }: { planName: string }) {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <div className="w-full max-w-md text-center">
-        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-success/20">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.06)]">
           <svg
             width="32"
             height="32"
@@ -334,7 +332,7 @@ function SuccessWithLoginPrompt({ planName }: { planName: string }) {
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="text-success"
+            className="text-text-primary"
           >
             <polyline points="6 12 10 16 18 8" />
           </svg>

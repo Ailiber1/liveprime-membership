@@ -110,12 +110,12 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-8 lg:p-10">
       {/* Stripe Checkout成功時のウェルカムトースト */}
       <WelcomeToast />
 
       {/* ヘッダー */}
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-xl font-bold text-text-primary sm:text-2xl">
             ダッシュボード
@@ -128,10 +128,10 @@ export default async function DashboardPage() {
       </div>
 
       {/* KPIカード */}
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+      <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-4">
           <div className="mb-2 flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
@@ -144,7 +144,7 @@ export default async function DashboardPage() {
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-4">
           <div className="mb-2 flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-success">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
               <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
@@ -157,7 +157,7 @@ export default async function DashboardPage() {
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-4">
           <div className="mb-2 flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-accent">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
               <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
             </svg>
             <span className="text-xs text-text-muted">お気に入り</span>
@@ -169,7 +169,7 @@ export default async function DashboardPage() {
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-4">
           <div className="mb-2 flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
               <rect x="3" y="4" width="18" height="18" rx="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
               <line x1="8" y1="2" x2="8" y2="6" />
@@ -183,29 +183,21 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3">
         {/* メインコンテンツ（左2/3） */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-8 lg:col-span-2">
           {/* サブスクリプション状態カード */}
-          <div className={`rounded-xl p-5 ${
-            currentPlan === "premium"
-              ? "border border-accent/40 bg-gradient-to-r from-accent/10 to-accent/5"
-              : currentPlan === "standard"
-              ? "border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5"
-              : "border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)]"
-          }`}>
+          <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-5">
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="mb-1 text-xs font-medium uppercase tracking-wider text-text-muted">
                   現在のプラン
                 </h2>
                 <div className="flex items-center gap-3">
-                  <span className={`font-display text-xl font-bold ${
-                    currentPlan === "premium" ? "text-accent" : currentPlan === "standard" ? "text-primary" : "text-text-primary"
-                  }`}>
+                  <span className="font-display text-xl font-bold text-text-primary">
                     {planLabels[currentPlan]}
                   </span>
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.color} border border-current/20 bg-current/5`}>
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.color}`}>
                     {statusInfo.label}
                   </span>
                 </div>
@@ -372,7 +364,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* サイドバー（右1/3） */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* アクティビティフィード */}
           <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-5">
             <h2 className="mb-4 font-display text-base font-semibold text-text-primary">
@@ -382,8 +374,8 @@ export default async function DashboardPage() {
               {watchHistory && watchHistory.length > 0 ? (
                 watchHistory.map((entry) => (
                   <div key={entry.id} className="flex gap-3">
-                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-primary">
+                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted">
                         <polygon points="5 3 19 12 5 21 5 3" />
                       </svg>
                     </div>
@@ -400,8 +392,8 @@ export default async function DashboardPage() {
               ) : (
                 <>
                   <div className="flex gap-3">
-                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-success/10">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-success">
+                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted">
                         <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2" />
                         <circle cx="8.5" cy="7" r="4" />
                         <line x1="20" y1="8" x2="20" y2="14" />
@@ -416,8 +408,8 @@ export default async function DashboardPage() {
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary/10">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-secondary">
+                    <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.06)]">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-text-muted">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                     </div>

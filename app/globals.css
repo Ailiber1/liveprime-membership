@@ -170,22 +170,15 @@ button:active {
   }
 }
 
-/* プランカード — グラデーションボーダーアニメーション */
-@keyframes pricing-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
+/* プランカード — cinematic-warm: 装飾最小限 */
 .card-popular {
-  border: 2px solid #ff0054;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 16px;
-  box-shadow: 0 0 24px rgba(255, 0, 84, 0.15), 0 0 48px rgba(255, 0, 84, 0.05);
 }
 
 .card-premium {
-  border: 2px solid #f5b731;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
-  box-shadow: 0 0 24px rgba(245, 183, 49, 0.15), 0 0 48px rgba(245, 183, 49, 0.05);
 }
 
 .price-transition {

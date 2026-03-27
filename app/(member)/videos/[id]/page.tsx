@@ -89,7 +89,7 @@ export default async function VideoDetailPage({
     .limit(4);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
+    <div className="p-4 sm:p-8 lg:p-10">
       {/* パンくずリスト */}
       <nav className="mb-4 flex items-center gap-2 text-xs text-text-muted">
         <Link href="/videos" className="transition-colors hover:text-text-secondary">
@@ -99,7 +99,7 @@ export default async function VideoDetailPage({
         <span className="text-text-secondary line-clamp-1">{video.title}</span>
       </nav>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3">
         {/* メインコンテンツ */}
         <div className="lg:col-span-2">
           {/* ペイウォールまたはプレーヤー */}
@@ -208,7 +208,7 @@ export default async function VideoDetailPage({
                 <Link
                   key={rv.id}
                   href={`/videos/${rv.id}`}
-                  className="group flex gap-3 rounded-lg border border-transparent p-2 transition-colors hover:border-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.03)]"
+                  className="group flex gap-3 rounded-lg p-2 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-80"
                 >
                   {/* ミニサムネイル */}
                   <div

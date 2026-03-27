@@ -122,10 +122,10 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
             <button
               key={filter.key}
               onClick={() => setActiveFilter(filter.key)}
-              className={`min-h-[44px] rounded-lg px-4 py-2 text-xs font-medium transition-colors sm:min-h-0 ${
+              className={`min-h-[44px] border-b-2 px-4 py-2 text-xs font-medium transition-all sm:min-h-0 ${
                 activeFilter === filter.key
-                  ? "bg-primary/10 text-primary border border-primary/20"
-                  : "border border-border text-text-muted hover:text-text-secondary hover:border-border"
+                  ? "border-text-primary text-text-primary"
+                  : "border-transparent text-text-muted hover:text-text-secondary"
               }`}
             >
               {filter.label}
@@ -143,7 +143,7 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
               href={`/videos/${video.id}`}
               prefetch={true}
               onClick={() => handleCardClick(video.id)}
-              className={`group relative overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-all hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.05)] ${loadingId === video.id ? "opacity-70" : ""}`}
+              className={`group relative overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)] ${loadingId === video.id ? "opacity-70" : ""}`}
             >
               {/* ローディングバー */}
               {loadingId === video.id && (

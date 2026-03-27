@@ -66,7 +66,7 @@ export default function WelcomeToast() {
   const intervalLabel = activatePlan.interval === "yearly" ? "年払い" : "月払い";
 
   return (
-    <div className="mb-6 rounded-lg border border-primary/30 bg-primary/5 p-4">
+    <div className="mb-8 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />

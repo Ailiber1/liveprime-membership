@@ -25,7 +25,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-bg-deep/80 backdrop-blur-xl">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-bg-deep/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-1.5">
           <span className="font-display text-xl font-bold tracking-tight text-[#f59e0b]">
@@ -115,7 +115,7 @@ export default function Header() {
 
       {/* モバイルメニュー */}
       {menuOpen && (
-        <div className="border-t border-border/50 bg-bg-deep/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-[rgba(255,255,255,0.06)] bg-bg-deep/95 backdrop-blur-xl md:hidden">
           <nav className="flex flex-col gap-1 px-4 py-3">
             {user ? (
               <>

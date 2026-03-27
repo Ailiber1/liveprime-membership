@@ -97,7 +97,7 @@ export default function Sidebar({ variant = "member" }: SidebarProps) {
   const navItems = variant === "admin" ? adminNavItems : memberNavItems;
 
   return (
-    <aside className="hidden w-60 shrink-0 border-r border-border/50 bg-bg-deep lg:block">
+    <aside className="hidden w-60 shrink-0 border-r border-[rgba(255,255,255,0.06)] bg-bg-deep lg:block">
       <div className="sticky top-16 flex h-[calc(100vh-4rem)] flex-col py-6">
         <nav className="flex-1 space-y-1 px-3">
           {navItems.map((item) => {
@@ -107,13 +107,13 @@ export default function Sidebar({ variant = "member" }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 prefetch={true}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
+                className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all duration-200 ${
                   isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-text-secondary hover:bg-white/5 hover:text-text-primary"
+                    ? "bg-[rgba(255,255,255,0.06)] text-text-primary"
+                    : "text-text-muted hover:bg-[rgba(255,255,255,0.04)] hover:text-text-secondary"
                 }`}
               >
-                <span className={isActive ? "text-primary" : "text-text-muted"}>
+                <span className={isActive ? "text-text-secondary" : "text-text-muted"}>
                   {item.icon}
                 </span>
                 {item.label}

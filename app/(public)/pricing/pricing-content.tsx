@@ -219,7 +219,7 @@ export default function PricingContent() {
     <div className="min-h-screen bg-bg-deep">
       <Header />
 
-      <main className="mx-auto max-w-6xl px-4 pt-28 pb-12 sm:px-6 sm:pt-32 sm:pb-24">
+      <main className="mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
         {/* キャンセル時のバナー */}
         {canceled === "true" && (
           <div className="mb-8 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-center text-sm text-accent">
@@ -264,7 +264,7 @@ export default function PricingContent() {
             </button>
           </div>
           {isYearly && (
-            <span className="rounded-full bg-accent/15 px-4 py-1.5 text-xs font-bold tracking-wider text-accent ring-1 ring-accent/25">
+            <span className="text-xs text-text-secondary">
               年払いで最大30%お得
             </span>
           )}
@@ -275,7 +275,6 @@ export default function PricingContent() {
           {plans.map((plan) => {
             const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
             const isPopular = plan.popular;
-            const isPremium = plan.id === "premium";
             const isFree = plan.id === "free";
             const isLoading = loadingPlan === plan.id || loadingPlan === `${plan.id}_redirecting`;
             const isRedirecting = loadingPlan === `${plan.id}_redirecting`;
@@ -285,226 +284,153 @@ export default function PricingContent() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex flex-col rounded-2xl transition-all duration-300 ${
-                  isPopular
-                    ? "card-popular"
-                    : isPremium
-                    ? "card-premium"
-                    : ""
+                className={`relative flex h-full flex-col overflow-hidden rounded-2xl border p-7 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 ${
+                  isCurrent
+                    ? "border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.04)]"
+                    : isPopular
+                    ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)]"
+                    : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
                 }`}
               >
-                <div
-                  className={`relative flex h-full flex-col overflow-hidden rounded-2xl p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1 ${
-                    isCurrent
-                      ? "border border-emerald-500/50 bg-emerald-500/[0.04] hover:shadow-[0_8px_32px_rgba(16,185,129,0.1)]"
-                      : isPopular
-                      ? "bg-gradient-to-b from-[rgba(255,0,84,0.06)] to-[rgba(255,0,84,0.02)] hover:shadow-[0_8px_32px_rgba(255,0,84,0.15)]"
-                      : isPremium
-                      ? "bg-gradient-to-b from-[rgba(245,183,49,0.05)] to-[rgba(245,183,49,0.01)] hover:shadow-[0_8px_32px_rgba(245,183,49,0.12)]"
-                      : "border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.05)]"
-                  }`}
-                >
-                  {/* 現在のプランバッジ */}
-                  {isCurrent && (
-                    <div className="absolute top-0 right-0 left-0 flex justify-center">
-                      <span className="rounded-b-lg border-x border-b border-emerald-500/40 bg-emerald-500/15 px-4 py-1.5 text-xs font-bold tracking-wide text-emerald-400">
-                        現在のプラン
-                      </span>
-                    </div>
-                  )}
-
-                  {/* 人気No.1バッジ（推奨プラン） */}
-                  {isPopular && !isCurrent && (
-                    <div className="absolute top-0 right-0 left-0 flex justify-center">
-                      <span className="rounded-b-xl bg-primary px-6 py-1.5 text-[11px] font-bold tracking-[0.15em] text-white shadow-md shadow-primary/30 uppercase">
-                        人気 No.1
-                      </span>
-                    </div>
-                  )}
-
-                  {/* プラン名 + 説明 */}
-                  <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-6" : "mt-0"}`}>
-                    {/* プランアイコン */}
-                    <div className="mb-3">
-                      {isFree && (
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-text-muted">
-                          <path d="M12 2l2.09 6.26L20.18 9l-4.91 4.07L16.73 20 12 16.27 7.27 20l1.46-6.93L3.82 9l6.09-.74L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      )}
-                      {isPopular && (
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-primary">
-                          <path d="M2 4l3 12h14l3-12-5.5 6L12 2l-4.5 8L2 4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M5 16l-1 4h16l-1-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      )}
-                      {isPremium && (
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-accent">
-                          <path d="M12 2L2 12l10 10 10-10L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M12 2l4 10-4 10-4-10 4-10z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M2 12h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                        </svg>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <h3
-                        className={`font-display text-xl font-bold tracking-tight ${
-                          isPremium ? "text-accent" : isPopular ? "text-primary" : "text-text-primary"
-                        }`}
-                      >
-                        {plan.nameJa}
-                      </h3>
-                      {/* 年払い割引バッジ */}
-                      {isYearly && plan.yearlyDiscount && (
-                        <span
-                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide ${
-                            isPremium
-                              ? "bg-accent/20 text-accent ring-1 ring-accent/30"
-                              : "bg-primary/15 text-primary ring-1 ring-primary/25"
-                          }`}
-                        >
-                          {plan.yearlyDiscount}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-1.5 text-[13px] leading-relaxed text-text-muted">
-                      {plan.description}
-                    </p>
-                  </div>
-
-                  {/* 価格 */}
-                  <div className="mb-7">
-                    <div className="price-transition flex items-end gap-1">
-                      {isFree ? (
-                        <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
-                          <span className="text-2xl">¥</span>0
-                        </span>
-                      ) : (
-                        <>
-                          <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
-                            <span className="text-2xl">¥</span>{formatPrice(price)}
-                          </span>
-                          <span className="mb-1 text-sm text-text-muted">
-                            /{isYearly ? "年" : "月"}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    {isYearly && price > 0 && (
-                      <p className="mt-2 text-[13px] text-text-muted">
-                        月あたり <span className="font-medium text-text-secondary">&yen;{formatPrice(Math.round(price / 12))}</span>
-                      </p>
-                    )}
-                    {isFree && (
-                      <p className="mt-2 text-[13px] text-text-muted">
-                        クレジットカード不要
-                      </p>
-                    )}
-                  </div>
-
-                  {/* 区切り線 */}
-                  <div
-                    className={`mb-7 h-px ${
-                      isPremium
-                        ? "bg-accent/25"
-                        : isPopular
-                        ? "bg-primary/25"
-                        : "bg-[rgba(255,255,255,0.1)]"
-                    }`}
-                  />
-
-                  {/* 機能リスト */}
-                  <ul className="mb-8 flex-1 space-y-3.5">
-                    {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        {feature.included ? (
-                          <span
-                            className={`mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full ${
-                              isPremium
-                                ? "bg-accent/15"
-                                : isPopular
-                                ? "bg-primary/15"
-                                : "bg-success/15"
-                            }`}
-                          >
-                            <svg
-                              width="10"
-                              height="10"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className={`${
-                                isPremium ? "text-accent" : isPopular ? "text-primary" : "text-success"
-                              }`}
-                            >
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                          </span>
-                        ) : (
-                          <span className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full bg-[rgba(255,255,255,0.04)]">
-                            <svg
-                              width="10"
-                              height="10"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="3"
-                              strokeLinecap="round"
-                              className="text-text-muted/60"
-                            >
-                              <line x1="18" y1="6" x2="6" y2="18" />
-                              <line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                          </span>
-                        )}
-                        <span
-                          className={`text-[13px] leading-snug ${
-                            feature.included ? "text-text-secondary" : "text-text-muted"
-                          }`}
-                        >
-                          {feature.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTAボタン */}
-                  {btnInfo.type === "current" ? (
-                    <div className="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-4 text-center text-base font-semibold text-emerald-400">
+                {/* 現在のプランバッジ */}
+                {isCurrent && (
+                  <div className="absolute top-0 right-0 left-0 flex justify-center">
+                    <span className="rounded-b-lg bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-xs font-medium tracking-wide text-text-secondary">
                       現在のプラン
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleSubscribe(plan.id)}
-                      disabled={isLoading}
-                      className={`w-full rounded-xl py-4 text-base font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
-                        btnInfo.type === "downgrade"
-                          ? "border border-border bg-transparent text-text-muted hover:border-text-muted hover:text-text-secondary"
-                          : isPopular
-                          ? "bg-text-primary text-bg-deep shadow-lg shadow-white/10 hover:bg-white hover:shadow-white/20"
-                          : isPremium
-                          ? "bg-gradient-to-r from-accent to-[#d4a020] text-bg-deep shadow-lg shadow-accent/20 hover:shadow-accent/30"
-                          : isFree
-                          ? "border border-[rgba(255,255,255,0.12)] bg-transparent text-text-primary hover:border-[rgba(255,255,255,0.25)] hover:bg-[rgba(255,255,255,0.04)]"
-                          : "border border-border bg-transparent text-text-primary hover:border-text-muted"
-                      }`}
-                    >
-                      {isLoading ? (
-                        <span className="inline-flex items-center gap-2">
-                          <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
-                            <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
-                          </svg>
-                          {isRedirecting ? "決済画面に移動中..." : "準備中..."}
+                    </span>
+                  </div>
+                )}
+
+                {/* 推奨プランバッジ */}
+                {isPopular && !isCurrent && (
+                  <div className="absolute top-0 right-0 left-0 flex justify-center">
+                    <span className="rounded-b-lg bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-[11px] font-medium tracking-wider text-text-secondary uppercase">
+                      おすすめ
+                    </span>
+                  </div>
+                )}
+
+                {/* プラン名 + 説明 */}
+                <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-6" : "mt-0"}`}>
+                  <div className="flex items-center gap-2.5">
+                    <h3 className="font-display text-xl font-bold tracking-tight text-text-primary">
+                      {plan.nameJa}
+                    </h3>
+                    {isYearly && plan.yearlyDiscount && (
+                      <span className="rounded-full bg-[rgba(255,255,255,0.08)] px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-text-secondary">
+                        {plan.yearlyDiscount}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-text-muted">
+                    {plan.description}
+                  </p>
+                </div>
+
+                {/* 価格 */}
+                <div className="mb-7">
+                  <div className="price-transition flex items-end gap-1">
+                    {isFree ? (
+                      <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
+                        <span className="text-2xl">¥</span>0
+                      </span>
+                    ) : (
+                      <>
+                        <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
+                          <span className="text-2xl">¥</span>{formatPrice(price)}
                         </span>
-                      ) : (
-                        btnInfo.label
-                      )}
-                    </button>
+                        <span className="mb-1 text-sm text-text-muted">
+                          /{isYearly ? "年" : "月"}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  {isYearly && price > 0 && (
+                    <p className="mt-2 text-[13px] text-text-muted">
+                      月あたり <span className="font-medium text-text-secondary">&yen;{formatPrice(Math.round(price / 12))}</span>
+                    </p>
+                  )}
+                  {isFree && (
+                    <p className="mt-2 text-[13px] text-text-muted">
+                      クレジットカード不要
+                    </p>
                   )}
                 </div>
+
+                {/* 区切り線 */}
+                <div className="mb-7 h-px bg-[rgba(255,255,255,0.08)]" />
+
+                {/* 機能リスト */}
+                <ul className="mb-8 flex-1 space-y-3.5">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      {feature.included ? (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="mt-0.5 shrink-0 text-text-secondary"
+                        >
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2.5"
+                          strokeLinecap="round"
+                          className="mt-0.5 shrink-0 text-text-muted/40"
+                        >
+                          <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                      )}
+                      <span
+                        className={`text-[13px] leading-snug ${
+                          feature.included ? "text-text-secondary" : "text-text-muted"
+                        }`}
+                      >
+                        {feature.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTAボタン */}
+                {btnInfo.type === "current" ? (
+                  <div className="w-full rounded-xl border border-[rgba(255,255,255,0.12)] py-4 text-center text-sm font-medium text-text-muted">
+                    現在のプラン
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={isLoading}
+                    className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
+                      isPopular
+                        ? "bg-primary text-white hover:opacity-90"
+                        : "border border-[rgba(255,255,255,0.12)] bg-transparent text-text-primary hover:border-[rgba(255,255,255,0.25)]"
+                    }`}
+                  >
+                    {isLoading ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
+                          <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
+                        </svg>
+                        {isRedirecting ? "決済画面に移動中..." : "準備中..."}
+                      </span>
+                    ) : (
+                      btnInfo.label
+                    )}
+                  </button>
+                )}
               </div>
             );
           })}

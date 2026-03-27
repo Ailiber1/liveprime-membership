@@ -27,8 +27,8 @@ export default async function AdminContentPage() {
   const draftCount = allVideos.filter((v) => !v.is_published).length;
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6">
+    <div className="p-4 sm:p-8 lg:p-10">
+      <div className="mb-8">
         <h1 className="font-display text-xl font-bold text-text-primary sm:text-2xl">
           コンテンツ管理
         </h1>

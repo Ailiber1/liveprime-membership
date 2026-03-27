@@ -6,7 +6,7 @@ export default function AdminLoading() {
         <div className="loading-bar h-full w-full bg-primary" />
       </div>
 
-      <div className="p-4 sm:p-6 lg:p-8">
+      <div className="p-4 sm:p-8 lg:p-10">
         {/* ヘッダースケルトン */}
         <div className="mb-6">
           <div className="h-7 w-48 animate-pulse rounded-lg bg-border" />

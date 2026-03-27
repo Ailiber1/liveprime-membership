@@ -18,7 +18,7 @@ export default function AdminMobileNav() {
   return (
     <div className="lg:hidden">
       {/* ハンバーガーボタン + 現在のページ名 */}
-      <div className="flex items-center gap-3 border-b border-border/50 px-4 py-3">
+      <div className="flex items-center gap-3 border-b border-[rgba(255,255,255,0.06)] px-4 py-3">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary hover:bg-white/5"
@@ -44,7 +44,7 @@ export default function AdminMobileNav() {
 
       {/* ドロップダウンナビ */}
       {isOpen && (
-        <nav className="border-b border-border/50 bg-bg-deep px-3 py-2">
+        <nav className="border-b border-[rgba(255,255,255,0.06)] bg-bg-deep px-3 py-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
@@ -54,8 +54,8 @@ export default function AdminMobileNav() {
                 onClick={() => setIsOpen(false)}
                 className={`block rounded-lg px-3 py-2.5 text-sm transition-colors ${
                   isActive
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-text-secondary hover:bg-white/5 hover:text-text-primary"
+                    ? "bg-[rgba(255,255,255,0.06)] text-text-primary font-medium"
+                    : "text-text-muted hover:bg-[rgba(255,255,255,0.04)] hover:text-text-secondary"
                 }`}
               >
                 {item.label}

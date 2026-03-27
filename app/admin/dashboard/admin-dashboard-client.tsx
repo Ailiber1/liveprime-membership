@@ -57,7 +57,7 @@ export default function AdminDashboardClient({
       label: "総ユーザー",
       value: totalUsers.toLocaleString(),
       suffix: "人",
-      color: "text-primary",
+      color: "text-text-muted",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <circle cx="12" cy="7" r="4" />
@@ -69,7 +69,7 @@ export default function AdminDashboardClient({
       label: "MRR",
       value: `¥${mrr.toLocaleString()}`,
       suffix: "",
-      color: "text-accent",
+      color: "text-text-muted",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <line x1="12" y1="1" x2="12" y2="23" />
@@ -81,7 +81,7 @@ export default function AdminDashboardClient({
       label: "有料会員",
       value: paidUsers.toLocaleString(),
       suffix: "人",
-      color: "text-success",
+      color: "text-text-muted",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
@@ -93,7 +93,7 @@ export default function AdminDashboardClient({
       label: "解約率",
       value: churnRate,
       suffix: "%",
-      color: "text-error",
+      color: "text-text-muted",
       icon: (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
@@ -104,8 +104,8 @@ export default function AdminDashboardClient({
   ];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="p-4 sm:p-8 lg:p-10">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-display text-xl font-bold text-text-primary sm:text-2xl">
             管理ダッシュボード
@@ -126,7 +126,7 @@ export default function AdminDashboardClient({
       </div>
 
       {/* KPIカード */}
-      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+      <div className="mb-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {kpiCards.map((kpi) => (
           <div
             key={kpi.label}
@@ -205,7 +205,7 @@ export default function AdminDashboardClient({
             {/* データポイント */}
             {points.map((p, i) => (
               <g key={i}>
-                <circle cx={p.x} cy={p.y} r="4" fill="#07070e" stroke="#ff0054" strokeWidth="2" />
+                <circle cx={p.x} cy={p.y} r="4" fill="#0a0a0f" stroke="#ff0054" strokeWidth="2" />
                 <text
                   x={p.x}
                   y={padY + plotH + 20}

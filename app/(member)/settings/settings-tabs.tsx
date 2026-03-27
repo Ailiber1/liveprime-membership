@@ -145,14 +145,14 @@ export default function SettingsTabs({
   return (
     <div>
       {/* タブ切り替え */}
-      <div className="mb-6 flex gap-1 overflow-x-auto border-b border-border/50">
+      <div className="mb-8 flex gap-1 overflow-x-auto border-b border-[rgba(255,255,255,0.06)]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`shrink-0 border-b-2 px-4 py-2.5 text-sm transition-colors ${
               activeTab === tab.id
-                ? "border-primary text-primary font-medium"
+                ? "border-text-primary text-text-primary font-medium"
                 : "border-transparent text-text-muted hover:text-text-secondary"
             }`}
           >

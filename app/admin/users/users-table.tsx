@@ -95,10 +95,10 @@ export default function UsersTable({ users }: { users: UserRow[] }) {
           <button
             key={btn.id}
             onClick={() => setPlanFilter(btn.id)}
-            className={`min-h-[44px] rounded-lg px-4 py-2 text-xs font-medium transition-colors sm:min-h-0 sm:px-3 sm:py-1.5 ${
+            className={`min-h-[44px] border-b-2 px-4 py-2 text-xs font-medium transition-all sm:min-h-0 sm:px-3 sm:py-1.5 ${
               planFilter === btn.id
-                ? "bg-primary text-white"
-                : "bg-[rgba(255,255,255,0.05)] text-text-secondary hover:bg-[rgba(255,255,255,0.1)]"
+                ? "border-text-primary text-text-primary"
+                : "border-transparent text-text-muted hover:text-text-secondary"
             }`}
           >
             {btn.label}
