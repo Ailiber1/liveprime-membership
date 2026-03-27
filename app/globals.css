@@ -122,6 +122,21 @@
   border-color: var(--color-text-muted);
   background: rgba(255, 255, 255, 0.03);
 }
+.google-btn:active {
+  transform: scale(0.97);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ボタン共通のクリックフィードバック */
+button[type="submit"],
+.btn-primary {
+  transition: background-color 0.2s, transform 0.1s;
+}
+button[type="submit"]:active,
+.btn-primary:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
 
 /* セパレーター */
 .auth-separator {
