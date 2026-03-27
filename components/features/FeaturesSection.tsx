@@ -118,7 +118,7 @@ export default function FeaturesSection() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
-    intervalRef.current = setInterval(silentNext, 2800);
+    intervalRef.current = setInterval(silentNext, 2000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -278,16 +278,14 @@ export default function FeaturesSection() {
                   </span>
                 </div>
 
-                {isCenter && (
-                  <div className="p-5 bg-[#111118]/95 backdrop-blur-sm">
-                    <h3 className="text-base font-semibold text-white leading-snug line-clamp-1">
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-[#8b8ba3]">
-                      {item.creator}
-                    </p>
-                  </div>
-                )}
+                <div className={`p-5 bg-[#111118]/95 backdrop-blur-sm transition-opacity duration-150 ${isCenter ? "opacity-100" : "opacity-0"}`}>
+                  <h3 className="text-base font-semibold text-white leading-snug line-clamp-1">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[#8b8ba3]">
+                    {item.creator}
+                  </p>
+                </div>
               </Link>
             );
           })}
