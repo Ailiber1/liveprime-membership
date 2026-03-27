@@ -48,7 +48,12 @@ export async function updateSession(request: NextRequest) {
   );
 
   // 未ログインでmemberルートにアクセス → /loginにリダイレクト
-  if (!user && isMemberRoute) {
+  // ただし /dashboard/success でsession_idがある場合はStripe Checkout完了後なのでスキップ
+  const isSuccessWithSession =
+    pathname === "/dashboard/success" &&
+    request.nextUrl.searchParams.has("session_id");
+
+  if (!user && isMemberRoute && !isSuccessWithSession) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("redirectTo", pathname);

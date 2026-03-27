@@ -22,17 +22,6 @@ export default function WelcomeToast() {
   useEffect(() => {
     if (shown.current) return;
 
-    const success = searchParams.get("success");
-    if (success === "true") {
-      shown.current = true;
-      showToast(
-        "サブスクリプションの登録が完了しました！ようこそ LIVE PRIME へ。",
-        "success"
-      );
-      window.history.replaceState({}, "", "/dashboard");
-      return;
-    }
-
     const plan = searchParams.get("activate_plan");
     const interval = searchParams.get("interval") || "monthly";
     if (plan && PLAN_LABELS[plan]) {
