@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/Toast";
 import { createClient } from "@/lib/supabase/client";
+import Header from "@/components/layout/Header";
 
 interface PlanFeature {
   text: string;
@@ -143,25 +143,9 @@ export default function PricingContent() {
 
   return (
     <div className="min-h-screen bg-bg-deep">
-      {/* ヘッダー */}
-      <header className="border-b border-border/50 bg-bg-deep/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-1.5">
-            <span className="font-display text-xl font-bold tracking-tight text-primary">LIVE</span>
-            <span className="font-display text-xl font-bold tracking-tight text-text-primary">PRIME</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm text-text-secondary transition-colors hover:text-text-primary">
-              ログイン
-            </Link>
-            <Link href="/register" className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover">
-              新規登録
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header />
 
-      <main className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-24">
+      <main className="mx-auto max-w-5xl px-4 pt-28 pb-12 sm:px-6 sm:pt-32 sm:pb-24">
         {/* キャンセル時のバナー */}
         {canceled === "true" && (
           <div className="mb-8 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-center text-sm text-accent">

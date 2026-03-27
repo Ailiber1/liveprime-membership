@@ -28,26 +28,39 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   // 署名検証
-  if (webhookSecret && signature) {
+  if (!webhookSecret) {
+    // 開発環境の場合のみ警告を出して通す
+    if (process.env.NODE_ENV === "development") {
+      console.warn(
+        "STRIPE_WEBHOOK_SECRET が未設定のため署名検証をスキップします（開発環境）"
+      );
+      try {
+        event = JSON.parse(body) as Stripe.Event;
+      } catch {
+        return NextResponse.json(
+          { error: "リクエストボディの解析に失敗しました" },
+          { status: 400 }
+        );
+      }
+    } else {
+      console.error("STRIPE_WEBHOOK_SECRET が未設定です。リクエストを拒否します。");
+      return NextResponse.json(
+        { error: "Webhook設定エラー" },
+        { status: 500 }
+      );
+    }
+  } else if (!signature) {
+    return NextResponse.json(
+      { error: "stripe-signatureヘッダーがありません" },
+      { status: 400 }
+    );
+  } else {
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (err) {
       console.error("Webhook署名検証失敗:", err);
       return NextResponse.json(
         { error: "署名検証に失敗しました" },
-        { status: 400 }
-      );
-    }
-  } else {
-    // デモモード: Webhook Secretが未設定の場合はログ出力してスキップ
-    console.warn(
-      "STRIPE_WEBHOOK_SECRET が未設定のため署名検証をスキップします（デモモード）"
-    );
-    try {
-      event = JSON.parse(body) as Stripe.Event;
-    } catch {
-      return NextResponse.json(
-        { error: "リクエストボディの解析に失敗しました" },
         { status: 400 }
       );
     }

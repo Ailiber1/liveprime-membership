@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { stripe } from "@/lib/stripe/server";
 import { ensureProducts } from "@/lib/stripe/ensure-products";
+import { validateCsrf } from "@/lib/utils/csrf";
 
 export async function POST(request: NextRequest) {
+  // CSRF対策: Origin/Referer検証
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
   try {
     // 認証チェック
     const supabase = await createClient();
