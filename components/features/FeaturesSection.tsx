@@ -204,7 +204,7 @@ export default function FeaturesSection() {
                 key={item.id}
                 href={`/videos/${item.id}`}
                 prefetch={true}
-                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-[transform,opacity,box-shadow] duration-300 ease-out ${
+                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-[transform,opacity,box-shadow] duration-150 ease-linear ${
                   isCenter
                     ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_80px_rgba(245,158,11,0.12),0_0_160px_rgba(245,158,11,0.04)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
@@ -291,7 +291,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             next();
-            const id = setInterval(next, 100);
+            const id = setInterval(next, 60);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
@@ -305,7 +305,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             prev();
-            const id = setInterval(prev, 100);
+            const id = setInterval(prev, 60);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
