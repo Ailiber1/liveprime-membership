@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 interface ContentCard {
   title: string;
@@ -52,7 +53,7 @@ const contents: ContentCard[] = [
 ];
 
 // 無限ループ用に配列を2倍にする
-const loopedContents = [...contents, ...contents, ...contents];
+const loopedContents = [...contents, ...contents, ...contents, ...contents];
 
 export default function FeaturesSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -102,18 +103,20 @@ export default function FeaturesSection() {
 
         <div className="flex animate-scroll-x gap-5 pl-5">
           {loopedContents.map((item, i) => (
-            <div
+            <Link
               key={`${item.title}-${i}`}
-              className="flex-shrink-0 w-[280px] sm:w-[320px] rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:opacity-90"
+              href="/videos"
+              prefetch={true}
+              className="group/card relative flex-shrink-0 w-[280px] sm:w-[320px] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-3 hover:z-20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
             >
               {/* サムネイル領域 */}
               <div className="relative aspect-video bg-[#151520]">
                 {item.thumbnail && (
                   <img src={item.thumbnail} alt={item.title} className="absolute inset-0 h-full w-full object-cover" />
                 )}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
+                  <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
+                    <svg width="22" height="22" viewBox="0 0 16 16" fill="white">
                       <path d="M4 2l10 6-10 6V2z" />
                     </svg>
                   </div>
@@ -138,7 +141,7 @@ export default function FeaturesSection() {
                   {item.creator}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
