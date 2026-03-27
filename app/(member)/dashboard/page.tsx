@@ -194,7 +194,9 @@ export default async function DashboardPage() {
                   現在のプラン
                 </h2>
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-xl font-bold text-text-primary">
+                  <span className={`font-display text-xl font-bold ${
+                    currentPlan === "premium" ? "text-[#f59e0b]" : currentPlan === "standard" ? "text-[#f59e0b]/80" : "text-text-primary"
+                  }`}>
                     {planLabels[currentPlan]}
                   </span>
                   <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.color}`}>
