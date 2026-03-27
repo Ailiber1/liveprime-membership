@@ -164,7 +164,7 @@ export default function FeaturesSection() {
       >
         <div
           className="relative mx-auto flex items-center justify-center"
-          style={{ height: "560px", transformStyle: "preserve-3d" }}
+          style={{ height: "620px", transformStyle: "preserve-3d" }}
         >
           {contents.map((item, i) => {
             const { isCenter, ...style } = getCardStyle(i);
@@ -176,12 +176,12 @@ export default function FeaturesSection() {
                 prefetch={true}
                 className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-[400ms] ease-[cubic-bezier(0.33,1,0.68,1)] ${
                   isCenter
-                    ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_60px_rgba(245,158,11,0.06)]"
+                    ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_80px_rgba(245,158,11,0.12),0_0_160px_rgba(245,158,11,0.04)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
                 }`}
                 style={{
                   ...style,
-                  width: "min(800px, 90vw)",
+                  width: "min(920px, 94vw)",
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
                 }}
