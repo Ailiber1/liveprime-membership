@@ -35,6 +35,7 @@ const contents: ContentCard[] = [
     creator: "鈴木 あかり",
     category: "歌配信",
     duration: "LIVE",
+    thumbnail: "/thumbnails/03-singing-stream.png",
   },
   {
     id: "d396d0ac-a8fd-4d88-8481-ec0f273e9e8d",
