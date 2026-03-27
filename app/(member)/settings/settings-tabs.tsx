@@ -97,12 +97,38 @@ export default function SettingsTabs({
     });
   };
 
+  const [isPortalLoading, setIsPortalLoading] = useState(false);
+
+  const openCustomerPortal = async () => {
+    setIsPortalLoading(true);
+    try {
+      const res = await fetch("/api/portal", {
+        method: "POST",
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Customer Portalの作成に失敗しました");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "エラーが発生しました";
+      showToast(message, "error");
+    } finally {
+      setIsPortalLoading(false);
+    }
+  };
+
   const handlePlanChange = () => {
-    showToast("プラン変更ページへリダイレクトします（デモ）", "info");
+    openCustomerPortal();
   };
 
   const handleCancel = () => {
-    showToast("解約手続きを開始します（デモ）", "info");
+    openCustomerPortal();
   };
 
   // サブスク期間の進捗
@@ -243,16 +269,18 @@ export default function SettingsTabs({
             <div className="flex gap-3">
               <button
                 onClick={handlePlanChange}
-                className="rounded-lg bg-primary/10 px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                disabled={isPortalLoading}
+                className="rounded-lg bg-primary/10 px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/20 disabled:opacity-50"
               >
-                プランを変更
+                {isPortalLoading ? "読み込み中..." : "プランを変更"}
               </button>
               {subscription.plan !== "free" && (
                 <button
                   onClick={handleCancel}
-                  className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-text-muted transition-colors hover:border-error/50 hover:text-error"
+                  disabled={isPortalLoading}
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-medium text-text-muted transition-colors hover:border-error/50 hover:text-error disabled:opacity-50"
                 >
-                  解約する
+                  {isPortalLoading ? "読み込み中..." : "解約する"}
                 </button>
               )}
             </div>
@@ -261,7 +289,9 @@ export default function SettingsTabs({
           {/* 請求履歴 */}
           <div>
             <h3 className="mb-3 text-sm font-semibold text-text-primary">請求履歴</h3>
-            <div className="overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.06)]">
+
+            {/* デスクトップ: テーブル */}
+            <div className="hidden overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.06)] sm:block">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)]">
@@ -286,6 +316,26 @@ export default function SettingsTabs({
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* モバイル: カード型 */}
+            <div className="space-y-2 sm:hidden">
+              {billingHistory.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex items-center justify-between rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] px-4 py-3"
+                >
+                  <div>
+                    <p className="text-sm text-text-secondary">
+                      {new Date(item.date).toLocaleDateString("ja-JP")}
+                    </p>
+                    <p className="mt-0.5 text-xs text-success">{item.status}</p>
+                  </div>
+                  <p className="font-mono text-sm font-semibold text-text-primary">
+                    &yen;{item.amount.toLocaleString()}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

@@ -169,3 +169,31 @@
     transform: translateY(0);
   }
 }
+
+/* モバイルUI最適化: タッチターゲット最小44px */
+@media (max-width: 640px) {
+  /* フォーム入力のタッチ領域確保 */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    min-height: 44px;
+    font-size: 16px; /* iOS zoom防止 */
+  }
+
+  /* ボタンのタッチ領域確保 */
+  button,
+  a[role="button"],
+  .google-btn {
+    min-height: 44px;
+  }
+
+  /* テーブルセルの余白調整 */
+  table th,
+  table td {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

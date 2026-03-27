@@ -90,16 +90,18 @@ export default function ContentTable({ videos }: { videos: VideoRow[] }) {
                     <button
                       onClick={() => handleToggle(v.id, v.is_published)}
                       disabled={isPending}
-                      className={`relative h-6 w-10 rounded-full transition-colors ${
-                        v.is_published ? "bg-success" : "bg-border"
-                      }`}
+                      className="relative flex h-11 w-14 items-center justify-center sm:h-8 sm:w-12"
                       aria-label={v.is_published ? "非公開にする" : "公開する"}
                     >
-                      <span
-                        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
-                          v.is_published ? "translate-x-[18px]" : "translate-x-0.5"
-                        }`}
-                      />
+                      <span className={`relative block h-6 w-10 rounded-full transition-colors ${
+                        v.is_published ? "bg-success" : "bg-border"
+                      }`}>
+                        <span
+                          className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${
+                            v.is_published ? "translate-x-[18px]" : "translate-x-0.5"
+                          }`}
+                        />
+                      </span>
                     </button>
                   </td>
                   <td className="hidden px-4 py-3 text-right font-mono text-xs text-text-muted md:table-cell">

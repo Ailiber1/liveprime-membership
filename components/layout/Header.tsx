@@ -37,7 +37,7 @@ export default function Header() {
         </Link>
 
         {/* デスクトップナビ */}
-        <nav className="hidden items-center gap-6 md:flex lg:hidden">
+        <nav className="hidden items-center gap-6 md:flex">
           {user ? (
             <>
               <Link

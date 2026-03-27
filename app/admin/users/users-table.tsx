@@ -77,11 +77,11 @@ export default function UsersTable({ users }: { users: UserRow[] }) {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input
-            type="text"
+            type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="名前またはメールで検索"
-            className="w-full rounded-lg border border-border bg-bg-input py-2 pl-10 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:border-primary/50 focus:outline-none"
+            className="w-full rounded-lg border border-border bg-bg-input py-2.5 pl-10 pr-3 text-sm text-text-primary placeholder:text-text-muted focus:border-primary/50 focus:outline-none"
           />
         </div>
         <span className="text-xs text-text-muted">
@@ -95,7 +95,7 @@ export default function UsersTable({ users }: { users: UserRow[] }) {
           <button
             key={btn.id}
             onClick={() => setPlanFilter(btn.id)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+            className={`min-h-[44px] rounded-lg px-4 py-2 text-xs font-medium transition-colors sm:min-h-0 sm:px-3 sm:py-1.5 ${
               planFilter === btn.id
                 ? "bg-primary text-white"
                 : "bg-[rgba(255,255,255,0.05)] text-text-secondary hover:bg-[rgba(255,255,255,0.1)]"

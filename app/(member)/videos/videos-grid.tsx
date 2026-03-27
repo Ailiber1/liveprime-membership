@@ -103,7 +103,7 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input
-            type="text"
+            type="search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="タイトルで検索..."
@@ -117,7 +117,7 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
             <button
               key={filter.key}
               onClick={() => setActiveFilter(filter.key)}
-              className={`rounded-lg px-3 py-2 text-xs font-medium transition-colors ${
+              className={`min-h-[44px] rounded-lg px-4 py-2 text-xs font-medium transition-colors sm:min-h-0 ${
                 activeFilter === filter.key
                   ? "bg-primary/10 text-primary border border-primary/20"
                   : "border border-border text-text-muted hover:text-text-secondary hover:border-border"

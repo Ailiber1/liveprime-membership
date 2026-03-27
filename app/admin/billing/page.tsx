@@ -56,9 +56,9 @@ export default async function AdminBillingPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8">
-      <div className="mb-8">
-        <h1 className="font-display text-2xl font-bold text-text-primary">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="font-display text-xl font-bold text-text-primary sm:text-2xl">
           課金管理
         </h1>
         <p className="mt-1 text-sm text-text-muted">
@@ -128,7 +128,9 @@ export default async function AdminBillingPage() {
         <h2 className="mb-4 text-sm font-semibold text-text-primary">
           月別サマリー
         </h2>
-        <div className="overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.06)]">
+
+        {/* デスクトップ: テーブル表示 */}
+        <div className="hidden overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.06)] sm:block">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)]">
@@ -168,6 +170,34 @@ export default async function AdminBillingPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* モバイル: カード型表示 */}
+        <div className="space-y-3 sm:hidden">
+          {monthlySummary.map((row) => (
+            <div
+              key={row.month}
+              className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-4"
+            >
+              <p className="mb-2 text-sm font-medium text-text-primary">{row.month}</p>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-text-muted">売上</p>
+                  <p className="font-mono text-sm font-semibold text-text-primary">
+                    &yen;{(row.revenue / 1000).toFixed(1)}k
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-text-muted">新規</p>
+                  <p className="font-mono text-sm font-semibold text-success">+{row.newSubs}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-wider text-text-muted">解約</p>
+                  <p className="font-mono text-sm font-semibold text-error">-{row.cancels}</p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
