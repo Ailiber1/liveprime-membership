@@ -3,8 +3,8 @@
 import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { login, loginWithGoogle } from "./actions";
+import LoginVisual from "@/components/features/LoginVisual";
 
 export default function LoginPage() {
   return (
@@ -72,41 +72,7 @@ function LoginContent() {
 
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-      {/* 左側: 画像 */}
-      <div className="relative hidden lg:block">
-        <Image
-          src="/thumbnails/VTuber Portrait.jpg"
-          alt="LIVE PRIME クリエイター"
-          fill
-          className="object-cover"
-          priority
-        />
-        {/* グラデーションオーバーレイ */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        {/* オーバーレイテキスト */}
-        <div className="absolute bottom-12 left-8 right-8">
-          <p className="font-display text-sm font-medium tracking-[0.2em] text-white/60 uppercase mb-2">Creator Platform</p>
-          <h2 className="font-display text-3xl font-bold text-white leading-tight">
-            LIVE PRIME<br />クリエイター
-          </h2>
-        </div>
-      </div>
-
-      {/* モバイル用: 画像を上部に小さく表示 */}
-      <div className="relative h-40 lg:hidden">
-        <Image
-          src="/thumbnails/VTuber Portrait.jpg"
-          alt="LIVE PRIME クリエイター"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-deep via-black/40 to-transparent" />
-        <div className="absolute bottom-4 left-4">
-          <p className="font-display text-xs font-medium tracking-[0.2em] text-white/60 uppercase">Creator Platform</p>
-          <h2 className="font-display text-lg font-bold text-white">LIVE PRIMEクリエイター</h2>
-        </div>
-      </div>
+      <LoginVisual />
 
       {/* 右側: フォーム */}
       <div className="flex items-center justify-center bg-bg-deep px-4 py-12">
