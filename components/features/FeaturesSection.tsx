@@ -251,7 +251,7 @@ export default function FeaturesSection() {
 
         {/* 左右ナビ — 大きめ、半透明 */}
         <button
-          onClick={() => { prev(); setIsHovered(true); setTimeout(() => setIsHovered(false), 100); }}
+          onClick={next}
           className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="前へ"
         >
@@ -260,7 +260,7 @@ export default function FeaturesSection() {
           </svg>
         </button>
         <button
-          onClick={() => { next(); setIsHovered(true); setTimeout(() => setIsHovered(false), 100); }}
+          onClick={prev}
           className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="次へ"
         >
