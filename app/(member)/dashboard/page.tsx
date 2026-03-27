@@ -184,22 +184,35 @@ export default async function DashboardPage() {
         {/* メインコンテンツ（左2/3） */}
         <div className="space-y-6 lg:col-span-2">
           {/* サブスクリプション状態カード */}
-          <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-5">
+          <div className={`rounded-xl p-5 ${
+            currentPlan === "premium"
+              ? "border border-accent/40 bg-gradient-to-r from-accent/10 to-accent/5"
+              : currentPlan === "standard"
+              ? "border border-primary/40 bg-gradient-to-r from-primary/10 to-primary/5"
+              : "border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)]"
+          }`}>
             <div className="flex items-start justify-between">
               <div>
                 <h2 className="mb-1 text-xs font-medium uppercase tracking-wider text-text-muted">
                   現在のプラン
                 </h2>
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-xl font-bold text-text-primary">
+                  <span className={`font-display text-xl font-bold ${
+                    currentPlan === "premium" ? "text-accent" : currentPlan === "standard" ? "text-primary" : "text-text-primary"
+                  }`}>
                     {planLabels[currentPlan]}
                   </span>
                   <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.color} border border-current/20 bg-current/5`}>
                     {statusInfo.label}
                   </span>
                 </div>
+                {currentPlan !== "free" && (
+                  <p className="mt-2 text-sm text-text-secondary">
+                    {currentPlan === "premium" ? "すべての機能をご利用いただけます" : "HD画質・ライブ配信をご利用いただけます"}
+                  </p>
+                )}
               </div>
-              {currentPlan === "free" && (
+              {currentPlan === "free" ? (
                 <Link
                   href="/pricing"
                   prefetch={true}
@@ -207,9 +220,17 @@ export default async function DashboardPage() {
                 >
                   アップグレード
                 </Link>
+              ) : (
+                <Link
+                  href="/settings"
+                  prefetch={true}
+                  className="rounded-lg border border-[rgba(255,255,255,0.1)] px-4 py-2 text-xs font-medium text-text-muted transition-colors hover:border-[rgba(255,255,255,0.2)] hover:text-text-secondary"
+                >
+                  プラン管理
+                </Link>
               )}
             </div>
-            {subscription?.current_period_end && (
+            {subscription?.current_period_end && currentPlan !== "free" && (
               <p className="mt-3 text-xs text-text-muted">
                 次回更新日: {new Date(subscription.current_period_end).toLocaleDateString("ja-JP")}
               </p>
