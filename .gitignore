@@ -47,3 +47,7 @@ supabase/.temp/
 # secrets
 credentials.json
 serviceAccountKey.json
+
+# 不要ファイル
+Building a paid membership site.html
+workflow-overview.png

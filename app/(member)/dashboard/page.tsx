@@ -13,28 +13,25 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="font-display text-2xl font-bold">
-            <span className="text-primary">LIVE</span>{" "}
-            <span className="text-text-primary">PRIME</span>
-          </h1>
-          <LogoutButton />
-        </div>
-
-        <div className="bg-bg-card border border-border rounded-lg p-6">
-          <h2 className="font-display text-xl font-semibold mb-4">
-            ダッシュボード
-          </h2>
-          <p className="text-text-secondary">
-            ようこそ、{user.email} さん
-          </p>
-          <p className="text-text-muted text-sm mt-2">
-            Phase 1: 認証基盤が正常に動作しています。
-          </p>
-        </div>
+    <div className="p-6 sm:p-8">
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="font-display text-2xl font-bold text-text-primary">
+          ダッシュボード
+        </h1>
+        <LogoutButton />
       </div>
-    </main>
+
+      <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-6">
+        <h2 className="font-display text-lg font-semibold text-text-primary mb-3">
+          ようこそ
+        </h2>
+        <p className="text-text-secondary">
+          {user.user_metadata?.display_name || user.email} さん、おかえりなさい。
+        </p>
+        <p className="mt-2 text-sm text-text-muted">
+          Phase 2: LP・認証UI・共通コンポーネント実装完了。
+        </p>
+      </div>
+    </div>
   );
 }

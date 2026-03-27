@@ -19,3 +19,130 @@
   --font-body: "Noto Sans JP", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
+
+/* ヒーローオーブ — CSSアニメーション */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  will-change: transform;
+}
+
+.hero-orb--1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #ff005440, transparent 70%);
+  top: -10%;
+  left: -5%;
+  animation: orb-float-1 18s ease-in-out infinite;
+}
+
+.hero-orb--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #f5b73120, transparent 70%);
+  bottom: -5%;
+  right: -5%;
+  animation: orb-float-2 22s ease-in-out infinite;
+}
+
+.hero-orb--3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #ff005418, transparent 70%);
+  top: 40%;
+  left: 50%;
+  animation: orb-float-3 16s ease-in-out infinite;
+}
+
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, 40px) scale(1.1); }
+  66% { transform: translate(-30px, 60px) scale(0.95); }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-50px, -30px) scale(1.08); }
+  66% { transform: translate(40px, -50px) scale(0.92); }
+}
+
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate(-50%, 0) scale(1); }
+  50% { transform: translate(-50%, -40px) scale(1.15); }
+}
+
+/* フェードインアニメーション */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Google OAuthボタン */
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.google-btn:hover {
+  border-color: var(--color-text-muted);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* セパレーター */
+.auth-separator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.auth-separator::before,
+.auth-separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* スクロールバー */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
