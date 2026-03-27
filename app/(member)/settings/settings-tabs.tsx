@@ -72,6 +72,10 @@ export default function SettingsTabs({
   };
 
   const handlePasswordChange = () => {
+    if (!currentPassword) {
+      showToast("現在のパスワードを入力してください", "error");
+      return;
+    }
     if (newPassword.length < 8) {
       showToast("パスワードは8文字以上で入力してください", "error");
       return;
@@ -81,7 +85,7 @@ export default function SettingsTabs({
       return;
     }
     startTransition(async () => {
-      const result = await updatePassword(newPassword);
+      const result = await updatePassword(currentPassword, newPassword);
       if (result.success) {
         showToast("パスワードを変更しました", "success");
         setCurrentPassword("");

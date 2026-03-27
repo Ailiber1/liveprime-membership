@@ -28,7 +28,7 @@ export async function updateProfile(data: { displayName: string; bio: string }) 
   return { success: true };
 }
 
-export async function updatePassword(newPassword: string) {
+export async function updatePassword(currentPassword: string, newPassword: string) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -36,6 +36,20 @@ export async function updatePassword(newPassword: string) {
 
   if (!user) {
     return { success: false, error: "認証されていません" };
+  }
+
+  if (!user.email) {
+    return { success: false, error: "メールアドレスが取得できません" };
+  }
+
+  // 現在のパスワードを検証
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (signInError) {
+    return { success: false, error: "現在のパスワードが正しくありません" };
   }
 
   const { error } = await supabase.auth.updateUser({

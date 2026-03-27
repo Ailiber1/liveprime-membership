@@ -12,6 +12,17 @@ export default async function AdminDashboardPage() {
     redirect("/login");
   }
 
+  // adminロール確認
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile || profile.role !== "admin") {
+    redirect("/dashboard");
+  }
+
   // 総ユーザー数
   const { count: totalUsers } = await supabase
     .from("profiles")

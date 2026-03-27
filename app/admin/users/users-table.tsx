@@ -30,18 +30,34 @@ const statusLabels: Record<string, { label: string; className: string }> = {
   past_due: { label: "遅延", className: "text-accent" },
 };
 
+type PlanFilter = "all" | "free" | "standard" | "premium";
+
+const planFilterButtons: { id: PlanFilter; label: string }[] = [
+  { id: "all", label: "すべて" },
+  { id: "free", label: "Free" },
+  { id: "standard", label: "Standard" },
+  { id: "premium", label: "Premium" },
+];
+
 export default function UsersTable({ users }: { users: UserRow[] }) {
   const [search, setSearch] = useState("");
+  const [planFilter, setPlanFilter] = useState<PlanFilter>("all");
 
   const filtered = useMemo(() => {
-    if (!search.trim()) return users;
-    const q = search.toLowerCase();
-    return users.filter(
-      (u) =>
-        u.displayName.toLowerCase().includes(q) ||
-        u.email.toLowerCase().includes(q)
-    );
-  }, [users, search]);
+    let result = users;
+    if (planFilter !== "all") {
+      result = result.filter((u) => u.plan === planFilter);
+    }
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter(
+        (u) =>
+          u.displayName.toLowerCase().includes(q) ||
+          u.email.toLowerCase().includes(q)
+      );
+    }
+    return result;
+  }, [users, search, planFilter]);
 
   return (
     <div>
@@ -71,6 +87,23 @@ export default function UsersTable({ users }: { users: UserRow[] }) {
         <span className="text-xs text-text-muted">
           {filtered.length} / {users.length} 件
         </span>
+      </div>
+
+      {/* プラン別フィルタ */}
+      <div className="mb-4 flex flex-wrap gap-2">
+        {planFilterButtons.map((btn) => (
+          <button
+            key={btn.id}
+            onClick={() => setPlanFilter(btn.id)}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+              planFilter === btn.id
+                ? "bg-primary text-white"
+                : "bg-[rgba(255,255,255,0.05)] text-text-secondary hover:bg-[rgba(255,255,255,0.1)]"
+            }`}
+          >
+            {btn.label}
+          </button>
+        ))}
       </div>
 
       {/* テーブル */}
