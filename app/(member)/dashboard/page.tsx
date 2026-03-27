@@ -43,6 +43,15 @@ export default async function DashboardPage() {
     .order("last_watched_at", { ascending: false })
     .limit(4);
 
+  // 続きを見る（未完了の視聴履歴）
+  const { data: continueWatching } = await supabase
+    .from("watch_history")
+    .select("*, videos(id, title, category, duration_seconds, is_live, access_level, is_published)")
+    .eq("user_id", user.id)
+    .eq("completed", false)
+    .order("last_watched_at", { ascending: false })
+    .limit(4);
+
   const totalWatchSeconds = watchHistory?.reduce((sum, w) => sum + (w.watched_seconds || 0), 0) || 0;
   const completedCount = watchHistory?.filter((w) => w.completed).length || 0;
 
@@ -173,6 +182,69 @@ export default async function DashboardPage() {
             {subscription?.current_period_end && (
               <p className="mt-3 text-xs text-text-muted">
                 次回更新日: {new Date(subscription.current_period_end).toLocaleDateString("ja-JP")}
+              </p>
+            )}
+          </div>
+
+          {/* 続きを見る */}
+          <div>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-display text-base font-semibold text-text-primary">
+                続きを見る
+              </h2>
+              <Link href="/videos" className="text-xs text-text-muted transition-colors hover:text-primary">
+                すべて見る &rarr;
+              </Link>
+            </div>
+            {continueWatching && continueWatching.length > 0 ? (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {continueWatching.map((entry, i) => (
+                  <Link
+                    key={entry.id}
+                    href={`/videos/${entry.videos?.id}`}
+                    className="group overflow-hidden rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-colors hover:border-[rgba(255,255,255,0.12)]"
+                  >
+                    <div
+                      className="relative aspect-video"
+                      style={{ background: gradients[i % gradients.length] }}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm transition-transform group-hover:scale-110">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 text-white">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                          </svg>
+                        </div>
+                      </div>
+                      {entry.videos?.is_live && (
+                        <span className="absolute left-2 top-2 rounded bg-error px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
+                          LIVE
+                        </span>
+                      )}
+                      {entry.videos?.access_level === "premium" && (
+                        <span className="absolute right-2 top-2 rounded bg-accent/90 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-bg-deep">
+                          PREMIUM
+                        </span>
+                      )}
+                      {entry.videos?.duration_seconds && entry.videos.duration_seconds > 0 && (
+                        <span className="absolute bottom-2 right-2 rounded bg-bg-deep/80 px-1.5 py-0.5 text-[10px] font-mono text-text-secondary">
+                          {formatDuration(entry.videos.duration_seconds)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="p-3">
+                      <h3 className="text-sm font-medium text-text-primary line-clamp-1">
+                        {entry.videos?.title || "動画"}
+                      </h3>
+                      <p className="mt-0.5 text-xs text-text-muted">
+                        {entry.videos?.category}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <p className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] py-8 text-center text-sm text-text-muted">
+                まだ視聴履歴がありません
               </p>
             )}
           </div>

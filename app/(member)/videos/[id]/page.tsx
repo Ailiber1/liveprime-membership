@@ -3,6 +3,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import PaywallGate from "@/components/features/PaywallGate";
 import VideoActions from "./video-actions";
+import PlayButton from "./play-button";
 
 function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600);
@@ -40,10 +41,10 @@ export default async function VideoDetailPage({
     redirect("/login");
   }
 
-  // 動画データを取得
+  // 動画データを取得（video_urlを除く基本カラムのみ）
   const { data: video } = await supabase
     .from("videos")
-    .select("*")
+    .select("id, title, description, thumbnail_url, duration_seconds, access_level, category, is_live, is_published, created_at, created_by")
     .eq("id", id)
     .eq("is_published", true)
     .single();
@@ -63,6 +64,17 @@ export default async function VideoDetailPage({
   const userRank = planRank[userPlan] ?? 0;
   const videoRank = planRank[video.access_level] ?? 0;
   const hasAccess = userRank >= videoRank;
+
+  // アクセス権がある場合のみvideo_urlを取得
+  let videoUrl: string | null = null;
+  if (hasAccess) {
+    const { data: videoWithUrl } = await supabase
+      .from("videos")
+      .select("video_url")
+      .eq("id", id)
+      .single();
+    videoUrl = videoWithUrl?.video_url ?? null;
+  }
 
   // 関連動画（同カテゴリ or ランダム、自身を除く）
   const { data: relatedVideos } = await supabase
@@ -95,12 +107,8 @@ export default async function VideoDetailPage({
                   background: gradients[video.title.length % gradients.length],
                 }}
               >
-                {/* 再生ボタン */}
-                <button className="group flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-sm transition-all hover:bg-white/20 hover:scale-105">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="ml-1 text-white">
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                </button>
+                {/* 再生ボタン（視聴履歴を記録） */}
+                <PlayButton videoId={video.id} userId={user.id} />
 
                 {video.is_live && (
                   <span className="absolute left-4 top-4 flex items-center gap-1.5 rounded-lg bg-error px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
