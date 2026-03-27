@@ -126,7 +126,7 @@ export default function FeaturesSection() {
     // 奥にあるほど暗く小さく
     const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
     const scale = 0.55 + depthRatio * 0.45;
-    const opacity = 0.2 + depthRatio * 0.8;
+    const opacity = isCenter ? 1 : 0.15 + depthRatio * 0.5;
     const zIndex = Math.round(depthRatio * 20);
     const isCenter = offset === 0;
     const isClickable = Math.abs(offset) <= 1;
@@ -174,7 +174,7 @@ export default function FeaturesSection() {
                 key={item.id}
                 href={`/videos/${item.id}`}
                 prefetch={true}
-                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-[400ms] ease-[cubic-bezier(0.33,1,0.68,1)] ${
                   isCenter
                     ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_60px_rgba(245,158,11,0.06)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
