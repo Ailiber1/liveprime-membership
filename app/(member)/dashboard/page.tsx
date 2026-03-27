@@ -47,17 +47,12 @@ export default async function DashboardPage() {
     redirect("/login");
   }
 
-  // サブスクリプション情報を取得
-  const { data: subscription, error: subError } = await supabase
+  // サブスクリプション情報を取得（.maybeSingle()でnull許容）
+  const { data: subscription } = await supabase
     .from("subscriptions")
     .select("plan, status, current_period_end")
     .eq("user_id", user.id)
-    .single();
-
-  // デバッグ: サブスクリプション取得エラーの場合はログ出力
-  if (subError) {
-    console.error("Subscription fetch error:", subError.message, "user_id:", user.id);
-  }
+    .maybeSingle();
 
   // 最近の動画を取得（公開済み、最新4件）
   const { data: recentVideos } = await supabase
