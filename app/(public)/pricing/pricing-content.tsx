@@ -287,7 +287,7 @@ export default function PricingContent() {
                 key={plan.id}
                 className={`relative flex flex-col rounded-2xl transition-all duration-300 ${
                   isPopular
-                    ? "card-popular lg:-mt-4 lg:mb-4"
+                    ? "card-popular"
                     : isPremium
                     ? "card-premium"
                     : ""
