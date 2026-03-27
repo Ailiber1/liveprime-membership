@@ -215,6 +215,8 @@ export default function PricingContent() {
     return new Intl.NumberFormat("ja-JP").format(price);
   };
 
+  const isPremium = (id: string) => id === "premium";
+
   return (
     <div className="min-h-screen bg-bg-deep">
       <Header />
@@ -222,17 +224,17 @@ export default function PricingContent() {
       <main className="mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
         {/* キャンセル時のバナー */}
         {canceled === "true" && (
-          <div className="mb-8 rounded-lg border border-accent/30 bg-accent/5 px-4 py-3 text-center text-sm text-accent">
+          <div className="mb-8 rounded-xl border border-[#f59e0b]/30 bg-[#f59e0b]/5 px-4 py-3 text-center text-sm text-[#f59e0b]">
             決済がキャンセルされました。いつでもプランを選択できます。
           </div>
         )}
 
         {/* タイトル */}
-        <div className="mb-10 text-center sm:mb-14">
+        <div className="mb-10 text-center sm:mb-16">
           <h1 className="font-display text-3xl font-bold tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
             あなたに合ったプランを選ぶ
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-text-secondary sm:text-base">
+          <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-text-secondary sm:text-base">
             すべてのプランで基本機能をご利用いただけます。
             <br className="hidden sm:block" />
             いつでもアップグレード・ダウングレードが可能です。
@@ -240,13 +242,13 @@ export default function PricingContent() {
         </div>
 
         {/* 月払い/年払いトグル */}
-        <div className="mb-12 flex flex-col items-center gap-3 sm:mb-14">
+        <div className="mb-12 flex flex-col items-center gap-3 sm:mb-16">
           <div className="inline-flex items-center rounded-full border border-border bg-[rgba(255,255,255,0.03)] p-1">
             <button
               onClick={() => setIsYearly(false)}
               className={`rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
                 !isYearly
-                  ? "bg-primary text-white shadow-sm shadow-primary/25"
+                  ? "bg-[#f59e0b] text-[#0a0a0f] shadow-sm shadow-[#f59e0b]/20"
                   : "text-text-muted hover:text-text-secondary"
               }`}
             >
@@ -256,7 +258,7 @@ export default function PricingContent() {
               onClick={() => setIsYearly(true)}
               className={`rounded-full px-6 py-2.5 text-sm font-medium transition-all duration-200 ${
                 isYearly
-                  ? "bg-primary text-white shadow-sm shadow-primary/25"
+                  ? "bg-[#f59e0b] text-[#0a0a0f] shadow-sm shadow-[#f59e0b]/20"
                   : "text-text-muted hover:text-text-secondary"
               }`}
             >
@@ -264,7 +266,7 @@ export default function PricingContent() {
             </button>
           </div>
           {isYearly && (
-            <span className="text-xs text-text-secondary">
+            <span className="text-xs font-medium text-[#f59e0b]/80">
               年払いで最大30%お得
             </span>
           )}
@@ -284,18 +286,20 @@ export default function PricingContent() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex h-full flex-col overflow-hidden rounded-2xl border p-7 sm:p-8 transition-all duration-200 hover:-translate-y-0.5 ${
+                className={`relative flex h-full flex-col overflow-hidden rounded-xl border p-6 sm:p-8 lg:p-10 transition-all duration-200 hover:-translate-y-0.5 ${
                   isCurrent
-                    ? "border-[rgba(255,255,255,0.15)] bg-[rgba(255,255,255,0.04)]"
+                    ? "border-[rgba(245,158,11,0.4)] bg-[rgba(255,255,255,0.04)]"
                     : isPopular
-                    ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.03)]"
+                    ? "border-[rgba(245,158,11,0.3)] bg-[rgba(255,255,255,0.05)]"
+                    : isPremium(plan.id)
+                    ? "border-[rgba(245,158,11,0.15)] bg-[rgba(255,255,255,0.03)]"
                     : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
                 }`}
               >
                 {/* 現在のプランバッジ */}
                 {isCurrent && (
                   <div className="absolute top-0 right-0 left-0 flex justify-center">
-                    <span className="rounded-b-lg bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-xs font-medium tracking-wide text-text-secondary">
+                    <span className="rounded-b-lg bg-[rgba(245,158,11,0.15)] px-4 py-1.5 text-xs font-medium tracking-wide text-[#f59e0b]">
                       現在のプラン
                     </span>
                   </div>
@@ -304,20 +308,20 @@ export default function PricingContent() {
                 {/* 推奨プランバッジ */}
                 {isPopular && !isCurrent && (
                   <div className="absolute top-0 right-0 left-0 flex justify-center">
-                    <span className="rounded-b-lg bg-[rgba(255,255,255,0.1)] px-4 py-1.5 text-[11px] font-medium tracking-wider text-text-secondary uppercase">
+                    <span className="rounded-b-lg bg-[#f59e0b] px-5 py-1.5 text-[11px] font-bold tracking-wider text-[#0a0a0f] uppercase">
                       おすすめ
                     </span>
                   </div>
                 )}
 
                 {/* プラン名 + 説明 */}
-                <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-6" : "mt-0"}`}>
+                <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-7" : "mt-0"}`}>
                   <div className="flex items-center gap-2.5">
                     <h3 className="font-display text-xl font-bold tracking-tight text-text-primary">
                       {plan.nameJa}
                     </h3>
                     {isYearly && plan.yearlyDiscount && (
-                      <span className="rounded-full bg-[rgba(255,255,255,0.08)] px-2.5 py-0.5 text-[10px] font-medium tracking-wide text-text-secondary">
+                      <span className="rounded-full bg-[#f59e0b]/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[#f59e0b]">
                         {plan.yearlyDiscount}
                       </span>
                     )}
@@ -328,40 +332,44 @@ export default function PricingContent() {
                 </div>
 
                 {/* 価格 */}
-                <div className="mb-7">
+                <div className="mb-8">
                   <div className="price-transition flex items-end gap-1">
                     {isFree ? (
-                      <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
-                        <span className="text-2xl">¥</span>0
+                      <span className="font-mono text-5xl font-extrabold tracking-tight text-text-primary">
+                        <span className="text-2xl font-bold">¥</span>0
                       </span>
                     ) : (
                       <>
-                        <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
-                          <span className="text-2xl">¥</span>{formatPrice(price)}
+                        <span className="font-mono text-5xl font-extrabold tracking-tight text-text-primary">
+                          <span className="text-2xl font-bold">¥</span>{formatPrice(price)}
                         </span>
-                        <span className="mb-1 text-sm text-text-muted">
+                        <span className="mb-1.5 text-sm text-text-muted">
                           /{isYearly ? "年" : "月"}
                         </span>
                       </>
                     )}
                   </div>
                   {isYearly && price > 0 && (
-                    <p className="mt-2 text-[13px] text-text-muted">
+                    <p className="mt-2.5 text-[13px] text-text-muted">
                       月あたり <span className="font-medium text-text-secondary">&yen;{formatPrice(Math.round(price / 12))}</span>
                     </p>
                   )}
                   {isFree && (
-                    <p className="mt-2 text-[13px] text-text-muted">
+                    <p className="mt-2.5 text-[13px] text-text-muted">
                       クレジットカード不要
                     </p>
                   )}
                 </div>
 
                 {/* 区切り線 */}
-                <div className="mb-7 h-px bg-[rgba(255,255,255,0.08)]" />
+                <div className={`mb-8 h-px ${
+                  isPopular
+                    ? "bg-[rgba(245,158,11,0.15)]"
+                    : "bg-[rgba(255,255,255,0.06)]"
+                }`} />
 
                 {/* 機能リスト */}
-                <ul className="mb-8 flex-1 space-y-3.5">
+                <ul className="mb-10 flex-1 space-y-4">
                   {plan.features.map((feature, i) => (
                     <li key={i} className="flex items-start gap-3">
                       {feature.included ? (
@@ -374,7 +382,7 @@ export default function PricingContent() {
                           strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="mt-0.5 shrink-0 text-text-secondary"
+                          className="mt-0.5 shrink-0 text-[#f59e0b]"
                         >
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
@@ -385,16 +393,16 @@ export default function PricingContent() {
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
-                          strokeWidth="2.5"
+                          strokeWidth="2"
                           strokeLinecap="round"
-                          className="mt-0.5 shrink-0 text-text-muted/40"
+                          className="mt-0.5 shrink-0 text-text-muted/30"
                         >
                           <line x1="5" y1="12" x2="19" y2="12" />
                         </svg>
                       )}
                       <span
-                        className={`text-[13px] leading-snug ${
-                          feature.included ? "text-text-secondary" : "text-text-muted"
+                        className={`text-[13px] leading-relaxed ${
+                          feature.included ? "text-text-secondary" : "text-text-muted/60"
                         }`}
                       >
                         {feature.text}
@@ -405,7 +413,7 @@ export default function PricingContent() {
 
                 {/* CTAボタン */}
                 {btnInfo.type === "current" ? (
-                  <div className="w-full rounded-xl border border-[rgba(255,255,255,0.12)] py-4 text-center text-sm font-medium text-text-muted">
+                  <div className="w-full rounded-xl border border-[rgba(245,158,11,0.3)] py-4 text-center text-sm font-medium text-[#f59e0b]/70">
                     現在のプラン
                   </div>
                 ) : (
@@ -414,8 +422,10 @@ export default function PricingContent() {
                     disabled={isLoading}
                     className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
                       isPopular
-                        ? "bg-primary text-white hover:opacity-90"
-                        : "border border-[rgba(255,255,255,0.12)] bg-transparent text-text-primary hover:border-[rgba(255,255,255,0.25)]"
+                        ? "bg-[#f59e0b] text-[#0a0a0f] hover:bg-[#d97706] shadow-lg shadow-[#f59e0b]/15"
+                        : isPremium(plan.id)
+                        ? "border border-[#f59e0b]/30 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/5 hover:border-[#f59e0b]/50"
+                        : "border border-[rgba(255,255,255,0.1)] bg-transparent text-text-secondary hover:border-[rgba(255,255,255,0.2)] hover:text-text-primary"
                     }`}
                   >
                     {isLoading ? (
@@ -437,7 +447,7 @@ export default function PricingContent() {
         </div>
 
         {/* 注釈 */}
-        <p className="mt-12 text-center text-xs leading-relaxed text-text-muted">
+        <p className="mt-14 text-center text-xs leading-relaxed text-text-muted">
           すべてのプランは即時キャンセル可能です。年払いプランは残期間分を日割り返金いたします。
         </p>
       </main>
