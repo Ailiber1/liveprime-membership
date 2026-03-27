@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 interface Video {
   id: string;
@@ -44,6 +44,11 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
   void userPlan;
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  const [loadingId, setLoadingId] = useState<string | null>(null);
+
+  const handleCardClick = useCallback((videoId: string) => {
+    setLoadingId(videoId);
+  }, []);
 
   const filteredVideos = useMemo(() => {
     let filtered = videos;
@@ -136,8 +141,16 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
             <Link
               key={video.id}
               href={`/videos/${video.id}`}
-              className="group overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-all hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.05)]"
+              prefetch={true}
+              onClick={() => handleCardClick(video.id)}
+              className={`group relative overflow-hidden rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-all hover:border-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.05)] ${loadingId === video.id ? "opacity-70" : ""}`}
             >
+              {/* ローディングバー */}
+              {loadingId === video.id && (
+                <div className="absolute top-0 left-0 right-0 h-0.5 overflow-hidden bg-primary/20 z-10">
+                  <div className="h-full w-1/3 bg-primary loading-bar" />
+                </div>
+              )}
               {/* サムネイル */}
               <div
                 className="relative aspect-video"

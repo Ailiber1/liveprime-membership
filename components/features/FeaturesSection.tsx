@@ -2,60 +2,37 @@
 
 import { useEffect, useRef } from "react";
 
-interface Feature {
+interface ContentCard {
   title: string;
-  description: string;
-  icon: React.ReactNode;
+  creator: string;
+  category: string;
+  duration: string;
 }
 
-const features: Feature[] = [
+const contents: ContentCard[] = [
   {
-    title: "4K高画質配信",
-    description:
-      "最新のストリーミング技術で、どのデバイスからでも圧倒的な映像品質を体験。低遅延で安定した配信環境を実現。",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="2" y="4" width="24" height="16" rx="2" />
-        <path d="M9 24h10M14 20v4" />
-        <text x="8" y="15" fontSize="7" fontWeight="bold" fill="currentColor" stroke="none" fontFamily="monospace">4K</text>
-      </svg>
-    ),
+    title: "Behind the Stage — 舞台裏ドキュメンタリー",
+    creator: "佐藤美咲",
+    category: "ドキュメンタリー",
+    duration: "45:00",
   },
   {
-    title: "限定コンテンツ",
-    description:
-      "ここでしか見られないプレミアム動画、舞台裏映像、メイキング。会員だけの特別なコンテンツライブラリ。",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M14 2l3 6 7 1-5 5 1.2 7L14 18l-6.2 3L9 14l-5-5 7-1 3-6z" />
-      </svg>
-    ),
+    title: "プロが教える映像編集マスターコース",
+    creator: "田中裕也",
+    category: "チュートリアル",
+    duration: "1:20:00",
   },
   {
-    title: "コミュニティ",
-    description:
-      "チャットやコメントでクリエイターと直接交流。同じ趣味を持つ仲間とのつながりが広がるコミュニティ。",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="10" cy="10" r="4" />
-        <circle cx="19" cy="10" r="4" />
-        <path d="M2 24c0-4 3.6-7 8-7 1.4 0 2.7.3 3.8.8" />
-        <path d="M14.2 17.8c1.1-.5 2.4-.8 3.8-.8 4.4 0 8 3 8 7" />
-      </svg>
-    ),
+    title: "Acoustic Live Session vol.12",
+    creator: "山本健太",
+    category: "ライブ配信",
+    duration: "LIVE",
   },
   {
-    title: "収益化サポート",
-    description:
-      "クリエイターの収益を最大化する分析ツール、サブスクリプション管理、プロモーション機能を提供。",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 22V12l4-3v13" />
-        <path d="M10 22V10l4-4v16" />
-        <path d="M16 22V8l4-2v16" />
-        <path d="M22 22V4l2-1v19" />
-      </svg>
-    ),
+    title: "週末キッチン — 季節の和食レシピ",
+    creator: "中村あかり",
+    category: "料理",
+    duration: "32:00",
   },
 ];
 
@@ -75,52 +52,72 @@ export default function FeaturesSection() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
-    const cards = section.querySelectorAll(".feature-card");
-    cards.forEach((card) => observer.observe(card));
+    const els = section.querySelectorAll(".content-fade");
+    els.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
   return (
     <section
-      id="features"
       ref={sectionRef}
       className="relative py-24 sm:py-32"
+      style={{ background: "#0a0a0f" }}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-sm font-medium tracking-widest text-primary">
-            FEATURES
-          </p>
-          <h2 className="mt-3 font-display text-3xl font-bold text-text-primary sm:text-4xl">
-            選ばれる理由
-          </h2>
-          <p className="mt-4 text-base text-text-secondary">
-            LIVE PRIMEが提供する、他にはないプレミアムな体験
-          </p>
-        </div>
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-wide">
+          CONTENTS
+        </p>
+        <h2 className="content-fade opacity-0 mt-3 font-body text-2xl font-bold text-white sm:text-3xl">
+          こんなコンテンツが見られます
+        </h2>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, i) => (
-            <div
-              key={feature.title}
-              className="feature-card opacity-0 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-6 transition-all duration-300 hover:border-primary/20 hover:bg-[rgba(255,255,255,0.05)]"
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                {feature.icon}
+        {/* 横スクロールカード */}
+        <div className="mt-10 -mx-5 sm:-mx-6">
+          <div className="flex gap-4 overflow-x-auto px-5 sm:px-6 pb-4 snap-x snap-mandatory scrollbar-hide">
+            {contents.map((item, i) => (
+              <div
+                key={item.title}
+                className="content-fade opacity-0 flex-shrink-0 w-[280px] sm:w-[320px] snap-start rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                {/* サムネイル領域 */}
+                <div className="relative aspect-video bg-[#151520]">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="h-10 w-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="white">
+                        <path d="M4 2l10 6-10 6V2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  {/* カテゴリタグ */}
+                  <span className="absolute top-3 left-3 rounded bg-[#0a0a0f]/80 px-2 py-0.5 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+                    {item.category}
+                  </span>
+                  {/* 再生時間 */}
+                  <span className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-[10px] font-medium backdrop-blur-sm ${
+                    item.duration === "LIVE"
+                      ? "bg-[#f59e0b]/90 text-[#0a0a0f]"
+                      : "bg-[#0a0a0f]/80 text-white/80"
+                  }`}>
+                    {item.duration}
+                  </span>
+                </div>
+                {/* 情報 */}
+                <div className="p-4 bg-[#111118]">
+                  <h3 className="text-sm font-medium text-white leading-snug line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-xs text-[#5a5a72]">
+                    {item.creator}
+                  </p>
+                </div>
               </div>
-              <h3 className="mb-2 font-display text-lg font-semibold text-text-primary">
-                {feature.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-text-muted">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

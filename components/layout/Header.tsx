@@ -28,10 +28,10 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-bg-deep/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-1.5">
-          <span className="font-display text-xl font-bold tracking-tight text-primary">
+          <span className="font-display text-xl font-bold tracking-tight text-[#f59e0b]">
             LIVE
           </span>
-          <span className="font-display text-xl font-bold tracking-tight text-text-primary">
+          <span className="font-display text-xl font-bold tracking-tight text-white">
             PRIME
           </span>
         </Link>
@@ -71,13 +71,15 @@ export default function Header() {
             <>
               <Link
                 href="/login"
+                prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
               >
                 ログイン
               </Link>
               <Link
                 href="/register"
-                className="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+                prefetch={true}
+                className="rounded-lg bg-[#f59e0b] px-5 py-2 text-sm font-medium text-[#0a0a0f] transition-colors hover:bg-[#d97706]"
               >
                 新規登録
               </Link>
@@ -150,7 +152,7 @@ export default function Header() {
                 </Link>
                 <Link
                   href="/register"
-                  className="mt-1 rounded-lg bg-primary px-3 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover"
+                  className="mt-1 rounded-lg bg-[#f59e0b] px-3 py-2.5 text-center text-sm font-medium text-[#0a0a0f] transition-colors hover:bg-[#d97706]"
                   onClick={() => setMenuOpen(false)}
                 >
                   新規登録
