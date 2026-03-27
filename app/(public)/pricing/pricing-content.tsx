@@ -264,7 +264,7 @@ export default function PricingContent() {
             </button>
           </div>
           {isYearly && (
-            <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-bold tracking-wide text-accent">
+            <span className="rounded-full bg-accent/15 px-4 py-1.5 text-xs font-bold tracking-wider text-accent ring-1 ring-accent/25">
               年払いで最大30%お得
             </span>
           )}
@@ -294,14 +294,14 @@ export default function PricingContent() {
                 }`}
               >
                 <div
-                  className={`relative flex h-full flex-col overflow-hidden rounded-2xl p-6 sm:p-7 ${
+                  className={`relative flex h-full flex-col overflow-hidden rounded-2xl p-7 sm:p-8 transition-all duration-300 hover:-translate-y-1 ${
                     isCurrent
-                      ? "border border-emerald-500/50 bg-emerald-500/[0.04]"
+                      ? "border border-emerald-500/50 bg-emerald-500/[0.04] hover:shadow-[0_8px_32px_rgba(16,185,129,0.1)]"
                       : isPopular
-                      ? "bg-[rgba(255,0,84,0.04)]"
+                      ? "bg-gradient-to-b from-[rgba(255,0,84,0.06)] to-[rgba(255,0,84,0.02)] hover:shadow-[0_8px_32px_rgba(255,0,84,0.15)]"
                       : isPremium
-                      ? "bg-[rgba(245,183,49,0.03)]"
-                      : "border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
+                      ? "bg-gradient-to-b from-[rgba(245,183,49,0.05)] to-[rgba(245,183,49,0.01)] hover:shadow-[0_8px_32px_rgba(245,183,49,0.12)]"
+                      : "border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.05)]"
                   }`}
                 >
                   {/* 現在のプランバッジ */}
@@ -316,7 +316,7 @@ export default function PricingContent() {
                   {/* 人気No.1バッジ（推奨プラン） */}
                   {isPopular && !isCurrent && (
                     <div className="absolute top-0 right-0 left-0 flex justify-center">
-                      <span className="rounded-b-lg bg-primary px-5 py-1.5 text-xs font-bold tracking-wider text-white shadow-md shadow-primary/30">
+                      <span className="rounded-b-xl bg-primary px-6 py-1.5 text-[11px] font-bold tracking-[0.15em] text-white shadow-md shadow-primary/30 uppercase">
                         人気 No.1
                       </span>
                     </div>
@@ -324,6 +324,27 @@ export default function PricingContent() {
 
                   {/* プラン名 + 説明 */}
                   <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-6" : "mt-0"}`}>
+                    {/* プランアイコン */}
+                    <div className="mb-3">
+                      {isFree && (
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-text-muted">
+                          <path d="M12 2l2.09 6.26L20.18 9l-4.91 4.07L16.73 20 12 16.27 7.27 20l1.46-6.93L3.82 9l6.09-.74L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                      {isPopular && (
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-primary">
+                          <path d="M2 4l3 12h14l3-12-5.5 6L12 2l-4.5 8L2 4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M5 16l-1 4h16l-1-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                      {isPremium && (
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-accent">
+                          <path d="M12 2L2 12l10 10 10-10L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M12 2l4 10-4 10-4-10 4-10z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M2 12h20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                        </svg>
+                      )}
+                    </div>
                     <div className="flex items-center gap-2.5">
                       <h3
                         className={`font-display text-xl font-bold tracking-tight ${
@@ -335,10 +356,10 @@ export default function PricingContent() {
                       {/* 年払い割引バッジ */}
                       {isYearly && plan.yearlyDiscount && (
                         <span
-                          className={`rounded-md px-2 py-0.5 text-[10px] font-bold tracking-wide ${
+                          className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold tracking-wide ${
                             isPremium
-                              ? "bg-accent/20 text-accent"
-                              : "bg-primary/15 text-primary"
+                              ? "bg-accent/20 text-accent ring-1 ring-accent/30"
+                              : "bg-primary/15 text-primary ring-1 ring-primary/25"
                           }`}
                         >
                           {plan.yearlyDiscount}
@@ -352,17 +373,17 @@ export default function PricingContent() {
 
                   {/* 価格 */}
                   <div className="mb-7">
-                    <div className="price-transition flex items-end gap-1.5">
+                    <div className="price-transition flex items-end gap-1">
                       {isFree ? (
-                        <span className="font-mono text-5xl font-extrabold tracking-tight text-text-primary">
-                          &yen;0
+                        <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
+                          <span className="text-2xl">¥</span>0
                         </span>
                       ) : (
                         <>
-                          <span className="font-mono text-5xl font-extrabold tracking-tight text-text-primary">
-                            &yen;{formatPrice(price)}
+                          <span className="font-mono text-4xl font-extrabold tracking-tight text-text-primary">
+                            <span className="text-2xl">¥</span>{formatPrice(price)}
                           </span>
-                          <span className="mb-1.5 text-sm text-text-muted">
+                          <span className="mb-1 text-sm text-text-muted">
                             /{isYearly ? "年" : "月"}
                           </span>
                         </>
@@ -382,17 +403,17 @@ export default function PricingContent() {
 
                   {/* 区切り線 */}
                   <div
-                    className={`mb-6 h-px ${
+                    className={`mb-7 h-px ${
                       isPremium
-                        ? "bg-accent/15"
+                        ? "bg-accent/25"
                         : isPopular
-                        ? "bg-primary/15"
-                        : "bg-[rgba(255,255,255,0.06)]"
+                        ? "bg-primary/25"
+                        : "bg-[rgba(255,255,255,0.1)]"
                     }`}
                   />
 
                   {/* 機能リスト */}
-                  <ul className="mb-8 flex-1 space-y-3">
+                  <ul className="mb-8 flex-1 space-y-3.5">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
                         {feature.included ? (
@@ -431,7 +452,7 @@ export default function PricingContent() {
                               stroke="currentColor"
                               strokeWidth="3"
                               strokeLinecap="round"
-                              className="text-text-muted/30"
+                              className="text-text-muted/60"
                             >
                               <line x1="18" y1="6" x2="6" y2="18" />
                               <line x1="6" y1="6" x2="18" y2="18" />
@@ -440,7 +461,7 @@ export default function PricingContent() {
                         )}
                         <span
                           className={`text-[13px] leading-snug ${
-                            feature.included ? "text-text-secondary" : "text-text-muted/50"
+                            feature.included ? "text-text-secondary" : "text-text-muted"
                           }`}
                         >
                           {feature.text}
@@ -451,14 +472,14 @@ export default function PricingContent() {
 
                   {/* CTAボタン */}
                   {btnInfo.type === "current" ? (
-                    <div className="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-3.5 text-center text-sm font-semibold text-emerald-400">
+                    <div className="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-4 text-center text-base font-semibold text-emerald-400">
                       現在のプラン
                     </div>
                   ) : (
                     <button
                       onClick={() => handleSubscribe(plan.id)}
                       disabled={isLoading}
-                      className={`w-full rounded-xl py-3.5 text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
+                      className={`w-full rounded-xl py-4 text-base font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
                         btnInfo.type === "downgrade"
                           ? "border border-border bg-transparent text-text-muted hover:border-text-muted hover:text-text-secondary"
                           : isPopular
