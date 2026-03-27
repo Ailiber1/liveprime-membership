@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 interface ContentCard {
+  id: string;
   title: string;
   creator: string;
   category: string;
@@ -13,6 +14,7 @@ interface ContentCard {
 
 const contents: ContentCard[] = [
   {
+    id: "e7785f54-e7cd-4462-b4d0-ebd817b08a18",
     title: "VTuber配信テクニック — 初心者からデビューまで",
     creator: "星宮 ルナ",
     category: "VTuber",
@@ -20,6 +22,7 @@ const contents: ContentCard[] = [
     thumbnail: "/thumbnails/01-vtuber.png",
   },
   {
+    id: "89cbcd81-7cf8-48ef-b96e-932ce05a2ba0",
     title: "ゲーム実況ライブ — 最新RPG初見プレイ",
     creator: "佐藤 ユウキ",
     category: "ゲーム配信",
@@ -27,24 +30,28 @@ const contents: ContentCard[] = [
     thumbnail: "/thumbnails/02-game-stream.jpeg",
   },
   {
+    id: "50663b5e-41dc-4ee4-8b6d-f8ee599ea760",
     title: "歌枠ライブ — リクエスト受付中",
     creator: "鈴木 あかり",
     category: "歌配信",
     duration: "LIVE",
   },
   {
+    id: "d396d0ac-a8fd-4d88-8481-ec0f273e9e8d",
     title: "イラスト制作ライブ — キャラデザ配信",
     creator: "水瀬 ひかる",
     category: "お絵描き配信",
     duration: "1:15:00",
   },
   {
+    id: "3e69b539-e62b-48e1-b2af-8216c2c4a6fc",
     title: "FPS大会ライブ — チーム戦リアルタイム実況",
     creator: "高橋 レン",
     category: "eスポーツ",
     duration: "LIVE",
   },
   {
+    id: "c52c1b23-9905-4fa7-b05e-d707a7e19cd9",
     title: "ASMR配信 — 睡眠導入ライブ",
     creator: "中村 あかり",
     category: "ASMR",
@@ -105,7 +112,7 @@ export default function FeaturesSection() {
           {loopedContents.map((item, i) => (
             <Link
               key={`${item.title}-${i}`}
-              href="/videos"
+              href={`/videos/${item.id}`}
               prefetch={true}
               className="group/card relative flex-shrink-0 w-[280px] sm:w-[320px] rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-3 hover:z-20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.6)]"
             >
