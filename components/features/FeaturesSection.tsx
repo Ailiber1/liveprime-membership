@@ -51,6 +51,7 @@ const contents: ContentCard[] = [
     creator: "高橋 レン",
     category: "eスポーツ",
     duration: "LIVE",
+    thumbnail: "/thumbnails/05-fps-esports.png",
   },
   {
     id: "c52c1b23-9905-4fa7-b05e-d707a7e19cd9",
