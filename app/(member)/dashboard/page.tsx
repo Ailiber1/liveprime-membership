@@ -209,11 +209,11 @@ export default async function DashboardPage() {
                   </p>
                 )}
               </div>
-              {currentPlan === "free" ? (
+              {currentPlan !== "premium" ? (
                 <Link
                   href="/pricing"
                   prefetch={true}
-                  className="rounded-lg bg-primary/10 px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
+                  className="rounded-lg bg-[#f59e0b]/10 px-4 py-2 text-xs font-medium text-[#f59e0b] transition-colors hover:bg-[#f59e0b]/20"
                 >
                   アップグレード
                 </Link>
