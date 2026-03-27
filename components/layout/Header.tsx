@@ -46,6 +46,18 @@ export default function Header() {
               >
                 ダッシュボード
               </Link>
+              <Link
+                href="/videos"
+                className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                動画コンテンツ
+              </Link>
+              <Link
+                href="/settings"
+                className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                設定
+              </Link>
               <Link href="/dashboard" className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-sm font-medium text-primary">
                   {user.email?.charAt(0).toUpperCase() || "U"}

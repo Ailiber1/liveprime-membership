@@ -100,13 +100,6 @@
   }
 }
 
-/* noscript用フォールバック */
-.noscript-visible .feature-card,
-.noscript-visible .testimonial-card,
-.noscript-visible .cta-inner {
-  opacity: 1 !important;
-}
-
 /* Google OAuthボタン */
 .google-btn {
   display: flex;
