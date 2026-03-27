@@ -83,7 +83,7 @@ export default function FeaturesSection() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
-    intervalRef.current = setInterval(next, 3500);
+    intervalRef.current = setInterval(next, 2800);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
@@ -164,7 +164,7 @@ export default function FeaturesSection() {
       >
         <div
           className="relative mx-auto flex items-center justify-center"
-          style={{ height: "520px", transformStyle: "preserve-3d" }}
+          style={{ height: "560px", transformStyle: "preserve-3d" }}
         >
           {contents.map((item, i) => {
             const { isCenter, ...style } = getCardStyle(i);
@@ -174,14 +174,14 @@ export default function FeaturesSection() {
                 key={item.id}
                 href={`/videos/${item.id}`}
                 prefetch={true}
-                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
                   isCenter
                     ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_60px_rgba(245,158,11,0.06)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
                 }`}
                 style={{
                   ...style,
-                  width: "min(700px, 85vw)",
+                  width: "min(800px, 90vw)",
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
                 }}
@@ -249,7 +249,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             next();
-            const id = setInterval(next, 200);
+            const id = setInterval(next, 120);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
@@ -263,7 +263,7 @@ export default function FeaturesSection() {
         <button
           onMouseDown={() => {
             prev();
-            const id = setInterval(prev, 200);
+            const id = setInterval(prev, 120);
             const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
             window.addEventListener("mouseup", up);
           }}
