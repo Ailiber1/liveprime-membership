@@ -75,16 +75,19 @@ export default function FeaturesSection() {
     setCurrent((prev) => (prev - 1 + total) % total);
   }, [total]);
 
-  // 自動回転（4秒間隔、ホバー時停止）
+  // 自動回転（3.5秒間隔、ホバー時停止）
   useEffect(() => {
-    if (isHovered) return;
-    intervalRef.current = setInterval(next, 4000);
+    if (isHovered) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
+    }
+    intervalRef.current = setInterval(next, 3500);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [next, isHovered]);
 
-  // フェードインアニメーション
+  // フェードイン
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -104,31 +107,35 @@ export default function FeaturesSection() {
     return () => observer.disconnect();
   }, []);
 
-  // カードの位置を計算（中央が0、左が負、右が正）
   function getCardStyle(index: number) {
     let offset = index - current;
-    // 最短距離でループ
     if (offset > total / 2) offset -= total;
     if (offset < -total / 2) offset += total;
 
     const absOffset = Math.abs(offset);
-    const isCenterCard = offset === 0;
+    const isCenter = offset === 0;
 
-    // 表示範囲外は非表示
     if (absOffset > 2) {
-      return { opacity: 0, transform: "translateX(0) scale(0.5)", zIndex: 0, pointerEvents: "none" as const };
+      return {
+        opacity: 0,
+        transform: "translateX(0) translateZ(-800px) rotateY(0deg) scale(0.4)",
+        zIndex: 0,
+        pointerEvents: "none" as const,
+      };
     }
 
-    const translateX = offset * 280;
-    const scale = isCenterCard ? 1 : 0.8 - absOffset * 0.05;
-    const rotateY = offset * -15;
-    const zIndex = 10 - absOffset;
-    const opacity = isCenterCard ? 1 : 0.6 - (absOffset - 1) * 0.2;
+    // 中央カードは巨大、左右は奥に沈み込む
+    const translateX = offset * 420;
+    const translateZ = isCenter ? 0 : -200 - absOffset * 100;
+    const rotateY = offset * 25;
+    const scale = isCenter ? 1 : 0.72 - (absOffset - 1) * 0.1;
+    const zIndex = 20 - absOffset * 5;
+    const opacity = isCenter ? 1 : 0.5 - (absOffset - 1) * 0.15;
 
     return {
-      transform: `translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+      transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
       zIndex,
-      opacity: Math.max(opacity, 0.3),
+      opacity: Math.max(opacity, 0.2),
       pointerEvents: (absOffset <= 1 ? "auto" : "none") as "auto" | "none",
     };
   }
@@ -136,118 +143,142 @@ export default function FeaturesSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-24 sm:py-32 overflow-hidden"
+      className="relative py-20 sm:py-28 overflow-hidden"
       style={{ background: "#0a0a0f" }}
     >
-      <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-wide">
-          CONTENTS
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 text-center">
+        <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
+          Now Streaming
         </p>
-        <h2 className="content-fade opacity-0 mt-3 font-body text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="content-fade opacity-0 mt-3 font-body text-2xl font-bold text-white sm:text-4xl">
           こんなコンテンツが見られます
         </h2>
       </div>
 
       {/* 3Dカルーセル */}
       <div
-        className="content-fade opacity-0 mt-14 relative"
-        style={{ perspective: "1200px" }}
+        className="content-fade opacity-0 mt-12 sm:mt-16 relative"
+        style={{ perspective: "1400px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <div className="relative mx-auto flex items-center justify-center" style={{ height: "320px" }}>
+        {/* 床の反射グラデーション */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent z-10 pointer-events-none" />
+
+        <div className="relative mx-auto flex items-center justify-center" style={{ height: "420px", maxWidth: "100vw" }}>
           {contents.map((item, i) => {
             const style = getCardStyle(i);
-            const isCenterCard = i === current;
+            const isCenter = i === current;
 
             return (
               <Link
                 key={item.id}
                 href={`/videos/${item.id}`}
                 prefetch={true}
-                className={`absolute w-[300px] sm:w-[360px] rounded-xl overflow-hidden cursor-pointer transition-all duration-500 ease-out ${
-                  isCenterCard ? "shadow-[0_20px_60px_rgba(0,0,0,0.7)]" : "shadow-[0_8px_24px_rgba(0,0,0,0.4)]"
+                className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
+                  isCenter
+                    ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_40px_rgba(245,158,11,0.08)]"
+                    : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
                 }`}
                 style={{
                   ...style,
+                  width: "min(560px, 75vw)",
                   transformStyle: "preserve-3d",
                 }}
                 onClick={(e) => {
-                  if (!isCenterCard && Math.abs(i - current) <= 2) {
+                  if (!isCenter) {
                     e.preventDefault();
-                    setCurrent(i);
+                    let offset = i - current;
+                    if (offset > total / 2) offset -= total;
+                    if (offset < -total / 2) offset += total;
+                    if (Math.abs(offset) <= 2) setCurrent(i);
                   }
                 }}
               >
-                {/* サムネイル */}
-                <div className="relative aspect-video bg-[#151520]">
-                  {item.thumbnail && (
-                    <img src={item.thumbnail} alt={item.title} className="absolute inset-0 h-full w-full object-cover" />
+                {/* サムネイル — 16:9 */}
+                <div className="relative aspect-video bg-[#0c0c14]">
+                  {item.thumbnail ? (
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] to-[#0c0c14]" />
                   )}
-                  {isCenterCard && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
-                      <div className="h-14 w-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-                        <svg width="22" height="22" viewBox="0 0 16 16" fill="white">
+
+                  {/* 中央カードのホバーで再生ボタン */}
+                  {isCenter && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 hover:bg-black/30">
+                      <div className="h-16 w-16 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                        <svg width="28" height="28" viewBox="0 0 16 16" fill="white">
                           <path d="M4 2l10 6-10 6V2z" />
                         </svg>
                       </div>
                     </div>
                   )}
-                  <span className="absolute top-3 left-3 rounded bg-[#0a0a0f]/80 px-2 py-0.5 text-[10px] font-medium text-white/80 backdrop-blur-sm">
+
+                  {/* カテゴリ */}
+                  <span className="absolute top-4 left-4 rounded-lg bg-black/60 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-sm">
                     {item.category}
                   </span>
-                  <span className={`absolute bottom-3 right-3 rounded px-2 py-0.5 text-[10px] font-medium backdrop-blur-sm ${
+
+                  {/* LIVE / 時間 */}
+                  <span className={`absolute bottom-4 right-4 rounded-lg px-3 py-1 text-[11px] font-bold backdrop-blur-sm ${
                     item.duration === "LIVE"
-                      ? "bg-[#f59e0b]/90 text-[#0a0a0f]"
-                      : "bg-[#0a0a0f]/80 text-white/80"
+                      ? "bg-[#f59e0b] text-[#0a0a0f] animate-pulse"
+                      : "bg-black/60 text-white/90"
                   }`}>
-                    {item.duration}
+                    {item.duration === "LIVE" ? "● LIVE" : item.duration}
                   </span>
                 </div>
-                {/* 情報 */}
-                <div className="p-4 bg-[#111118]">
-                  <h3 className="text-sm font-medium text-white leading-snug line-clamp-1">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1.5 text-xs text-[#5a5a72]">
-                    {item.creator}
-                  </p>
-                </div>
+
+                {/* 情報 — 中央カードのみ表示 */}
+                {isCenter && (
+                  <div className="p-5 bg-[#111118]/95 backdrop-blur-sm">
+                    <h3 className="text-base font-semibold text-white leading-snug line-clamp-1">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-[#8b8ba3]">
+                      {item.creator}
+                    </p>
+                  </div>
+                )}
               </Link>
             );
           })}
         </div>
 
-        {/* 左右ナビボタン */}
+        {/* 左右ナビ — 大きめ、半透明 */}
         <button
-          onClick={prev}
-          className="absolute left-4 sm:left-12 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white transition-colors hover:bg-white/20"
+          onClick={() => { prev(); setIsHovered(true); setTimeout(() => setIsHovered(false), 100); }}
+          className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="前へ"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M15 18l-6-6 6-6" />
           </svg>
         </button>
         <button
-          onClick={next}
-          className="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm text-white transition-colors hover:bg-white/20"
+          onClick={() => { next(); setIsHovered(true); setTimeout(() => setIsHovered(false), 100); }}
+          className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="次へ"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
             <path d="M9 18l6-6-6-6" />
           </svg>
         </button>
 
         {/* ドットインジケーター */}
-        <div className="mt-8 flex items-center justify-center gap-2">
+        <div className="relative z-20 mt-6 flex items-center justify-center gap-2">
           {contents.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              className={`rounded-full transition-all duration-500 ${
                 i === current
-                  ? "w-6 bg-[#f59e0b]"
-                  : "w-1.5 bg-[rgba(255,255,255,0.15)] hover:bg-[rgba(255,255,255,0.3)]"
+                  ? "h-2 w-8 bg-[#f59e0b]"
+                  : "h-2 w-2 bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.3)]"
               }`}
               aria-label={`コンテンツ ${i + 1}`}
             />
