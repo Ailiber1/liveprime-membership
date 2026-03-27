@@ -21,8 +21,8 @@ function createStars(count: number): Star[] {
     stars.push({
       x: Math.random(),
       y: Math.random(),
-      size: 0.5 + Math.random() * 2,
-      baseOpacity,
+      size: 0.8 + Math.random() * 2.5,
+      baseOpacity: 0.4 + Math.random() * 0.6,
       opacity: baseOpacity,
       twinkleSpeed: 0.3 + Math.random() * 1.2,
       twinkleOffset: Math.random() * Math.PI * 2,
@@ -61,7 +61,7 @@ export default function HeroSection() {
 
     // モバイル判定で星の数を決める
     const isMobile = window.innerWidth < 768;
-    const starCount = isMobile ? 100 : 180;
+    const starCount = isMobile ? 120 : 250;
     starsRef.current = createStars(starCount);
 
     // マウス追従
