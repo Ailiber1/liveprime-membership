@@ -29,7 +29,7 @@ export default async function DashboardPage() {
           {user.user_metadata?.display_name || user.email} さん、おかえりなさい。
         </p>
         <p className="mt-2 text-sm text-text-muted">
-          Phase 2: LP・認証UI・共通コンポーネント実装完了。
+          ダッシュボードはPhase 3で実装予定です。
         </p>
       </div>
     </div>

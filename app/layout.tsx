@@ -26,6 +26,9 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-bg-deep text-text-primary font-body antialiased min-h-screen">
+        <noscript>
+          <style>{`.feature-card, .testimonial-card, .cta-inner { opacity: 1 !important; }`}</style>
+        </noscript>
         {children}
       </body>
     </html>

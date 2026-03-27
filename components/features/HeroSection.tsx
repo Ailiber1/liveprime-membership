@@ -96,12 +96,17 @@ export default function HeroSection() {
     initParticles();
     draw();
 
-    window.addEventListener("resize", () => {
+    function handleResize() {
       resize();
       initParticles();
-    });
+    }
 
-    return () => cancelAnimationFrame(animId);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -160,11 +165,11 @@ export default function HeroSection() {
         </div>
 
         {/* 統計カウンター */}
-        <div className="mt-16 flex items-center justify-center gap-8 sm:gap-16">
+        <div className="mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-8 md:gap-16">
           <StatCounter value="10,000+" label="会員" />
-          <div className="h-8 w-px bg-border/50" />
+          <div className="hidden h-8 w-px bg-border/50 sm:block" />
           <StatCounter value="500+" label="コンテンツ" />
-          <div className="h-8 w-px bg-border/50" />
+          <div className="hidden h-8 w-px bg-border/50 sm:block" />
           <StatCounter value="99.9%" label="稼働率" />
         </div>
       </div>

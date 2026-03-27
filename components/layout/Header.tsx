@@ -109,6 +109,20 @@ export default function Header() {
                 >
                   ダッシュボード
                 </Link>
+                <Link
+                  href="/videos"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  動画コンテンツ
+                </Link>
+                <Link
+                  href="/settings"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  設定
+                </Link>
               </>
             ) : (
               <>

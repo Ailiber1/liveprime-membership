@@ -89,6 +89,24 @@
   animation: fade-in-up 0.6s ease-out forwards;
 }
 
+/* JS無効 or モーション軽減設定時のフォールバック: opacity-0のまま非表示になるのを防ぐ */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .testimonial-card,
+  .cta-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* noscript用フォールバック */
+.noscript-visible .feature-card,
+.noscript-visible .testimonial-card,
+.noscript-visible .cta-inner {
+  opacity: 1 !important;
+}
+
 /* Google OAuthボタン */
 .google-btn {
   display: flex;
