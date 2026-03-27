@@ -229,24 +229,26 @@ export default function PricingContent() {
         </div>
 
         {/* 月払い/年払いトグル */}
-        <div className="mb-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
-          <span className={`text-sm ${!isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
-            月払い
-          </span>
-          <button
-            onClick={() => setIsYearly(!isYearly)}
-            className="relative h-7 w-12 rounded-full bg-border transition-colors"
-            aria-label="年払いに切り替え"
-          >
-            <span
-              className={`absolute top-0.5 h-6 w-6 rounded-full bg-primary transition-transform ${
-                isYearly ? "translate-x-[22px]" : "translate-x-0.5"
-              }`}
-            />
-          </button>
-          <span className={`text-sm ${isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
-            年払い
-          </span>
+        <div className="mb-10 flex flex-col items-center gap-3">
+          <div className="flex items-center gap-3">
+            <span className={`text-sm ${!isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
+              月払い
+            </span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="relative h-7 w-12 shrink-0 rounded-full bg-border transition-colors"
+              aria-label="年払いに切り替え"
+            >
+              <span
+                className={`absolute top-0.5 h-6 w-6 rounded-full bg-primary transition-transform ${
+                  isYearly ? "translate-x-[22px]" : "translate-x-0.5"
+                }`}
+              />
+            </button>
+            <span className={`text-sm ${isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
+              年払い
+            </span>
+          </div>
           {isYearly && (
             <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
               最大30%お得
