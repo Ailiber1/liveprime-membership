@@ -67,7 +67,7 @@ export default function FeaturesSection() {
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const total = contents.length;
-  const radius = 600; // 円の半径（px）
+  const radius = 350; // 円の半径（px）— 小さいほどカード同士が近い
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
@@ -121,12 +121,12 @@ export default function FeaturesSection() {
     // 円周上の位置を計算
     const x = Math.sin(angle) * radius;
     const z = Math.cos(angle) * radius - radius; // 手前が0、奥がマイナス
-    const rotateY = -angle * (180 / Math.PI); // ラジアン→度
+    const rotateY = -angle * (180 / Math.PI) * 1.3; // ラジアン→度（強めの回転）
 
     // 奥にあるほど暗く小さく
     const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
-    const scale = 0.5 + depthRatio * 0.5;
-    const opacity = 0.15 + depthRatio * 0.85;
+    const scale = 0.55 + depthRatio * 0.45;
+    const opacity = 0.2 + depthRatio * 0.8;
     const zIndex = Math.round(depthRatio * 20);
     const isCenter = offset === 0;
     const isClickable = Math.abs(offset) <= 1;
@@ -158,13 +158,13 @@ export default function FeaturesSection() {
       {/* 3D円形カルーセル */}
       <div
         className="content-fade opacity-0 mt-12 sm:mt-16 relative"
-        style={{ perspective: "1600px" }}
+        style={{ perspective: "1000px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div
           className="relative mx-auto flex items-center justify-center"
-          style={{ height: "440px", transformStyle: "preserve-3d" }}
+          style={{ height: "520px", transformStyle: "preserve-3d" }}
         >
           {contents.map((item, i) => {
             const { isCenter, ...style } = getCardStyle(i);
@@ -181,7 +181,7 @@ export default function FeaturesSection() {
                 }`}
                 style={{
                   ...style,
-                  width: "min(520px, 70vw)",
+                  width: "min(700px, 85vw)",
                   transformStyle: "preserve-3d",
                   backfaceVisibility: "hidden",
                 }}
@@ -245,9 +245,14 @@ export default function FeaturesSection() {
           })}
         </div>
 
-        {/* 左右ナビ */}
+        {/* 左右ナビ — 長押しで高速回転 */}
         <button
-          onClick={next}
+          onMouseDown={() => {
+            next();
+            const id = setInterval(next, 200);
+            const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
+            window.addEventListener("mouseup", up);
+          }}
           className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="前へ"
         >
@@ -256,7 +261,12 @@ export default function FeaturesSection() {
           </svg>
         </button>
         <button
-          onClick={prev}
+          onMouseDown={() => {
+            prev();
+            const id = setInterval(prev, 200);
+            const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
+            window.addEventListener("mouseup", up);
+          }}
           className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="次へ"
         >
