@@ -153,9 +153,16 @@ export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
               )}
               {/* サムネイル */}
               <div
-                className="relative aspect-video"
-                style={{ background: gradients[video.title.length % gradients.length] }}
+                className="relative aspect-video bg-[#151520]"
+                style={video.thumbnail_url ? undefined : { background: gradients[video.title.length % gradients.length] }}
               >
+                {video.thumbnail_url && (
+                  <img
+                    src={video.thumbnail_url}
+                    alt={video.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
                 {/* 再生ボタン */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/15 backdrop-blur-sm">

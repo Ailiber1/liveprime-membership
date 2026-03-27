@@ -57,7 +57,7 @@ export default async function DashboardPage() {
   // 最近の動画を取得（公開済み、最新4件）
   const { data: recentVideos } = await supabase
     .from("videos")
-    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at")
+    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at, thumbnail_url")
     .eq("is_published", true)
     .order("created_at", { ascending: false })
     .limit(4);
@@ -253,7 +253,7 @@ export default async function DashboardPage() {
                     className="group overflow-hidden rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-colors hover:border-[rgba(255,255,255,0.12)]"
                   >
                     <div
-                      className="relative aspect-video"
+                      className="relative aspect-video bg-[#151520]"
                       style={{ background: gradients[i % gradients.length] }}
                     >
                       <div className="absolute inset-0 flex items-center justify-center">
@@ -317,9 +317,12 @@ export default async function DashboardPage() {
                   >
                     {/* サムネイル */}
                     <div
-                      className="relative aspect-video"
-                      style={{ background: gradients[i % gradients.length] }}
+                      className="relative aspect-video bg-[#151520]"
+                      style={video.thumbnail_url ? undefined : { background: gradients[i % gradients.length] }}
                     >
+                      {video.thumbnail_url && (
+                        <img src={video.thumbnail_url} alt={video.title} className="absolute inset-0 h-full w-full object-cover" />
+                      )}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm transition-transform group-hover:scale-110">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 text-white">

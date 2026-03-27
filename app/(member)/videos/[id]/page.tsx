@@ -107,11 +107,18 @@ export default async function VideoDetailPage({
           {hasAccess ? (
             <div className="relative mb-4 overflow-hidden rounded-xl">
               <div
-                className="relative flex aspect-video items-center justify-center"
-                style={{
+                className="relative flex aspect-video items-center justify-center bg-[#151520]"
+                style={video.thumbnail_url ? undefined : {
                   background: gradients[video.title.length % gradients.length],
                 }}
               >
+                {video.thumbnail_url && (
+                  <img
+                    src={video.thumbnail_url}
+                    alt={video.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
                 {/* 再生ボタン（視聴履歴を記録） */}
                 <PlayButton videoId={video.id} userId={user.id} />
 
