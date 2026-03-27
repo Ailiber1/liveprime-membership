@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function Header() {
   const [user, setUser] = useState<User | null>(null);
@@ -25,13 +26,13 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-[rgba(255,255,255,0.06)] bg-bg-deep/80 backdrop-blur-xl">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-bg-deep/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-1.5">
           <span className="font-display text-xl font-bold tracking-tight text-[#f59e0b]">
             LIVE
           </span>
-          <span className="font-display text-xl font-bold tracking-tight text-white">
+          <span className="font-display text-xl font-bold tracking-tight text-text-primary">
             PRIME
           </span>
         </Link>
@@ -68,6 +69,7 @@ export default function Header() {
               >
                 設定
               </Link>
+              <ThemeToggle />
               <Link href="/dashboard" prefetch={true} className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-sm font-medium text-primary">
                   {user.email?.charAt(0).toUpperCase() || "U"}
@@ -90,6 +92,7 @@ export default function Header() {
               >
                 ログイン
               </Link>
+              <ThemeToggle />
               <Link
                 href="/register"
                 prefetch={true}
@@ -101,55 +104,58 @@ export default function Header() {
           )}
         </nav>
 
-        {/* モバイルハンバーガー */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center rounded-lg md:hidden"
-          aria-label="メニュー"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="text-text-primary"
+        {/* モバイルテーマトグル + ハンバーガー */}
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg"
+            aria-label="メニュー"
           >
-            {menuOpen ? (
-              <path d="M18 6L6 18M6 6l12 12" />
-            ) : (
-              <>
-                <path d="M3 7h18M3 12h18M3 17h18" />
-              </>
-            )}
-          </svg>
-        </button>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              className="text-text-primary"
+            >
+              {menuOpen ? (
+                <path d="M18 6L6 18M6 6l12 12" />
+              ) : (
+                <>
+                  <path d="M3 7h18M3 12h18M3 17h18" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* モバイルメニュー */}
       {menuOpen && (
-        <div className="border-t border-[rgba(255,255,255,0.06)] bg-bg-deep/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-border bg-bg-deep/95 backdrop-blur-xl md:hidden">
           <nav className="flex flex-col gap-1 px-4 py-3">
             {user ? (
               <>
                 <Link
                   href="/dashboard"
-                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
                   onClick={() => setMenuOpen(false)}
                 >
                   ダッシュボード
                 </Link>
                 <Link
                   href="/videos"
-                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
                   onClick={() => setMenuOpen(false)}
                 >
                   動画コンテンツ
                 </Link>
                 <Link
                   href="/settings"
-                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
                   onClick={() => setMenuOpen(false)}
                 >
                   設定
@@ -159,7 +165,7 @@ export default function Header() {
               <>
                 <Link
                   href="/login"
-                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
                   onClick={() => setMenuOpen(false)}
                 >
                   ログイン

@@ -1,0 +1,102 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type Theme = "dark" | "light";
+
+function getInitialTheme(): Theme {
+  if (typeof window === "undefined") return "dark";
+  const stored = localStorage.getItem("liveprime-theme") as Theme | null;
+  if (stored === "light" || stored === "dark") return stored;
+  if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+  return "dark";
+}
+
+function applyTheme(theme: Theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("liveprime-theme", theme);
+}
+
+export default function ThemeToggle() {
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const initial = getInitialTheme();
+    setTheme(initial);
+    applyTheme(initial);
+    setMounted(true);
+
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const handler = (e: MediaQueryListEvent) => {
+      const stored = localStorage.getItem("liveprime-theme");
+      if (!stored) {
+        const next = e.matches ? "light" : "dark";
+        setTheme(next);
+        applyTheme(next);
+      }
+    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  const toggle = () => {
+    const next: Theme = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    applyTheme(next);
+  };
+
+  // SSR時のちらつき防止
+  if (!mounted) {
+    return <div className="h-9 w-9" />;
+  }
+
+  return (
+    <button
+      onClick={toggle}
+      className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg-card transition-colors hover:bg-bg-input"
+      aria-label={theme === "dark" ? "ライトモードに切り替え" : "ダークモードに切り替え"}
+      title={theme === "dark" ? "ライトモード" : "ダークモード"}
+    >
+      {theme === "dark" ? (
+        /* 太陽アイコン */
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-text-secondary"
+        >
+          <circle cx="12" cy="12" r="5" />
+          <line x1="12" y1="1" x2="12" y2="3" />
+          <line x1="12" y1="21" x2="12" y2="23" />
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+          <line x1="1" y1="12" x2="3" y2="12" />
+          <line x1="21" y1="12" x2="23" y2="12" />
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+        </svg>
+      ) : (
+        /* 月アイコン */
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-text-secondary"
+        >
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}

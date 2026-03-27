@@ -172,23 +172,30 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
-      style={{ background: "#0a0a0f" }}
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-bg-deep"
     >
+      {/* ダークモード: 星空キャンバス / ライトモード: 温かみグラデーション */}
       <canvas
         ref={canvasRef}
-        className="pointer-events-none absolute inset-0 z-0"
+        className="pointer-events-none absolute inset-0 z-0 dark-only-canvas"
         aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 z-0 light-only-bg"
+        aria-hidden="true"
+        style={{
+          background: "linear-gradient(180deg, #f8f6f1 0%, #fef3e2 40%, #fde8c8 70%, #f8f6f1 100%)",
+        }}
       />
 
       <div className="relative z-10 mx-auto max-w-3xl px-5 py-32 text-center sm:px-6">
-        <h1 className="hero-fade font-body text-[2.5rem] font-bold leading-[1.15] tracking-tight text-white sm:text-[3.5rem] md:text-[4rem]">
+        <h1 className="hero-fade font-body text-[2.5rem] font-bold leading-[1.15] tracking-tight text-text-primary sm:text-[3.5rem] md:text-[4rem]">
           ライブの熱量を、
           <br />
           そのままあなたへ。
         </h1>
 
-        <p className="hero-fade mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-[#8b8ba3] sm:text-lg">
+        <p className="hero-fade mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-text-secondary sm:text-lg">
           限定配信、4K高画質、クリエイターとの直接交流。
           <br className="hidden sm:block" />
           月額980円から見放題。
@@ -205,12 +212,12 @@ export default function HeroSection() {
           <Link
             href="/pricing"
             prefetch={true}
-            className="inline-block rounded-lg border border-[rgba(255,255,255,0.12)] px-8 py-4 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-[rgba(255,255,255,0.25)] hover:text-text-primary"
+            className="inline-block rounded-lg border border-border px-8 py-4 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-text-muted hover:text-text-primary"
           >
             料金プランを見る
           </Link>
         </div>
-        <p className="hero-fade mt-5 text-center text-xs text-[#5a5a72]">
+        <p className="hero-fade mt-5 text-center text-xs text-text-muted">
           14日間無料 ・ クレジットカード不要
         </p>
       </div>

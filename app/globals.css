@@ -20,6 +20,68 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
+/* ライトモード変数上書き */
+[data-theme="light"] {
+  --color-bg-deep: #f8f6f1;
+  --color-bg-card: #ffffff;
+  --color-bg-input: #f0ede6;
+  --color-border: #e0ddd6;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #5a5a6e;
+  --color-text-muted: #8b8b9e;
+}
+
+/* ライトモード: スクロールバー */
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* ライトモード: Google OAuthボタン */
+[data-theme="light"] .google-btn:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+[data-theme="light"] .google-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ライトモード: プランカード */
+[data-theme="light"] .card-popular {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+[data-theme="light"] .card-premium {
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+/* ダーク/ライトモード切替: キャンバスと背景 */
+.dark-only-canvas {
+  display: block;
+}
+.light-only-bg {
+  display: none;
+}
+[data-theme="light"] .dark-only-canvas {
+  display: none;
+}
+[data-theme="light"] .light-only-bg {
+  display: block;
+}
+
+/* ライトモード: ヘッダー背景 */
+[data-theme="light"] header {
+  border-bottom-color: var(--color-border);
+}
+
+/* ライトモード: カルーセル影の調整 */
+[data-theme="light"] .shadow-\[0_30px_80px_rgba\(0\,0\,0\,0\.8\)\,0_0_80px_rgba\(245\,158\,11\,0\.12\)\,0_0_160px_rgba\(245\,158\,11\,0\.04\)\] {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 40px rgba(245, 158, 11, 0.08) !important;
+}
+[data-theme="light"] .shadow-\[0_10px_30px_rgba\(0\,0\,0\,0\.5\)\] {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
 /* フェードインアニメーション */
 @keyframes fade-in-up {
   from {

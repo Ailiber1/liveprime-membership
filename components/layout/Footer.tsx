@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-[rgba(255,255,255,0.06)]" style={{ background: "#0a0a0f" }}>
+    <footer className="border-t border-border bg-bg-deep">
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-6">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
           {/* ロゴ */}
@@ -10,7 +10,7 @@ export default function Footer() {
             <span className="font-display text-lg font-bold text-[#f59e0b]">
               LIVE
             </span>
-            <span className="font-display text-lg font-bold text-white">
+            <span className="font-display text-lg font-bold text-text-primary">
               PRIME
             </span>
           </div>
@@ -20,35 +20,35 @@ export default function Footer() {
             <Link
               href="/pricing"
               prefetch={true}
-              className="text-xs text-[#5a5a72] transition-colors hover:text-[#8b8ba3]"
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
             >
               料金プラン
             </Link>
             <Link
               href="/terms"
               prefetch={true}
-              className="text-xs text-[#5a5a72] transition-colors hover:text-[#8b8ba3]"
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
             >
               利用規約
             </Link>
             <Link
               href="/privacy"
               prefetch={true}
-              className="text-xs text-[#5a5a72] transition-colors hover:text-[#8b8ba3]"
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
             >
               プライバシー
             </Link>
             <Link
               href="/legal"
               prefetch={true}
-              className="text-xs text-[#5a5a72] transition-colors hover:text-[#8b8ba3]"
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
             >
               特商法表記
             </Link>
           </nav>
         </div>
 
-        <p className="mt-8 text-center text-[10px] text-[#3a3a4a]">
+        <p className="mt-8 text-center text-[10px] text-text-muted/60">
           &copy; {new Date().getFullYear()} LIVE PRIME. All rights reserved.
         </p>
       </div>
