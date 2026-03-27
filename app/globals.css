@@ -220,43 +220,15 @@ button:active {
 }
 
 .card-popular {
-  position: relative;
-}
-
-.card-popular::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
+  border: 2px solid #ff0054;
   border-radius: 16px;
-  padding: 2px;
-  background: linear-gradient(135deg, #ff0054, #f5b731, #ff0054, #f5b731);
-  background-size: 200% 200%;
-  animation: pricing-shimmer 4s linear infinite;
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  pointer-events: none;
-  z-index: 1;
+  box-shadow: 0 0 24px rgba(255, 0, 84, 0.15), 0 0 48px rgba(255, 0, 84, 0.05);
 }
 
 .card-premium {
-  position: relative;
-}
-
-.card-premium::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
+  border: 2px solid #f5b731;
   border-radius: 16px;
-  padding: 1.5px;
-  background: linear-gradient(135deg, #f5b731 0%, #d4a020 50%, #f5b731 100%);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  pointer-events: none;
-  z-index: 1;
+  box-shadow: 0 0 24px rgba(245, 183, 49, 0.15), 0 0 48px rgba(245, 183, 49, 0.05);
 }
 
 .price-transition {
