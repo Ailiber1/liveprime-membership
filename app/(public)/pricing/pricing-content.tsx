@@ -242,7 +242,7 @@ export default function PricingContent() {
               aria-label="年払いに切り替え"
             >
               <span
-                className={`absolute top-1 h-6 w-6 rounded-full bg-primary transition-transform duration-200 ${
+                className={`absolute top-1 h-6 w-6 rounded-full bg-primary transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                   isYearly ? "translate-x-[26px]" : "translate-x-1"
                 }`}
               />
