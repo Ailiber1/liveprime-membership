@@ -15,6 +15,7 @@ interface WatchHistoryVideo {
   is_live: boolean;
   access_level: string;
   is_published?: boolean;
+  thumbnail_url?: string | null;
 }
 
 interface WatchHistoryEntry {
@@ -74,7 +75,7 @@ export default async function DashboardPage() {
   // 続きを見る（未完了の視聴履歴）
   const { data: continueWatchingRaw } = await supabase
     .from("watch_history")
-    .select("id, watched_seconds, completed, last_watched_at, videos(id, title, category, duration_seconds, is_live, access_level, is_published)")
+    .select("id, watched_seconds, completed, last_watched_at, videos(id, title, category, duration_seconds, is_live, access_level, is_published, thumbnail_url)")
     .eq("user_id", user.id)
     .eq("completed", false)
     .order("last_watched_at", { ascending: false })
@@ -254,8 +255,11 @@ export default async function DashboardPage() {
                   >
                     <div
                       className="relative aspect-video bg-[#151520]"
-                      style={{ background: gradients[i % gradients.length] }}
+                      style={getVideo(entry)?.thumbnail_url ? undefined : { background: gradients[i % gradients.length] }}
                     >
+                      {getVideo(entry)?.thumbnail_url && (
+                        <img src={getVideo(entry)!.thumbnail_url!} alt={getVideo(entry)?.title || ""} className="absolute inset-0 h-full w-full object-cover" />
+                      )}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-sm transition-transform group-hover:scale-110">
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="ml-0.5 text-white">
