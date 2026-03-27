@@ -37,10 +37,10 @@ export default function HeroSection() {
           そのままあなたへ。
         </h1>
 
-        <p className="hero-fade mx-auto mt-8 max-w-lg text-base font-light leading-relaxed text-[#8b8ba3] sm:text-lg">
-          4K高画質の限定配信と、クリエイターとの距離が近いコミュニティ。
+        <p className="hero-fade mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-[#8b8ba3] sm:text-lg">
+          限定配信、4K高画質、クリエイターとの直接交流。
           <br className="hidden sm:block" />
-          月額980円から、すべてのコンテンツが見放題。
+          月額980円から見放題。
         </p>
 
         <div className="hero-fade mt-12">
