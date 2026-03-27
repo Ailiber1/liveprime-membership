@@ -43,6 +43,7 @@ const contents: ContentCard[] = [
     creator: "水瀬 ひかる",
     category: "お絵描き配信",
     duration: "1:15:00",
+    thumbnail: "/thumbnails/04-illustration-stream.png",
   },
   {
     id: "3e69b539-e62b-48e1-b2af-8216c2c4a6fc",
