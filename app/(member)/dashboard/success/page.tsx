@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 import { stripe } from "@/lib/stripe/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";

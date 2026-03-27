@@ -4,6 +4,9 @@ import Link from "next/link";
 import LogoutButton from "./logout-button";
 import WelcomeToast from "./welcome-toast";
 
+// キャッシュを無効化して常に最新データを取得
+export const dynamic = "force-dynamic";
+
 interface WatchHistoryVideo {
   id: string;
   title: string;
@@ -45,11 +48,16 @@ export default async function DashboardPage() {
   }
 
   // サブスクリプション情報を取得
-  const { data: subscription } = await supabase
+  const { data: subscription, error: subError } = await supabase
     .from("subscriptions")
     .select("plan, status, current_period_end")
     .eq("user_id", user.id)
     .single();
+
+  // デバッグ: サブスクリプション取得エラーの場合はログ出力
+  if (subError) {
+    console.error("Subscription fetch error:", subError.message, "user_id:", user.id);
+  }
 
   // 最近の動画を取得（公開済み、最新4件）
   const { data: recentVideos } = await supabase

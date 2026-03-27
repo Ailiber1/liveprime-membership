@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import PaywallGate from "@/components/features/PaywallGate";
