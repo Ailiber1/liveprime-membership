@@ -1,34 +1,179 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+
+/* ─── 星フィールドの型 ─── */
+interface Star {
+  x: number; // 基準位置 (0-1)
+  y: number;
+  size: number; // 0.5 ~ 2.5
+  baseOpacity: number; // 0.3 ~ 0.9
+  opacity: number;
+  twinkleSpeed: number; // 明滅速度
+  twinkleOffset: number; // 明滅位相
+}
+
+function createStars(count: number): Star[] {
+  const stars: Star[] = [];
+  for (let i = 0; i < count; i++) {
+    const baseOpacity = 0.3 + Math.random() * 0.6;
+    stars.push({
+      x: Math.random(),
+      y: Math.random(),
+      size: 0.5 + Math.random() * 2,
+      baseOpacity,
+      opacity: baseOpacity,
+      twinkleSpeed: 0.3 + Math.random() * 1.2,
+      twinkleOffset: Math.random() * Math.PI * 2,
+    });
+  }
+  return stars;
+}
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starsRef = useRef<Star[]>([]);
+  const mouseRef = useRef({ x: 0.5, y: 0.5 });
+  const rafRef = useRef<number>(0);
 
-  useEffect(() => {
+  /* ─── Canvas 描画ループ ─── */
+  const initCanvas = useCallback(() => {
+    const canvas = canvasRef.current;
     const section = sectionRef.current;
-    if (!section) return;
+    if (!canvas || !section) return;
 
-    const els = section.querySelectorAll(".hero-fade");
-    els.forEach((el, i) => {
-      const htmlEl = el as HTMLElement;
-      htmlEl.style.opacity = "0";
-      htmlEl.style.transform = "translateY(20px)";
-      setTimeout(() => {
-        htmlEl.style.transition = "opacity 0.8s ease, transform 0.8s ease";
-        htmlEl.style.opacity = "1";
-        htmlEl.style.transform = "translateY(0)";
-      }, 200 + i * 150);
-    });
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // サイズ設定
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = section.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    // モバイル判定で星の数を決める
+    const isMobile = window.innerWidth < 768;
+    const starCount = isMobile ? 100 : 180;
+    starsRef.current = createStars(starCount);
+
+    // マウス追従
+    const handlePointer = (clientX: number, clientY: number) => {
+      const rect = section.getBoundingClientRect();
+      mouseRef.current = {
+        x: (clientX - rect.left) / rect.width,
+        y: (clientY - rect.top) / rect.height,
+      };
+    };
+    const onMouseMove = (e: MouseEvent) => handlePointer(e.clientX, e.clientY);
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (t) handlePointer(t.clientX, t.clientY);
+    };
+
+    section.addEventListener("mousemove", onMouseMove, { passive: true });
+    section.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("resize", resize, { passive: true });
+
+    // 描画ループ
+    let startTime = performance.now();
+    const draw = (now: number) => {
+      const elapsed = (now - startTime) / 1000;
+      const rect = section.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+
+      ctx.clearRect(0, 0, w, h);
+
+      // マウスオフセット（中央 0.5 を基準に -0.5 ~ 0.5）
+      const mx = mouseRef.current.x - 0.5;
+      const my = mouseRef.current.y - 0.5;
+
+      for (const star of starsRef.current) {
+        // 瞬き
+        const twinkle =
+          Math.sin(elapsed * star.twinkleSpeed + star.twinkleOffset) * 0.5 +
+          0.5;
+        star.opacity =
+          star.baseOpacity * (0.5 + twinkle * 0.5);
+
+        // パララックス: 大きい星ほど大きく動く（カーソル逆方向）
+        const parallaxFactor = (star.size / 2.5) * 30; // 最大30px
+        const px = star.x * w - mx * parallaxFactor;
+        const py = star.y * h - my * parallaxFactor;
+
+        // 下部フェードアウト（セクション高さの70%以降でフェード）
+        const yRatio = py / h;
+        const fadeMask = yRatio < 0.7 ? 1 : Math.max(0, 1 - (yRatio - 0.7) / 0.3);
+
+        const finalOpacity = star.opacity * fadeMask;
+        if (finalOpacity <= 0) continue;
+
+        ctx.beginPath();
+        ctx.arc(px, py, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${finalOpacity})`;
+        ctx.fill();
+      }
+
+      rafRef.current = requestAnimationFrame(draw);
+    };
+
+    rafRef.current = requestAnimationFrame(draw);
+
+    // クリーンアップ
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      section.removeEventListener("mousemove", onMouseMove);
+      section.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("resize", resize);
+    };
   }, []);
+
+  /* ─── マウント時に初期化 ─── */
+  useEffect(() => {
+    // フェードインアニメーション（既存）
+    const section = sectionRef.current;
+    if (section) {
+      const els = section.querySelectorAll(".hero-fade");
+      els.forEach((el, i) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.style.opacity = "0";
+        htmlEl.style.transform = "translateY(20px)";
+        setTimeout(() => {
+          htmlEl.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+          htmlEl.style.opacity = "1";
+          htmlEl.style.transform = "translateY(0)";
+        }, 200 + i * 150);
+      });
+    }
+
+    // Canvas 星空
+    const cleanup = initCanvas();
+    return () => {
+      if (cleanup) cleanup();
+    };
+  }, [initCanvas]);
 
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100svh] items-center justify-center"
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
       style={{ background: "#0a0a0f" }}
     >
+      {/* 宇宙背景 Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="pointer-events-none absolute inset-0 z-0"
+        aria-hidden="true"
+      />
+
       {/* コンテンツ */}
       <div className="relative z-10 mx-auto max-w-3xl px-5 py-32 text-center sm:px-6">
         <h1 className="hero-fade font-body text-[2.5rem] font-bold leading-[1.15] tracking-tight text-white sm:text-[3.5rem] md:text-[4rem]">
