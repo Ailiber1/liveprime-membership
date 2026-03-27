@@ -213,14 +213,26 @@ export default function FeaturesSection() {
 
                   {/* 湾曲シャドウ — カードが曲面に見える効果 */}
                   {!isCenter && (
-                    <div
-                      className="pointer-events-none absolute inset-0"
-                      style={{
-                        background: cardOffset > 0
-                          ? "linear-gradient(to right, rgba(0,0,0,0.5) 0%, transparent 40%)"
-                          : "linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 40%)",
-                      }}
-                    />
+                    <>
+                      {/* 内側の影（曲面の暗い部分） */}
+                      <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background: cardOffset > 0
+                            ? "linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 60%)"
+                            : "linear-gradient(to left, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, transparent 60%)",
+                        }}
+                      />
+                      {/* 端のハイライト（曲面に光が当たる部分） */}
+                      <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background: cardOffset > 0
+                            ? "linear-gradient(to left, rgba(255,255,255,0.04) 0%, transparent 15%)"
+                            : "linear-gradient(to right, rgba(255,255,255,0.04) 0%, transparent 15%)",
+                        }}
+                      />
+                    </>
                   )}
 
                   {isCenter && (
