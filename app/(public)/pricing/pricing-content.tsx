@@ -315,7 +315,7 @@ export default function PricingContent() {
                 )}
 
                 {/* プラン名 + 説明 */}
-                <div className={`mb-6 ${isCurrent || (isPopular && !isCurrent) ? "mt-7" : "mt-0"}`}>
+                <div className="mb-6 mt-7">
                   <div className="flex items-center gap-2.5">
                     <h3 className={`font-display text-xl font-bold tracking-tight ${
                       plan.id === "premium" ? "text-[#f59e0b]" : plan.id === "standard" ? "text-[#2ed573]" : "text-text-muted"
