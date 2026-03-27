@@ -232,24 +232,27 @@ export default function PricingContent() {
 
         {/* 月払い/年払いトグル */}
         <div className="mb-10 flex flex-col items-center gap-3">
-          <div className="flex items-center gap-4">
-            <span className={`text-sm ${!isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
-              月払い
-            </span>
+          <div className="inline-flex items-center rounded-full border border-border bg-[rgba(255,255,255,0.03)] p-1">
             <button
-              onClick={() => setIsYearly(!isYearly)}
-              className="relative h-8 w-14 shrink-0 rounded-full bg-border transition-colors"
-              aria-label="年払いに切り替え"
+              onClick={() => setIsYearly(false)}
+              className={`rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
+                !isYearly
+                  ? "bg-primary text-white shadow-sm"
+                  : "text-text-muted hover:text-text-secondary"
+              }`}
             >
-              <span
-                className={`absolute top-1 h-6 w-6 rounded-full bg-primary shadow-sm transition-transform duration-200 ease-out ${
-                  isYearly ? "translate-x-[26px]" : "translate-x-1"
-                }`}
-              />
+              月払い
             </button>
-            <span className={`text-sm ${isYearly ? "text-text-primary font-medium" : "text-text-muted"}`}>
+            <button
+              onClick={() => setIsYearly(true)}
+              className={`rounded-full px-5 py-2 text-sm font-medium transition-all duration-200 ${
+                isYearly
+                  ? "bg-primary text-white shadow-sm"
+                  : "text-text-muted hover:text-text-secondary"
+              }`}
+            >
               年払い
-            </span>
+            </button>
           </div>
           {isYearly && (
             <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
