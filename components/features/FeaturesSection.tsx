@@ -124,11 +124,11 @@ export default function FeaturesSection() {
     const rotateY = -angle * (180 / Math.PI) * 1.3; // ラジアン→度（強めの回転）
 
     // 奥にあるほど暗く小さく
-    const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
-    const scale = 0.55 + depthRatio * 0.45;
-    const opacity = isCenter ? 1 : 0.15 + depthRatio * 0.5;
-    const zIndex = Math.round(depthRatio * 20);
     const isCenter = offset === 0;
+    const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
+    const scale = isCenter ? 1 : 0.55 + depthRatio * 0.45;
+    const opacity = isCenter ? 1 : 0.15 + depthRatio * 0.5;
+    const zIndex = isCenter ? 30 : Math.round(depthRatio * 20);
     const isClickable = Math.abs(offset) <= 1;
 
     return {
