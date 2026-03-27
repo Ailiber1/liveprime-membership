@@ -118,12 +118,12 @@ button[type="submit"]:active,
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-33.333%);
   }
 }
 
 .animate-scroll-x {
-  animation: scroll-x 30s linear infinite;
+  animation: scroll-x 40s linear infinite;
 }
 
 .animate-scroll-x:hover {

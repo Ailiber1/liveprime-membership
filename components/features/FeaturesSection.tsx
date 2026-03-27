@@ -51,7 +51,7 @@ const contents: ContentCard[] = [
 ];
 
 // 無限ループ用に配列を2倍にする
-const doubledContents = [...contents, ...contents];
+const loopedContents = [...contents, ...contents, ...contents];
 
 export default function FeaturesSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -100,7 +100,7 @@ export default function FeaturesSection() {
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-24 bg-gradient-to-l from-[#0a0a0f] to-transparent" />
 
         <div className="flex animate-scroll-x gap-5 pl-5">
-          {doubledContents.map((item, i) => (
+          {loopedContents.map((item, i) => (
             <div
               key={`${item.title}-${i}`}
               className="flex-shrink-0 w-[280px] sm:w-[320px] rounded-xl overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:opacity-90"
