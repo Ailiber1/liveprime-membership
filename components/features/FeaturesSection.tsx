@@ -66,6 +66,7 @@ export default function FeaturesSection() {
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const total = contents.length;
+  const radius = 600; // 円の半径（px）
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
@@ -75,7 +76,7 @@ export default function FeaturesSection() {
     setCurrent((prev) => (prev - 1 + total) % total);
   }, [total]);
 
-  // 自動回転（3.5秒間隔、ホバー時停止）
+  // 自動回転
   useEffect(() => {
     if (isHovered) {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -108,35 +109,33 @@ export default function FeaturesSection() {
   }, []);
 
   function getCardStyle(index: number) {
+    // 各カードの角度を計算（円周上に均等配置）
+    const angleStep = (2 * Math.PI) / total;
     let offset = index - current;
     if (offset > total / 2) offset -= total;
     if (offset < -total / 2) offset += total;
 
-    const absOffset = Math.abs(offset);
+    const angle = offset * angleStep;
+
+    // 円周上の位置を計算
+    const x = Math.sin(angle) * radius;
+    const z = Math.cos(angle) * radius - radius; // 手前が0、奥がマイナス
+    const rotateY = -angle * (180 / Math.PI); // ラジアン→度
+
+    // 奥にあるほど暗く小さく
+    const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
+    const scale = 0.5 + depthRatio * 0.5;
+    const opacity = 0.15 + depthRatio * 0.85;
+    const zIndex = Math.round(depthRatio * 20);
     const isCenter = offset === 0;
-
-    if (absOffset > 2) {
-      return {
-        opacity: 0,
-        transform: "translateX(0) translateZ(-800px) rotateY(0deg) scale(0.4)",
-        zIndex: 0,
-        pointerEvents: "none" as const,
-      };
-    }
-
-    // 中央カードは巨大、左右は奥に沈み込む
-    const translateX = offset * 420;
-    const translateZ = isCenter ? 0 : -200 - absOffset * 100;
-    const rotateY = offset * 25;
-    const scale = isCenter ? 1 : 0.72 - (absOffset - 1) * 0.1;
-    const zIndex = 20 - absOffset * 5;
-    const opacity = isCenter ? 1 : 0.5 - (absOffset - 1) * 0.15;
+    const isClickable = Math.abs(offset) <= 1;
 
     return {
-      transform: `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+      transform: `translateX(${x}px) translateZ(${z}px) rotateY(${rotateY}deg) scale(${scale})`,
+      opacity,
       zIndex,
-      opacity: Math.max(opacity, 0.2),
-      pointerEvents: (absOffset <= 1 ? "auto" : "none") as "auto" | "none",
+      pointerEvents: (isClickable ? "auto" : "none") as "auto" | "none",
+      isCenter,
     };
   }
 
@@ -155,20 +154,19 @@ export default function FeaturesSection() {
         </h2>
       </div>
 
-      {/* 3Dカルーセル */}
+      {/* 3D円形カルーセル */}
       <div
         className="content-fade opacity-0 mt-12 sm:mt-16 relative"
-        style={{ perspective: "1400px" }}
+        style={{ perspective: "1600px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* 床の反射グラデーション */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent z-10 pointer-events-none" />
-
-        <div className="relative mx-auto flex items-center justify-center" style={{ height: "420px", maxWidth: "100vw" }}>
+        <div
+          className="relative mx-auto flex items-center justify-center"
+          style={{ height: "440px", transformStyle: "preserve-3d" }}
+        >
           {contents.map((item, i) => {
-            const style = getCardStyle(i);
-            const isCenter = i === current;
+            const { isCenter, ...style } = getCardStyle(i);
 
             return (
               <Link
@@ -177,13 +175,14 @@ export default function FeaturesSection() {
                 prefetch={true}
                 className={`absolute rounded-2xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${
                   isCenter
-                    ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_40px_rgba(245,158,11,0.08)]"
+                    ? "shadow-[0_30px_80px_rgba(0,0,0,0.8),0_0_60px_rgba(245,158,11,0.06)]"
                     : "shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
                 }`}
                 style={{
                   ...style,
-                  width: "min(560px, 75vw)",
+                  width: "min(520px, 70vw)",
                   transformStyle: "preserve-3d",
+                  backfaceVisibility: "hidden",
                 }}
                 onClick={(e) => {
                   if (!isCenter) {
@@ -191,7 +190,7 @@ export default function FeaturesSection() {
                     let offset = i - current;
                     if (offset > total / 2) offset -= total;
                     if (offset < -total / 2) offset += total;
-                    if (Math.abs(offset) <= 2) setCurrent(i);
+                    if (Math.abs(offset) <= 1) setCurrent(i);
                   }
                 }}
               >
@@ -207,10 +206,9 @@ export default function FeaturesSection() {
                     <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a2e] to-[#0c0c14]" />
                   )}
 
-                  {/* 中央カードのホバーで再生ボタン */}
                   {isCenter && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 hover:bg-black/30">
-                      <div className="h-16 w-16 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 hover:bg-black/30 group/play">
+                      <div className="h-16 w-16 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center opacity-0 transition-all duration-300 group-hover/play:opacity-100 group-hover/play:scale-110">
                         <svg width="28" height="28" viewBox="0 0 16 16" fill="white">
                           <path d="M4 2l10 6-10 6V2z" />
                         </svg>
@@ -218,12 +216,10 @@ export default function FeaturesSection() {
                     </div>
                   )}
 
-                  {/* カテゴリ */}
                   <span className="absolute top-4 left-4 rounded-lg bg-black/60 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-sm">
                     {item.category}
                   </span>
 
-                  {/* LIVE / 時間 */}
                   <span className={`absolute bottom-4 right-4 rounded-lg px-3 py-1 text-[11px] font-bold backdrop-blur-sm ${
                     item.duration === "LIVE"
                       ? "bg-[#f59e0b] text-[#0a0a0f] animate-pulse"
@@ -233,7 +229,6 @@ export default function FeaturesSection() {
                   </span>
                 </div>
 
-                {/* 情報 — 中央カードのみ表示 */}
                 {isCenter && (
                   <div className="p-5 bg-[#111118]/95 backdrop-blur-sm">
                     <h3 className="text-base font-semibold text-white leading-snug line-clamp-1">
@@ -249,7 +244,7 @@ export default function FeaturesSection() {
           })}
         </div>
 
-        {/* 左右ナビ — 大きめ、半透明 */}
+        {/* 左右ナビ */}
         <button
           onClick={next}
           className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
@@ -269,7 +264,7 @@ export default function FeaturesSection() {
           </svg>
         </button>
 
-        {/* ドットインジケーター */}
+        {/* ドット */}
         <div className="relative z-20 mt-6 flex items-center justify-center gap-2">
           {contents.map((_, i) => (
             <button
