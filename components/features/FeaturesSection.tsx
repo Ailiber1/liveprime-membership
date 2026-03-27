@@ -59,6 +59,7 @@ const contents: ContentCard[] = [
     creator: "中村 あかり",
     category: "ASMR",
     duration: "23:00開始",
+    thumbnail: "/thumbnails/06-asmr-stream.png",
   },
 ];
 
