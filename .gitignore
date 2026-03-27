@@ -48,6 +48,9 @@ supabase/.temp/
 credentials.json
 serviceAccountKey.json
 
+# TypeScript build info
+tsconfig.tsbuildinfo
+
 # 不要ファイル
 Building a paid membership site.html
 workflow-overview.png
