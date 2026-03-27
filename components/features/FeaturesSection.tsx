@@ -23,6 +23,7 @@ const contents: ContentCard[] = [
     creator: "佐藤 ユウキ",
     category: "ゲーム配信",
     duration: "LIVE",
+    thumbnail: "/thumbnails/02-game-stream.jpeg",
   },
   {
     title: "歌枠ライブ — リクエスト受付中",
