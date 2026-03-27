@@ -55,6 +55,13 @@ export default function Header() {
                 動画コンテンツ
               </Link>
               <Link
+                href="/pricing"
+                prefetch={true}
+                className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                料金プラン
+              </Link>
+              <Link
                 href="/settings"
                 prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
@@ -69,6 +76,13 @@ export default function Header() {
             </>
           ) : (
             <>
+              <Link
+                href="/pricing"
+                prefetch={true}
+                className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                料金プラン
+              </Link>
               <Link
                 href="/login"
                 prefetch={true}

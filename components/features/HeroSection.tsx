@@ -43,7 +43,7 @@ export default function HeroSection() {
           月額980円から見放題。
         </p>
 
-        <div className="hero-fade mt-12">
+        <div className="hero-fade mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-5">
           <Link
             href="/register"
             prefetch={true}
@@ -51,10 +51,17 @@ export default function HeroSection() {
           >
             無料で始める
           </Link>
-          <p className="mt-4 text-xs text-[#5a5a72]">
-            14日間無料 ・ クレジットカード不要
-          </p>
+          <Link
+            href="/pricing"
+            prefetch={true}
+            className="inline-block rounded-lg border border-[rgba(255,255,255,0.12)] px-8 py-4 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-[rgba(255,255,255,0.25)] hover:text-text-primary"
+          >
+            料金プランを見る
+          </Link>
         </div>
+        <p className="hero-fade mt-5 text-center text-xs text-[#5a5a72]">
+          14日間無料 ・ クレジットカード不要
+        </p>
       </div>
     </section>
   );
