@@ -42,6 +42,10 @@ export default async function SuccessPage({ searchParams }: Props) {
     return <SuccessWithLoginPrompt planName={planName} />;
   }
 
+  // ユーザーのメールアドレスを取得（マスク表示用）
+  const userEmail = user.email || "";
+  const maskedEmail = maskEmail(userEmail);
+
   const features = [
     { label: "全コンテンツ見放題", available: true },
     { label: "HD/4K画質", available: true },
@@ -159,10 +163,64 @@ export default async function SuccessPage({ searchParams }: Props) {
           </ul>
         </div>
 
+        {/* メール送信通知セクション */}
+        <div className="mt-6 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.03)] p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/15">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-accent"
+              >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M22 4l-10 8L2 4" />
+              </svg>
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-medium text-text-primary">
+                決済完了通知を送信しました
+              </p>
+              <p className="mt-0.5 text-xs text-text-muted">
+                {maskedEmail} 宛に確認メールをお届けしています
+              </p>
+            </div>
+          </div>
+          <p className="mt-3 rounded-lg bg-[rgba(255,255,255,0.04)] px-3 py-2 text-[11px] leading-relaxed text-text-muted">
+            ※ デモ環境のため、実際のメール送信は行われません。本番環境ではStripe領収書メールが自動送信されます。
+          </p>
+        </div>
+
+        {/* テスト環境バナー */}
+        <div className="mt-4 flex items-center justify-center gap-1.5 rounded-lg border border-accent/20 bg-accent/5 px-3 py-2">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="text-accent"
+          >
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <span className="text-[11px] font-medium text-accent/80">
+            テスト環境 — 実際の課金は発生していません
+          </span>
+        </div>
+
         {/* ダッシュボードへボタン */}
         <Link
           href="/dashboard"
-          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
         >
           ダッシュボードへ
           <svg
@@ -250,6 +308,14 @@ export default async function SuccessPage({ searchParams }: Props) {
       `}</style>
     </div>
   );
+}
+
+/** メールアドレスをマスク表示する（例: ai****@gmail.com） */
+function maskEmail(email: string): string {
+  const [local, domain] = email.split("@");
+  if (!local || !domain) return "****@****.***";
+  const visible = local.slice(0, Math.min(2, local.length));
+  return `${visible}${"*".repeat(Math.max(4, local.length - 2))}@${domain}`;
 }
 
 function SuccessWithLoginPrompt({ planName }: { planName: string }) {
