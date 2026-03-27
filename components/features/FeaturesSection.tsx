@@ -68,7 +68,8 @@ export default function FeaturesSection() {
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const total = contents.length;
-  const radius = 500; // 円の半径（px）
+  const radiusX = 650; // 楕円の横半径（広い）
+  const radiusZ = 350; // 楕円の奥行き半径（浅い）
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
@@ -119,14 +120,14 @@ export default function FeaturesSection() {
 
     const angle = offset * angleStep;
 
-    // 円周上の位置を計算
-    const x = Math.sin(angle) * radius;
-    const z = Math.cos(angle) * radius - radius; // 手前が0、奥がマイナス
-    const rotateY = -angle * (180 / Math.PI); // ラジアン→度（円軌道に忠実）
+    // 楕円軌道上の位置を計算
+    const x = Math.sin(angle) * radiusX;
+    const z = Math.cos(angle) * radiusZ - radiusZ; // 手前が0、奥がマイナス
+    const rotateY = -angle * (180 / Math.PI); // ラジアン→度（軌道に忠実）
 
     // 奥にあるほど暗く小さく
     const isCenter = offset === 0;
-    const depthRatio = (z + radius) / (2 * radius); // 0(最奥)〜1(最前面)
+    const depthRatio = (z + radiusZ) / (2 * radiusZ); // 0(最奥)〜1(最前面)
     const scale = isCenter ? 1 : 0.5 + depthRatio * 0.35;
     const opacity = isCenter ? 1 : 0.2 + depthRatio * 0.5;
     const zIndex = isCenter ? 30 : Math.round(depthRatio * 20);
