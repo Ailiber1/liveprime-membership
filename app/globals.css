@@ -155,6 +155,34 @@ button[type="submit"]:active,
   background: var(--color-border);
 }
 
+/* ローディングバーアニメーション */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.loading-bar {
+  animation: loading-bar 1.2s ease-in-out infinite;
+}
+
+/* ナビゲーションリンク・ボタンの即時クリックフィードバック */
+a[href],
+button {
+  transition: transform 0.1s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+}
+
+a[href]:active,
+button:active {
+  transform: scale(0.95);
+}
+
 /* スクロールバー */
 ::-webkit-scrollbar {
   width: 6px;

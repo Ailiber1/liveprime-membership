@@ -42,23 +42,26 @@ export default function Header() {
             <>
               <Link
                 href="/dashboard"
+                prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
               >
                 ダッシュボード
               </Link>
               <Link
                 href="/videos"
+                prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
               >
                 動画コンテンツ
               </Link>
               <Link
                 href="/settings"
+                prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
               >
                 設定
               </Link>
-              <Link href="/dashboard" className="flex items-center gap-2">
+              <Link href="/dashboard" prefetch={true} className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-sm font-medium text-primary">
                   {user.email?.charAt(0).toUpperCase() || "U"}
                 </div>

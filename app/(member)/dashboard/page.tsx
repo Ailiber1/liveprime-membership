@@ -202,6 +202,7 @@ export default async function DashboardPage() {
               {currentPlan === "free" && (
                 <Link
                   href="/pricing"
+                  prefetch={true}
                   className="rounded-lg bg-primary/10 px-4 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/20"
                 >
                   アップグレード
@@ -221,7 +222,7 @@ export default async function DashboardPage() {
               <h2 className="font-display text-base font-semibold text-text-primary">
                 続きを見る
               </h2>
-              <Link href="/videos" className="text-xs text-text-muted transition-colors hover:text-primary">
+              <Link href="/videos" prefetch={true} className="text-xs text-text-muted transition-colors hover:text-primary">
                 すべて見る &rarr;
               </Link>
             </div>
@@ -284,7 +285,7 @@ export default async function DashboardPage() {
               <h2 className="font-display text-base font-semibold text-text-primary">
                 最近の動画
               </h2>
-              <Link href="/videos" className="text-xs text-text-muted transition-colors hover:text-primary">
+              <Link href="/videos" prefetch={true} className="text-xs text-text-muted transition-colors hover:text-primary">
                 すべて見る &rarr;
               </Link>
             </div>
@@ -418,6 +419,7 @@ export default async function DashboardPage() {
             <div className="space-y-2">
               <Link
                 href="/videos"
+                prefetch={true}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
@@ -428,6 +430,7 @@ export default async function DashboardPage() {
               </Link>
               <Link
                 href="/settings"
+                prefetch={true}
                 className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-white/5 hover:text-text-primary"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-text-muted">
@@ -439,6 +442,7 @@ export default async function DashboardPage() {
               {currentPlan === "free" && (
                 <Link
                   href="/pricing"
+                  prefetch={true}
                   className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-primary transition-colors hover:bg-primary/5"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">

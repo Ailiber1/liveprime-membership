@@ -106,6 +106,7 @@ export default function Sidebar({ variant = "member" }: SidebarProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                   isActive
                     ? "bg-primary/10 text-primary"
