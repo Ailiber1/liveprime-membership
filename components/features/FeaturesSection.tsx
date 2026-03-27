@@ -11,40 +11,40 @@ interface ContentCard {
 
 const contents: ContentCard[] = [
   {
-    title: "Behind the Stage — 舞台裏ドキュメンタリー",
-    creator: "佐藤美咲",
-    category: "ドキュメンタリー",
+    title: "イラスト配信 — キャラクターデザインの描き方",
+    creator: "水瀬 ひかる",
+    category: "イラスト",
+    duration: "1:15:00",
+  },
+  {
+    title: "アニメーション制作の舞台裏",
+    creator: "佐藤 美咲",
+    category: "アニメ",
     duration: "45:00",
   },
   {
-    title: "プロが教える映像編集マスターコース",
-    creator: "田中裕也",
-    category: "チュートリアル",
-    duration: "1:20:00",
-  },
-  {
-    title: "Acoustic Live Session vol.12",
-    creator: "山本健太",
-    category: "ライブ配信",
+    title: "弾き語りライブ — 夜のアコースティック",
+    creator: "山本 健太",
+    category: "音楽",
     duration: "LIVE",
   },
   {
-    title: "週末キッチン — 季節の和食レシピ",
-    creator: "中村あかり",
+    title: "UIデザイン実践 — アプリを0から作る",
+    creator: "田中 裕也",
+    category: "デザイン",
+    duration: "1:30:00",
+  },
+  {
+    title: "料理配信 — 本格フレンチをおうちで",
+    creator: "中村 あかり",
     category: "料理",
-    duration: "32:00",
+    duration: "38:00",
   },
   {
-    title: "初心者から始めるライブ配信入門",
-    creator: "鈴木あかり",
-    category: "配信テクニック",
-    duration: "28:00",
-  },
-  {
-    title: "視聴者10万人への道 — 成長戦略",
-    creator: "高橋大輔",
-    category: "ビジネス",
-    duration: "55:00",
+    title: "ゲーム実況 — RPG完全攻略ライブ",
+    creator: "鈴木 あかり",
+    category: "ゲーム",
+    duration: "LIVE",
   },
 ];
 
