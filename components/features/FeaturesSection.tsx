@@ -290,9 +290,15 @@ export default function FeaturesSection() {
         {/* 左右ナビ — 長押しで高速回転 */}
         <button
           onMouseDown={() => {
-            next();
-            const id = setInterval(next, 60);
-            const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
+            let moved = false;
+            const timer = setTimeout(() => { moved = true; }, 200);
+            const id = setInterval(() => { if (moved) next(); }, 60);
+            const up = () => {
+              clearTimeout(timer);
+              clearInterval(id);
+              if (!moved) next();
+              window.removeEventListener("mouseup", up);
+            };
             window.addEventListener("mouseup", up);
           }}
           className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
@@ -304,9 +310,15 @@ export default function FeaturesSection() {
         </button>
         <button
           onMouseDown={() => {
-            prev();
-            const id = setInterval(prev, 60);
-            const up = () => { clearInterval(id); window.removeEventListener("mouseup", up); };
+            let moved = false;
+            const timer = setTimeout(() => { moved = true; }, 200);
+            const id = setInterval(() => { if (moved) prev(); }, 60);
+            const up = () => {
+              clearTimeout(timer);
+              clearInterval(id);
+              if (!moved) prev();
+              window.removeEventListener("mouseup", up);
+            };
             window.addEventListener("mouseup", up);
           }}
           className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
