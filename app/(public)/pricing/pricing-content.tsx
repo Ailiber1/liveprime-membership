@@ -22,6 +22,8 @@ interface Plan {
   accent?: string;
 }
 
+const PLAN_ORDER = { free: 0, standard: 1, premium: 2 } as const;
+
 const plans: Plan[] = [
   {
     id: "free",
@@ -75,12 +77,66 @@ const plans: Plan[] = [
   },
 ];
 
+type PlanId = "free" | "standard" | "premium";
+
+function getButtonLabel(
+  planId: string,
+  currentPlan: PlanId | null,
+  isLoggedIn: boolean
+): { label: string; type: "current" | "upgrade" | "downgrade" | "default" } {
+  if (!isLoggedIn || !currentPlan) {
+    if (planId === "free") return { label: "無料で始める", type: "default" };
+    return { label: "今すぐ始める", type: "default" };
+  }
+
+  if (planId === currentPlan) {
+    return { label: "現在のプラン", type: "current" };
+  }
+
+  const currentOrder = PLAN_ORDER[currentPlan];
+  const targetOrder = PLAN_ORDER[planId as PlanId];
+
+  if (targetOrder > currentOrder) {
+    return { label: "アップグレード", type: "upgrade" };
+  }
+  return { label: "ダウングレード", type: "downgrade" };
+}
+
 export default function PricingContent() {
   const [isYearly, setIsYearly] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [currentPlan, setCurrentPlan] = useState<PlanId | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
   const { showToast } = useToast();
   const searchParams = useSearchParams();
   const canceled = searchParams.get("canceled");
+
+  // 認証状態とサブスクリプション情報を取得
+  useEffect(() => {
+    async function fetchUserPlan() {
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        setIsLoggedIn(true);
+        const { data: sub } = await supabase
+          .from("subscriptions")
+          .select("plan")
+          .eq("user_id", user.id)
+          .eq("status", "active")
+          .single();
+
+        if (sub?.plan) {
+          setCurrentPlan(sub.plan as PlanId);
+        }
+      }
+      setAuthChecked(true);
+    }
+    fetchUserPlan();
+  }, []);
 
   // キャンセル時のトースト表示
   const canceledShown = useRef(false);
@@ -93,7 +149,15 @@ export default function PricingContent() {
 
   const handleSubscribe = async (planId: string) => {
     if (planId === "free") {
+      if (isLoggedIn && currentPlan === "free") {
+        return; // 現在のプラン → 何もしない
+      }
       showToast("Freeプランは登録するだけでご利用いただけます", "info");
+      return;
+    }
+
+    // 現在のプランと同じなら何もしない
+    if (isLoggedIn && planId === currentPlan) {
       return;
     }
 
@@ -104,8 +168,9 @@ export default function PricingContent() {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      showToast("決済にはログインが必要です。ログインページへ移動します。", "info");
-      window.location.href = "/login?redirectTo=/pricing";
+      // 未ログイン: プラン情報付きで登録ページへリダイレクト
+      const interval = isYearly ? "yearly" : "monthly";
+      window.location.href = `/register?plan=${planId}&interval=${interval}`;
       return;
     }
 
@@ -196,20 +261,31 @@ export default function PricingContent() {
             const isPopular = plan.popular;
             const isPremium = plan.id === "premium";
             const isLoading = loadingPlan === plan.id;
+            const isCurrent = authChecked && isLoggedIn && currentPlan === plan.id;
+            const btnInfo = getButtonLabel(plan.id, currentPlan, isLoggedIn && authChecked);
 
             return (
               <div
                 key={plan.id}
                 className={`relative flex flex-col rounded-xl border p-5 transition-colors sm:p-6 ${
-                  isPopular
+                  isCurrent
+                    ? "border-emerald-500/50 bg-emerald-500/[0.04]"
+                    : isPopular
                     ? "border-primary/40 bg-primary/[0.03]"
                     : isPremium
                     ? "border-accent/30 bg-accent/[0.02]"
                     : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)]"
                 }`}
               >
-                {/* 人気バッジ */}
-                {isPopular && (
+                {/* 現在のプランバッジ */}
+                {isCurrent && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full border border-emerald-500/60 bg-bg-deep px-4 py-1 text-xs font-bold text-emerald-400">
+                    現在のプラン
+                  </span>
+                )}
+
+                {/* 人気バッジ（現在のプランでない場合のみ表示） */}
+                {isPopular && !isCurrent && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-4 py-1 text-xs font-bold text-white">
                     人気
                   </span>
@@ -289,31 +365,37 @@ export default function PricingContent() {
                 </ul>
 
                 {/* CTAボタン */}
-                <button
-                  onClick={() => handleSubscribe(plan.id)}
-                  disabled={isLoading}
-                  className={`w-full rounded-lg py-3 text-sm font-medium transition-colors disabled:opacity-60 ${
-                    isPopular
-                      ? "bg-primary text-white hover:bg-primary-hover"
-                      : isPremium
-                      ? "bg-accent text-bg-deep hover:bg-accent/90"
-                      : "border border-border bg-transparent text-text-primary hover:border-text-muted"
-                  }`}
-                >
-                  {isLoading ? (
-                    <span className="inline-flex items-center gap-2">
-                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
-                        <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
-                      </svg>
-                      処理中...
-                    </span>
-                  ) : plan.monthlyPrice === 0 ? (
-                    "無料で始める"
-                  ) : (
-                    "今すぐ始める"
-                  )}
-                </button>
+                {btnInfo.type === "current" ? (
+                  <div className="w-full rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-3 text-center text-sm font-medium text-emerald-400">
+                    現在のプラン
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={isLoading}
+                    className={`w-full rounded-lg py-3 text-sm font-medium transition-colors disabled:opacity-60 ${
+                      btnInfo.type === "downgrade"
+                        ? "border border-border bg-transparent text-text-muted hover:border-text-muted hover:text-text-secondary"
+                        : isPopular
+                        ? "bg-primary text-white hover:bg-primary-hover"
+                        : isPremium
+                        ? "bg-accent text-bg-deep hover:bg-accent/90"
+                        : "border border-border bg-transparent text-text-primary hover:border-text-muted"
+                    }`}
+                  >
+                    {isLoading ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
+                          <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
+                        </svg>
+                        処理中...
+                      </span>
+                    ) : (
+                      btnInfo.label
+                    )}
+                  </button>
+                )}
               </div>
             );
           })}

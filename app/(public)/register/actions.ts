@@ -35,6 +35,15 @@ export async function register(formData: FormData) {
     return { error: "登録に失敗しました。もう一度お試しください。" };
   }
 
+  // プラン情報がある場合、そのプランの決済ページへリダイレクト
+  const selectedPlan = formData.get("selectedPlan") as string | null;
+  const selectedInterval = formData.get("selectedInterval") as string | null;
+
+  if (selectedPlan && selectedPlan !== "free") {
+    const interval = selectedInterval || "monthly";
+    redirect(`/dashboard?activate_plan=${selectedPlan}&interval=${interval}`);
+  }
+
   redirect("/dashboard");
 }
 

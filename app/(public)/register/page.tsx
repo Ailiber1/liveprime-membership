@@ -1,10 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { register, registerWithGoogle } from "./actions";
 
+const PLAN_LABELS: Record<string, string> = {
+  standard: "Standard",
+  premium: "Premium",
+};
+
 export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        </main>
+      }
+    >
+      <RegisterContent />
+    </Suspense>
+  );
+}
+
+function RegisterContent() {
   const [errors, setErrors] = useState<{
     displayName?: string;
     email?: string;
@@ -14,6 +34,11 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [info, setInfo] = useState<string | null>(null);
+
+  const searchParams = useSearchParams();
+  const selectedPlan = searchParams.get("plan");
+  const selectedInterval = searchParams.get("interval");
+  const planLabel = selectedPlan ? PLAN_LABELS[selectedPlan] : null;
 
   function validateForm(
     email: string,
@@ -45,6 +70,15 @@ export default function RegisterPage() {
 
     setLoading(true);
     setErrors({});
+
+    // プラン情報をhidden fieldとして追加
+    if (selectedPlan) {
+      formData.set("selectedPlan", selectedPlan);
+    }
+    if (selectedInterval) {
+      formData.set("selectedInterval", selectedInterval);
+    }
+
     const result = await register(formData);
     if (result?.error) {
       setErrors({ general: result.error });
@@ -70,6 +104,19 @@ export default function RegisterPage() {
         </div>
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-6 sm:p-8">
+          {/* 選択中プランのバナー */}
+          {planLabel && (
+            <div className="mb-5 flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-primary">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span className="text-sm text-text-secondary">
+                <span className="font-medium text-primary">{planLabel}</span>プランを選択中
+                {selectedInterval === "yearly" ? "（年払い）" : "（月払い）"}
+              </span>
+            </div>
+          )}
+
           {info && (
             <div className="mb-5 rounded-lg border border-blue-500/30 bg-blue-500/10 p-3 text-sm text-blue-400">
               {info}
@@ -171,7 +218,12 @@ export default function RegisterPage() {
               disabled={loading}
               className="w-full rounded-lg bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "登録中..." : "新規登録"}
+              {loading
+                ? "登録中..."
+                : planLabel
+                ? `登録して${planLabel}プランに進む`
+                : "新規登録"
+              }
             </button>
           </form>
 
