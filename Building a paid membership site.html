@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code ワークフロー｜有料会員サイト構築</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --bg-card: #111820;
+  --bg-card-hover: #161e28;
+  --border: #1e2a38;
+  --accent: #00e5a0;
+  --accent-dim: #00e5a020;
+  --accent-mid: #00e5a060;
+  --text: #c8d6e5;
+  --text-dim: #5c6f82;
+  --text-bright: #f0f4f8;
+  --warn: #ff6b6b;
+  --blue: #5b9bf5;
+  --orange: #ffb347;
+  --purple: #c084fc;
+  --phase1: #00e5a0;
+  --phase2: #5b9bf5;
+  --phase3: #ffb347;
+  --phase4: #c084fc;
+  --phase5: #ff6b9d;
+  --phase6: #00d4ff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans JP', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+.mono { font-family: 'IBM Plex Mono', monospace; }
+
+/* Header */
+.header {
+  padding: 60px 24px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(ellipse at 50% 0%, var(--accent-dim) 0%, transparent 60%);
+  pointer-events: none;
+}
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-mid);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--accent);
+  margin-bottom: 20px;
+  position: relative;
+}
+.header-badge .dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.header h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  color: var(--text-bright);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  position: relative;
+}
+.header h1 .green { color: var(--accent); }
+.header-sub {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* Summary Bar */
+.summary-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 24px 40px;
+  position: relative;
+}
+.summary-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 140px;
+}
+.summary-item .label {
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.summary-item .value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-top: 2px;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* Tech Stack */
+.tech-section {
+  margin-bottom: 56px;
+}
+.tech-section h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tech-section h2::before {
+  content: '';
+  width: 3px;
+  height: 20px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.tech-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  transition: all 0.2s;
+}
+.tech-card:hover {
+  border-color: var(--accent-mid);
+  background: var(--bg-card-hover);
+}
+.tech-card .tech-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-bright);
+}
+.tech-card .tech-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+.tech-card .tech-tag {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.tag-required { background: #00e5a018; color: var(--accent); border: 1px solid #00e5a030; }
+.tag-recommended { background: #5b9bf518; color: var(--blue); border: 1px solid #5b9bf530; }
+.tag-optional { background: #c084fc18; color: var(--purple); border: 1px solid #c084fc30; }
+
+/* Phase Timeline */
+.phase {
+  position: relative;
+  margin-bottom: 48px;
+  padding-left: 36px;
+}
+.phase::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 40px;
+  bottom: -48px;
+  width: 2px;
+  background: var(--border);
+}
+.phase:last-child::before { display: none; }
+
+.phase-dot {
+  position: absolute;
+  left: 3px;
+  top: 14px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid;
+  background: var(--bg);
+  z-index: 1;
+}
+
+.phase-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.phase-num {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+}
+.phase-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+.phase-time {
+  font-size: 12px;
+  color: var(--text-dim);
+  background: var(--bg-card);
+  padding: 2px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.phase-desc {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+/* Task Cards */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.task {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.task:hover {
+  background: var(--bg-card-hover);
+}
+.task-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+.task-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.task-info { flex: 1; min-width: 0; }
+.task-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-bright);
+}
+.task-meta {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 1px;
+}
+.task-toggle {
+  color: var(--text-dim);
+  font-size: 18px;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.task.open .task-toggle { transform: rotate(180deg); }
+
+.task-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.task.open .task-body {
+  max-height: 800px;
+}
+.task-content {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+/* Claude Code Command Block */
+.cmd-block {
+  background: #060a10;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 10px;
+  position: relative;
+}
+.cmd-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cmd-label::before {
+  content: '>';
+  color: var(--accent);
+}
+.cmd-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #9ab0c8;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.cmd-text .highlight { color: var(--accent); }
+.cmd-text .string { color: var(--orange); }
+.cmd-text .comment { color: var(--text-dim); font-style: italic; }
+
+/* Output Files */
+.output-files {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.output-file {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  background: #1a2332;
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Milestone */
+.milestone {
+  background: linear-gradient(135deg, #00e5a008, #5b9bf508);
+  border: 1px dashed var(--accent-mid);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 32px 0 48px 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.milestone-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.milestone-text {
+  font-size: 14px;
+  color: var(--text);
+}
+.milestone-text strong {
+  color: var(--accent);
+}
+
+/* Warning */
+.warning-box {
+  background: #ff6b6b0a;
+  border: 1px solid #ff6b6b30;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 40px;
+}
+.warning-box h3 {
+  color: var(--warn);
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.warning-box p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 24px;
+  font-size: 12px;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .phase { padding-left: 28px; }
+  .phase::before { left: 9px; }
+  .phase-dot { left: 0; width: 18px; height: 18px; }
+  .summary-bar { gap: 8px; }
+  .summary-item { min-width: 100px; padding: 10px 14px; }
+  .tech-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-badge">
+    <span class="dot"></span>
+    <span class="mono">WORKFLOW GUIDE</span>
+  </div>
+  <h1>有料会員サイト構築<br><span class="green">Claude Code</span> ワークフロー</h1>
+  <p class="header-sub">ココナラ案件「ライブ配信事業の有料会員サイト構築」を<br>Claude Codeで効率的に進めるための全体設計</p>
+</div>
+
+<!-- Summary -->
+<div class="summary-bar">
+  <div class="summary-item">
+    <div class="label">全フェーズ</div>
+    <div class="value" style="color:var(--accent)">6</div>
+  </div>
+  <div class="summary-item">
+    <div class="label">想定期間</div>
+    <div class="value">4-6週</div>
+  </div>
+  <div class="summary-item">
+    <div class="label">時給単価</div>
+    <div class="value">¥2,400~</div>
+  </div>
+  <div class="summary-item">
+    <div class="label">稼働</div>
+    <div class="value">月40-80h</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Tech Stack -->
+  <div class="tech-section">
+    <h2>使用する技術スタック</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-name">Next.js (App Router)</div>
+        <div class="tech-desc">フロントエンド + APIルート</div>
+        <span class="tech-tag tag-required">必須</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-name">Supabase</div>
+        <div class="tech-desc">認証・DB・RLS</div>
+        <span class="tech-tag tag-required">必須</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-name">Stripe</div>
+        <div class="tech-desc">サブスク決済（国内）</div>
+        <span class="tech-tag tag-required">必須</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-name">Tailwind CSS</div>
+        <div class="tech-desc">UIスタイリング</div>
+        <span class="tech-tag tag-required">必須</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-name">Vercel</div>
+        <div class="tech-desc">ホスティング・デプロイ</div>
+        <span class="tech-tag tag-recommended">推奨</span>
+      </div>
+      <div class="tech-card">
+        <div class="tech-name">WeChat Pay / Alipay</div>
+        <div class="tech-desc">中国向け決済（将来）</div>
+        <span class="tech-tag tag-optional">将来対応</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 1 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase1);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase1)18; color: var(--phase1);">PHASE 1</span>
+      <span class="phase-title">プロジェクト初期設定</span>
+      <span class="phase-time">1〜2日</span>
+    </div>
+    <p class="phase-desc">Claude Codeでプロジェクトの骨格を一気に生成する。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#00e5a018;color:var(--phase1);">01</div>
+          <div class="task-info">
+            <div class="task-name">Next.js プロジェクト生成 + 基本設定</div>
+            <div class="task-meta">CLAUDE.md作成 → npx create-next-app → 依存関係インストール</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text"><span class="comment"># まずCLAUDE.mdを作成してプロジェクトルールを定義</span>
+Next.jsのApp Routerプロジェクトを作成して。
+TypeScript, Tailwind CSS, ESLint を有効化。
+Supabase, Stripe のSDKもインストール。
+<span class="highlight">CLAUDE.md</span>にプロジェクト構成と命名規則を書いて。</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">CLAUDE.md</span>
+              <span class="output-file">package.json</span>
+              <span class="output-file">next.config.ts</span>
+              <span class="output-file">tailwind.config.ts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#00e5a018;color:var(--phase1);">02</div>
+          <div class="task-info">
+            <div class="task-name">ディレクトリ構成の設計</div>
+            <div class="task-meta">app/ を機能別に分割、共通コンポーネント定義</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">以下のディレクトリ構成でファイルを作成して:
+
+app/
+├── (public)/        <span class="comment"># 未ログインページ</span>
+│   ├── page.tsx     <span class="comment"># LP/トップ</span>
+│   ├── login/
+│   └── register/
+├── (member)/        <span class="comment"># 会員専用エリア</span>
+│   ├── dashboard/
+│   ├── videos/
+│   └── settings/
+├── (admin)/         <span class="comment"># 管理画面</span>
+│   ├── users/
+│   ├── billing/
+│   └── content/
+├── api/
+│   ├── webhooks/stripe/
+│   └── auth/
+lib/
+├── supabase/
+├── stripe/
+└── utils/</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#00e5a018;color:var(--phase1);">03</div>
+          <div class="task-info">
+            <div class="task-name">環境変数 + Supabase初期セットアップ</div>
+            <div class="task-meta">.env.local設定、Supabaseプロジェクト作成、テーブル設計</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">Supabaseのマイグレーションファイルを作成して。
+テーブル設計:
+- <span class="highlight">profiles</span>: ユーザープロフィール（user_id, display_name, plan, created_at）
+- <span class="highlight">subscriptions</span>: サブスク状態（stripe_customer_id, status, current_period_end）
+- <span class="highlight">videos</span>: 動画コンテンツ（title, url, thumbnail, is_premium, created_at）
+- <span class="highlight">watch_history</span>: 視聴履歴
+
+RLS（Row Level Security）ポリシーも設定して。
+会員は自分のデータのみ、管理者は全データにアクセス可能に。</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">.env.local.example</span>
+              <span class="output-file">supabase/migrations/001_initial.sql</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 2 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase2);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase2)18; color: var(--phase2);">PHASE 2</span>
+      <span class="phase-title">認証システム構築</span>
+      <span class="phase-time">2〜3日</span>
+    </div>
+    <p class="phase-desc">会員登録・ログイン・セッション管理をSupabase Authで実装。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#5b9bf518;color:var(--phase2);">04</div>
+          <div class="task-info">
+            <div class="task-name">Supabase Auth + Middleware</div>
+            <div class="task-meta">メール認証、OAuth(Google)、セッション検証ミドルウェア</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">Supabase Authで認証機能を作って。
+- メール+パスワード登録
+- Google OAuth ログイン
+- middleware.tsでセッション検証
+- <span class="highlight">(member)/</span> 配下は認証必須にリダイレクト
+- <span class="highlight">(admin)/</span> 配下はadminロール必須</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">middleware.ts</span>
+              <span class="output-file">lib/supabase/server.ts</span>
+              <span class="output-file">lib/supabase/client.ts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#5b9bf518;color:var(--phase2);">05</div>
+          <div class="task-info">
+            <div class="task-name">登録・ログインUI</div>
+            <div class="task-meta">フォームバリデーション、エラーハンドリング、レスポンシブ</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">登録ページとログインページを作って。
+- Tailwind CSSでモダンなデザイン
+- バリデーション（メール形式、パスワード8文字以上）
+- エラーメッセージの日本語表示
+- Google OAuthボタン
+- 既存HPから遷移できるよう、<span class="string">共通ヘッダー/フッター</span>のデザインを合わせて</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">app/(public)/login/page.tsx</span>
+              <span class="output-file">app/(public)/register/page.tsx</span>
+              <span class="output-file">components/AuthForm.tsx</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 3 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase3);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase3)18; color: var(--phase3);">PHASE 3</span>
+      <span class="phase-title">決済機能（Stripe）</span>
+      <span class="phase-time">3〜5日</span>
+    </div>
+    <p class="phase-desc">サブスクリプション型月額課金の実装。ここが最も複雑。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#ffb34718;color:var(--phase3);">06</div>
+          <div class="task-info">
+            <div class="task-name">Stripe商品・料金プラン設定</div>
+            <div class="task-meta">Stripeダッシュボードで商品作成 → APIキー取得</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">手動作業（Stripe Dashboard）</div>
+              <div class="cmd-text"><span class="comment"># Stripe側で手動設定が必要</span>
+1. Stripeアカウント作成 → テストモード有効化
+2. Products → 月額プラン作成（例: ¥980/月, ¥9,800/年）
+3. API Keys → テストキー取得
+4. Webhook endpointを登録:
+   <span class="string">https://yourdomain.com/api/webhooks/stripe</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#ffb34718;color:var(--phase3);">07</div>
+          <div class="task-info">
+            <div class="task-name">Checkout Session + Webhook</div>
+            <div class="task-meta">決済フロー実装、Webhook受信でDB更新</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">Stripe Checkoutでサブスクリプション決済を実装して。
+
+1. <span class="highlight">POST /api/checkout</span>
+   → Stripe Checkout Sessionを生成
+   → 成功時にリダイレクトURL設定
+
+2. <span class="highlight">POST /api/webhooks/stripe</span>
+   → checkout.session.completed
+   → customer.subscription.updated
+   → customer.subscription.deleted
+   → 各イベントでSupabaseのsubscriptionsテーブル更新
+
+3. Webhookの署名検証を必ず実装して。
+
+4. カスタマーポータル（プラン変更・解約）のURLも
+   <span class="highlight">/api/portal</span> で生成して。</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">app/api/checkout/route.ts</span>
+              <span class="output-file">app/api/webhooks/stripe/route.ts</span>
+              <span class="output-file">app/api/portal/route.ts</span>
+              <span class="output-file">lib/stripe/index.ts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#ffb34718;color:var(--phase3);">08</div>
+          <div class="task-info">
+            <div class="task-name">料金プラン選択UI + 決済導線</div>
+            <div class="task-meta">プランカード、決済ボタン、成功/失敗ページ</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">料金プラン選択ページを作って。
+- 月額プランと年額プランのカード表示
+- 「今すぐ始める」ボタン → Stripe Checkout へ
+- 決済成功ページ（/member/welcome）
+- 決済キャンセルページ
+- 現在のプラン状態表示コンポーネント</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <div class="milestone-icon">🏁</div>
+    <div class="milestone-text">
+      <strong>中間マイルストーン：</strong>ここまでで「登録 → ログイン → 決済 → 会員ステータス反映」の一連のフローが動作確認可能。Stripeのテストカードで通しテストを行う。
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 4 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase4);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase4)18; color: var(--phase4);">PHASE 4</span>
+      <span class="phase-title">会員限定コンテンツ</span>
+      <span class="phase-time">3〜4日</span>
+    </div>
+    <p class="phase-desc">動画コンテンツの閲覧制御とダッシュボード。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#c084fc18;color:var(--phase4);">09</div>
+          <div class="task-info">
+            <div class="task-name">コンテンツ閲覧制御</div>
+            <div class="task-meta">プラン別アクセス制御、動画プレーヤー、署名付きURL</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">会員限定コンテンツの閲覧制御を実装して。
+
+- videosテーブルの<span class="highlight">is_premium</span>フラグで無料/有料を区別
+- 有料コンテンツはサブスク有効会員のみ表示
+- 動画URLは署名付きURL（Supabase Storage）で直リンク不可に
+- 未契約ユーザーにはプレビュー + 「プランに加入」CTAを表示
+- Server Componentでサーバー側でアクセスチェック</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">app/(member)/videos/page.tsx</span>
+              <span class="output-file">app/(member)/videos/[id]/page.tsx</span>
+              <span class="output-file">components/VideoPlayer.tsx</span>
+              <span class="output-file">components/PaywallGate.tsx</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#c084fc18;color:var(--phase4);">10</div>
+          <div class="task-info">
+            <div class="task-name">会員ダッシュボード</div>
+            <div class="task-meta">マイページ、プラン情報、視聴履歴、プロフィール編集</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">会員ダッシュボードを作って。
+- 現在のプラン・次回更新日を表示
+- 視聴履歴一覧（最近見た動画）
+- プロフィール編集（表示名、アバター）
+- プラン変更・解約ボタン → Stripe Customer Portal
+- パスワード変更機能</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 5 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase5);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase5)18; color: var(--phase5);">PHASE 5</span>
+      <span class="phase-title">管理画面</span>
+      <span class="phase-time">3〜4日</span>
+    </div>
+    <p class="phase-desc">運営者向けの管理パネル。ユーザー管理・課金管理・コンテンツ管理。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#ff6b9d18;color:var(--phase5);">11</div>
+          <div class="task-info">
+            <div class="task-name">管理画面：ユーザー管理</div>
+            <div class="task-meta">会員一覧、検索・フィルタ、プラン確認、停止/復元</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">管理画面のユーザー管理ページを作って。
+- 会員一覧テーブル（ページネーション付き）
+- 検索（メール、名前）
+- フィルタ（プラン種別、ステータス）
+- 各ユーザーの詳細表示（プラン、決済履歴）
+- アカウント停止・復元機能
+- adminロール以外はアクセス拒否</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">app/(admin)/users/page.tsx</span>
+              <span class="output-file">app/(admin)/users/[id]/page.tsx</span>
+              <span class="output-file">app/(admin)/layout.tsx</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#ff6b9d18;color:var(--phase5);">12</div>
+          <div class="task-info">
+            <div class="task-name">管理画面：課金管理 + コンテンツ管理</div>
+            <div class="task-meta">売上ダッシュボード、動画アップロード、公開/非公開</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text"><span class="comment"># 課金管理</span>
+- 月別売上サマリー（MRR、解約率）
+- Stripeダッシュボードへの導線リンク
+
+<span class="comment"># コンテンツ管理</span>
+- 動画一覧（並び替え、公開/非公開切替）
+- 新規動画登録フォーム
+  → タイトル、説明、サムネイル、動画ファイルアップロード
+  → 無料/有料フラグ設定
+- Supabase Storageへのファイルアップロード処理</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">app/(admin)/billing/page.tsx</span>
+              <span class="output-file">app/(admin)/content/page.tsx</span>
+              <span class="output-file">app/(admin)/content/new/page.tsx</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PHASE 6 ==================== -->
+  <div class="phase">
+    <div class="phase-dot" style="border-color: var(--phase6);"></div>
+    <div class="phase-header">
+      <span class="phase-num" style="background: var(--phase6)18; color: var(--phase6);">PHASE 6</span>
+      <span class="phase-title">セキュリティ・テスト・デプロイ</span>
+      <span class="phase-time">3〜4日</span>
+    </div>
+    <p class="phase-desc">本番リリースに向けた堅牢化と最終調整。</p>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#00d4ff18;color:var(--phase6);">13</div>
+          <div class="task-info">
+            <div class="task-name">セキュリティ強化</div>
+            <div class="task-meta">CSRF, XSS, レート制限, 個人情報管理</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">セキュリティ対策を実装して。
+- CSRFトークン検証
+- XSS対策（サニタイズ処理）
+- APIエンドポイントにレート制限（upstash/ratelimit）
+- Stripeの署名検証の再確認
+- Content Security Policy ヘッダー設定
+- 個人情報のログ出力禁止
+- npm audit で脆弱性チェック</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="task" onclick="toggleTask(this)">
+        <div class="task-head">
+          <div class="task-icon" style="background:#00d4ff18;color:var(--phase6);">14</div>
+          <div class="task-info">
+            <div class="task-name">E2Eテスト + デプロイ</div>
+            <div class="task-meta">Playwright テスト、Vercelデプロイ、既存HP連携</div>
+          </div>
+          <div class="task-toggle">▾</div>
+        </div>
+        <div class="task-body">
+          <div class="task-content">
+            <div class="cmd-block">
+              <div class="cmd-label">CLAUDE CODE に指示する内容</div>
+              <div class="cmd-text">Playwrightで主要フローのE2Eテストを書いて。
+- 新規登録 → ログイン → 決済 → コンテンツ閲覧
+- 未ログインで会員ページアクセス → リダイレクト確認
+- 管理画面のアクセス制御テスト
+- Stripe Webhookのモックテスト
+
+その後、Vercelにデプロイ設定して。
+環境変数をVercelにセット。
+既存HPからのリンク遷移が正しく動くか確認用チェックリストも作って。</div>
+            </div>
+            <div class="output-files">
+              <span class="output-file">tests/e2e/auth.spec.ts</span>
+              <span class="output-file">tests/e2e/payment.spec.ts</span>
+              <span class="output-file">tests/e2e/admin.spec.ts</span>
+              <span class="output-file">vercel.json</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="milestone">
+    <div class="milestone-icon">🚀</div>
+    <div class="milestone-text">
+      <strong>リリース：</strong>テスト環境でクライアント確認 → Stripeを本番モードに切替 → 本番デプロイ → 既存HPにリンク設置 → 運用開始
+    </div>
+  </div>
+
+  <!-- Warning -->
+  <div class="warning-box">
+    <h3>⚠ Claude Codeだけでは完結しない作業</h3>
+    <p>
+      以下はClaude Codeの外で手動対応が必要です：<br>
+      ・Stripeアカウント作成、本人確認、商品登録（ダッシュボード操作）<br>
+      ・Supabaseプロジェクト作成、APIキー取得<br>
+      ・Vercelアカウント設定、ドメイン接続<br>
+      ・既存HPのHTML編集（リンク追加）<br>
+      ・中国決済（WeChat Pay / Alipay）は別途Stripe Connect等の審査が必要<br>
+      ・クライアントとの仕様確認・デザインすり合わせ
+    </p>
+  </div>
+
+</div>
+
+<div class="footer">
+  Claude Code Workflow Guide — ライブ配信事業 有料会員サイト構築
+</div>
+
+<script>
+function toggleTask(el) {
+  el.classList.toggle('open');
+}
+
+// Auto-open first task for discoverability
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.querySelector('.task');
+  if (first) first.classList.add('open');
+});
+</script>
+</body>
+</html>
