@@ -3,6 +3,29 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import LogoutButton from "./logout-button";
 
+interface WatchHistoryVideo {
+  id: string;
+  title: string;
+  category: string | null;
+  duration_seconds: number;
+  is_live: boolean;
+  access_level: string;
+  is_published?: boolean;
+}
+
+interface WatchHistoryEntry {
+  id: string;
+  watched_seconds: number;
+  completed: boolean;
+  last_watched_at: string;
+  videos: WatchHistoryVideo | WatchHistoryVideo[] | null;
+}
+
+function getVideo(entry: WatchHistoryEntry): WatchHistoryVideo | null {
+  if (!entry.videos) return null;
+  return Array.isArray(entry.videos) ? entry.videos[0] : entry.videos;
+}
+
 function formatDuration(seconds: number): string {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -23,34 +46,36 @@ export default async function DashboardPage() {
   // サブスクリプション情報を取得
   const { data: subscription } = await supabase
     .from("subscriptions")
-    .select("*")
+    .select("plan, status, current_period_end")
     .eq("user_id", user.id)
     .single();
 
   // 最近の動画を取得（公開済み、最新4件）
   const { data: recentVideos } = await supabase
     .from("videos")
-    .select("*")
+    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at")
     .eq("is_published", true)
     .order("created_at", { ascending: false })
     .limit(4);
 
   // 視聴履歴を取得
-  const { data: watchHistory } = await supabase
+  const { data: watchHistoryRaw } = await supabase
     .from("watch_history")
-    .select("*, videos(*)")
+    .select("id, watched_seconds, completed, last_watched_at, videos(id, title, category, duration_seconds, is_live, access_level)")
     .eq("user_id", user.id)
     .order("last_watched_at", { ascending: false })
     .limit(4);
+  const watchHistory = watchHistoryRaw as unknown as WatchHistoryEntry[] | null;
 
   // 続きを見る（未完了の視聴履歴）
-  const { data: continueWatching } = await supabase
+  const { data: continueWatchingRaw } = await supabase
     .from("watch_history")
-    .select("*, videos(id, title, category, duration_seconds, is_live, access_level, is_published)")
+    .select("id, watched_seconds, completed, last_watched_at, videos(id, title, category, duration_seconds, is_live, access_level, is_published)")
     .eq("user_id", user.id)
     .eq("completed", false)
     .order("last_watched_at", { ascending: false })
     .limit(4);
+  const continueWatching = continueWatchingRaw as unknown as WatchHistoryEntry[] | null;
 
   const totalWatchSeconds = watchHistory?.reduce((sum, w) => sum + (w.watched_seconds || 0), 0) || 0;
   const completedCount = watchHistory?.filter((w) => w.completed).length || 0;
@@ -201,7 +226,7 @@ export default async function DashboardPage() {
                 {continueWatching.map((entry, i) => (
                   <Link
                     key={entry.id}
-                    href={`/videos/${entry.videos?.id}`}
+                    href={`/videos/${getVideo(entry)?.id}`}
                     className="group overflow-hidden rounded-lg border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] transition-colors hover:border-[rgba(255,255,255,0.12)]"
                   >
                     <div
@@ -215,28 +240,28 @@ export default async function DashboardPage() {
                           </svg>
                         </div>
                       </div>
-                      {entry.videos?.is_live && (
+                      {getVideo(entry)?.is_live && (
                         <span className="absolute left-2 top-2 rounded bg-error px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
                           LIVE
                         </span>
                       )}
-                      {entry.videos?.access_level === "premium" && (
+                      {getVideo(entry)?.access_level === "premium" && (
                         <span className="absolute right-2 top-2 rounded bg-accent/90 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-bg-deep">
                           PREMIUM
                         </span>
                       )}
-                      {entry.videos?.duration_seconds && entry.videos.duration_seconds > 0 && (
+                      {getVideo(entry)?.duration_seconds && getVideo(entry)!.duration_seconds > 0 && (
                         <span className="absolute bottom-2 right-2 rounded bg-bg-deep/80 px-1.5 py-0.5 text-[10px] font-mono text-text-secondary">
-                          {formatDuration(entry.videos.duration_seconds)}
+                          {formatDuration(getVideo(entry)!.duration_seconds)}
                         </span>
                       )}
                     </div>
                     <div className="p-3">
                       <h3 className="text-sm font-medium text-text-primary line-clamp-1">
-                        {entry.videos?.title || "動画"}
+                        {getVideo(entry)?.title || "動画"}
                       </h3>
                       <p className="mt-0.5 text-xs text-text-muted">
-                        {entry.videos?.category}
+                        {getVideo(entry)?.category}
                       </p>
                     </div>
                   </Link>
@@ -335,7 +360,7 @@ export default async function DashboardPage() {
                     </div>
                     <div className="min-w-0">
                       <p className="truncate text-sm text-text-primary">
-                        {entry.videos?.title || "動画"}を視聴
+                        {getVideo(entry)?.title || "動画"}を視聴
                       </p>
                       <p className="text-xs text-text-muted">
                         {new Date(entry.last_watched_at).toLocaleDateString("ja-JP")}

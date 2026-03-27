@@ -46,7 +46,7 @@ const memberNavItems: NavItem[] = [
 
 const adminNavItems: NavItem[] = [
   {
-    href: "/admin",
+    href: "/admin/dashboard",
     label: "管理ダッシュボード",
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -72,6 +72,17 @@ const adminNavItems: NavItem[] = [
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="3" y="2" width="14" height="16" rx="2" />
         <path d="M7 6h6M7 10h6M7 14h3" />
+      </svg>
+    ),
+  },
+  {
+    href: "/admin/billing",
+    label: "課金管理",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="2" y="4" width="16" height="12" rx="2" />
+        <line x1="2" y1="8" x2="18" y2="8" />
+        <line x1="6" y1="12" x2="10" y2="12" />
       </svg>
     ),
   },

@@ -15,7 +15,7 @@ export default async function VideosPage() {
   // 動画を全件取得
   const { data: videos } = await supabase
     .from("videos")
-    .select("*")
+    .select("id, title, description, thumbnail_url, duration_seconds, access_level, category, is_live, is_published, created_at")
     .eq("is_published", true)
     .order("created_at", { ascending: false });
 

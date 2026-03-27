@@ -39,7 +39,9 @@ const gradients = [
   "linear-gradient(135deg, #f5b73120 0%, #ff005410 100%)",
 ];
 
-export default function VideosGrid({ videos, userPlan: _userPlan }: VideosGridProps) {
+export default function VideosGrid({ videos, userPlan }: VideosGridProps) {
+  // userPlanは将来ペイウォール表示に使用
+  void userPlan;
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
 

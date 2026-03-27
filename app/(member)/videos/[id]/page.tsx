@@ -66,20 +66,22 @@ export default async function VideoDetailPage({
   const hasAccess = userRank >= videoRank;
 
   // アクセス権がある場合のみvideo_urlを取得
-  let videoUrl: string | null = null;
+  let _videoUrl: string | null = null;
   if (hasAccess) {
     const { data: videoWithUrl } = await supabase
       .from("videos")
       .select("video_url")
       .eq("id", id)
       .single();
-    videoUrl = videoWithUrl?.video_url ?? null;
+    _videoUrl = videoWithUrl?.video_url ?? null;
   }
+  // TODO: _videoUrlは将来的にVideoPlayerコンポーネントに渡す
+  void _videoUrl;
 
   // 関連動画（同カテゴリ or ランダム、自身を除く）
   const { data: relatedVideos } = await supabase
     .from("videos")
-    .select("*")
+    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at")
     .eq("is_published", true)
     .neq("id", video.id)
     .limit(4);
