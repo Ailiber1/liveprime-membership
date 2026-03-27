@@ -195,7 +195,7 @@ export default async function DashboardPage() {
                 </h2>
                 <div className="flex items-center gap-3">
                   <span className={`font-display text-xl font-bold ${
-                    currentPlan === "premium" ? "text-[#f59e0b]" : currentPlan === "standard" ? "text-[#f59e0b]/80" : "text-text-primary"
+                    currentPlan === "premium" ? "text-[#f59e0b]" : currentPlan === "standard" ? "text-[#e0e0e0]" : "text-text-muted"
                   }`}>
                     {planLabels[currentPlan]}
                   </span>
