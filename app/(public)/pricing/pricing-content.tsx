@@ -191,13 +191,15 @@ export default function PricingContent() {
       }
 
       if (data.url) {
+        // Stripe Checkoutへリダイレクト（ローディング状態を「決済画面に移動中...」に変更）
+        setLoadingPlan(`${planId}_redirecting`);
         window.location.href = data.url;
+        return; // リダイレクト後はfinallyでリセットしない
       }
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "エラーが発生しました";
       showToast(message, "error");
-    } finally {
       setLoadingPlan(null);
     }
   };
@@ -262,7 +264,8 @@ export default function PricingContent() {
             const price = isYearly ? plan.yearlyPrice : plan.monthlyPrice;
             const isPopular = plan.popular;
             const isPremium = plan.id === "premium";
-            const isLoading = loadingPlan === plan.id;
+            const isLoading = loadingPlan === plan.id || loadingPlan === `${plan.id}_redirecting`;
+            const isRedirecting = loadingPlan === `${plan.id}_redirecting`;
             const isCurrent = authChecked && isLoggedIn && currentPlan === plan.id;
             const btnInfo = getButtonLabel(plan.id, currentPlan, isLoggedIn && authChecked);
 
@@ -391,7 +394,7 @@ export default function PricingContent() {
                           <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
                           <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
                         </svg>
-                        処理中...
+                        {isRedirecting ? "決済画面に移動中..." : "準備中..."}
                       </span>
                     ) : (
                       btnInfo.label
