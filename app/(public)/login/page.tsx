@@ -19,6 +19,7 @@ export default function LoginPage() {
 
 function LoginContent() {
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
+  const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const searchParams = useSearchParams();
@@ -65,12 +66,7 @@ function LoginContent() {
   }
 
   async function handleGoogle() {
-    setGoogleLoading(true);
-    const result = await loginWithGoogle();
-    if (result?.error) {
-      setErrors({ general: result.error });
-    }
-    setGoogleLoading(false);
+    setInfo("Google認証はデモ版では利用できません。メールアドレスでログインしてください。");
   }
 
   return (
@@ -87,6 +83,12 @@ function LoginContent() {
         </div>
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-6 sm:p-8">
+          {info && (
+            <div className="mb-5 rounded-lg border border-blue-500/30 bg-blue-500/10 p-3 text-sm text-blue-400">
+              {info}
+            </div>
+          )}
+
           {errors.general && (
             <div className="mb-5 rounded-lg border border-error/30 bg-error/10 p-3 text-sm text-error">
               {errors.general}

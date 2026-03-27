@@ -13,6 +13,7 @@ export default function RegisterPage() {
   }>({});
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [info, setInfo] = useState<string | null>(null);
 
   function validateForm(
     email: string,
@@ -52,12 +53,7 @@ export default function RegisterPage() {
   }
 
   async function handleGoogle() {
-    setGoogleLoading(true);
-    const result = await registerWithGoogle();
-    if (result?.error) {
-      setErrors({ general: result.error });
-    }
-    setGoogleLoading(false);
+    setInfo("Google認証はデモ版では利用できません。メールアドレスで登録してください。");
   }
 
   return (
@@ -74,6 +70,12 @@ export default function RegisterPage() {
         </div>
 
         <div className="rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.03)] p-6 sm:p-8">
+          {info && (
+            <div className="mb-5 rounded-lg border border-blue-500/30 bg-blue-500/10 p-3 text-sm text-blue-400">
+              {info}
+            </div>
+          )}
+
           {errors.general && (
             <div className="mb-5 rounded-lg border border-error/30 bg-error/10 p-3 text-sm text-error">
               {errors.general}
