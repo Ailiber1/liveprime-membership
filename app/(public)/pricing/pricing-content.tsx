@@ -352,7 +352,7 @@ export default function PricingContent() {
                 <div className="mb-6 mt-7">
                   <div className="flex items-center gap-2.5">
                     <h3 className={`font-display text-xl font-bold tracking-tight ${
-                      plan.id === "premium" ? "text-[#f59e0b]" : plan.id === "standard" ? "text-[#2ed573]" : "text-text-muted"
+                      plan.id === "premium" ? "text-[#f59e0b]" : plan.id === "standard" ? "text-[#2ed573]" : "text-text-primary"
                     }`}>
                       {plan.nameJa}
                     </h3>
