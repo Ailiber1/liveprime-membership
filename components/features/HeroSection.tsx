@@ -51,6 +51,8 @@ export default function HeroSection() {
             key={src}
             src={src}
             alt=""
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "auto"}
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
               i === current ? "opacity-100" : "opacity-0"
             }`}

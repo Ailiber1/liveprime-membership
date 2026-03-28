@@ -20,6 +20,9 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem("liveprime-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t)}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){document.documentElement.setAttribute("data-theme","dark")}})()`,
           }}
         />
+        <link rel="preload" as="image" href="/thumbnails/hero-bg-1.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/thumbnails/hero-bg-2.png" />
+        <link rel="preload" as="image" href="/thumbnails/hero-bg-3.png" />
         <link rel="preload" as="image" href="/thumbnails/VTuber Portrait.jpg" />
         <link rel="preload" as="image" href="/thumbnails/login-visual-2.jpg" />
         <link rel="preload" as="image" href="/thumbnails/login-visual-3.png" />
