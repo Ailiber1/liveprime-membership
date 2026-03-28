@@ -20,6 +20,9 @@ export default function RootLayout({
             __html: `(function(){try{var t=localStorage.getItem("liveprime-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t)}else if(window.matchMedia("(prefers-color-scheme: light)").matches){document.documentElement.setAttribute("data-theme","light")}else{document.documentElement.setAttribute("data-theme","dark")}}catch(e){document.documentElement.setAttribute("data-theme","dark")}})()`,
           }}
         />
+        <link rel="preload" as="image" href="/thumbnails/VTuber Portrait.jpg" />
+        <link rel="preload" as="image" href="/thumbnails/login-visual-2.jpg" />
+        <link rel="preload" as="image" href="/thumbnails/login-visual-3.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
