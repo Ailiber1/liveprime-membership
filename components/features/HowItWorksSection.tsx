@@ -74,8 +74,8 @@ export default function HowItWorksSection() {
           <p className="how-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
             How It Works
           </p>
-          <h2 className="how-fade opacity-0 mt-3 font-display text-3xl font-bold text-text-primary sm:text-5xl">
-            始め方はかんたん 3ステップ
+          <h2 className="how-fade opacity-0 mt-3 font-display text-xl font-bold text-text-primary sm:text-3xl md:text-5xl">
+            始め方はかんたん3ステップ
           </h2>
         </div>
 

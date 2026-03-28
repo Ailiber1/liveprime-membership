@@ -62,10 +62,10 @@ export default function HeroSection() {
 
       {/* コンテンツ */}
       <div className="relative z-10 mx-auto max-w-4xl px-5 py-32 text-center sm:px-6">
-        <h1 className="hero-fade font-display text-[1.8rem] font-bold leading-[1.15] tracking-[0.02em] text-white sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
-          ライブの熱量を、
+        <h1 className="hero-fade font-display text-[1.5rem] font-bold leading-[1.2] tracking-[0.02em] text-white sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
+          <span className="block sm:inline">ライブの熱量を、</span>
           <br className="hidden sm:block" />
-          そのままあなたへ。
+          <span className="block sm:inline">そのままあなたへ。</span>
         </h1>
 
         <p className="hero-fade mx-auto mt-8 max-w-lg text-base font-light leading-relaxed text-white/70 sm:text-lg tracking-wide">

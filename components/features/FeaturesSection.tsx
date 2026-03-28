@@ -153,7 +153,7 @@ export default function FeaturesSection() {
         <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
           Now Streaming
         </p>
-        <h2 className="content-fade opacity-0 mt-3 font-body text-2xl font-bold text-text-primary sm:text-4xl">
+        <h2 className="content-fade opacity-0 mt-3 font-body text-xl font-bold text-text-primary sm:text-4xl">
           こんなコンテンツが見られます
         </h2>
       </div>

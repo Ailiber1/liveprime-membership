@@ -618,20 +618,20 @@ export default function PricingContent() {
             ].map((card, i) => (
               <div
                 key={i}
-                className="group overflow-hidden rounded-xl border border-border bg-[rgba(255,255,255,0.02)] transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(255,255,255,0.12)] hover:shadow-lg hover:shadow-black/20"
+                className="group overflow-hidden rounded-xl border border-[rgba(255,255,255,0.15)] bg-bg-card transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(255,255,255,0.25)] hover:shadow-lg hover:shadow-black/20"
               >
                 <div className="aspect-video overflow-hidden">
                   <img
                     src={card.img}
                     alt={card.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-cover brightness-125 transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="p-5 sm:p-6">
                   <h3 className="font-display text-base font-bold tracking-tight text-text-primary sm:text-lg">
                     {card.title}
                   </h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-text-muted">
+                  <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
                     {card.desc}
                   </p>
                 </div>
