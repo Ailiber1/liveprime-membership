@@ -456,12 +456,12 @@ export default function PricingContent() {
                   <button
                     onClick={() => handleSubscribe(plan.id)}
                     disabled={isLoading}
-                    className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
+                    className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-300 disabled:opacity-60 active:scale-[0.96] active:duration-100 ${
                       isPopular
-                        ? "bg-white text-[#0a0a0f] hover:bg-white/90 shadow-lg shadow-white/15 btn-shine-auto"
+                        ? "bg-white text-[#0a0a0f] hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.2)] shadow-lg shadow-white/15 btn-shine-auto active:bg-white/80 active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
                         : isPremium(plan.id)
-                        ? "border border-[#f59e0b]/40 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/5 hover:border-[#f59e0b]/60"
-                        : "border border-[rgba(255,255,255,0.08)] bg-transparent text-text-muted hover:border-[rgba(255,255,255,0.15)] hover:text-text-secondary"
+                        ? "border-2 border-[#f59e0b]/50 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/70 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] active:bg-[#f59e0b]/20 active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
+                        : "border-2 border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-text-primary hover:bg-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.35)] hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] active:bg-[rgba(255,255,255,0.2)] active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
                     }`}
                   >
                     {isLoading ? (
