@@ -59,9 +59,9 @@ export default function CreatorPage() {
           </div>
 
           <div className="relative z-10 mx-auto max-w-4xl px-5 py-32 text-center sm:px-6">
-            <h1 className="font-display text-[2.5rem] font-bold leading-[1.1] tracking-[0.02em] text-white sm:text-[3.5rem] md:text-[4.5rem]">
+            <h1 className="font-display text-[1.6rem] font-bold leading-[1.2] tracking-[0.02em] text-white sm:text-[2.8rem] md:text-[3.5rem] lg:text-[4.5rem]">
               あなたのライブ配信を、
-              <br />
+              <br className="hidden sm:block" />
               次のステージへ。
             </h1>
             <p className="mx-auto mt-8 max-w-lg text-base font-light leading-relaxed text-white/70 sm:text-lg tracking-wide">
