@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/Toast";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/layout/Header";
-import StarBackground from "@/components/features/StarBackground";
+// StarBackground削除 — 料金プランでは不要
 
 interface PlanFeature {
   text: string;
@@ -245,7 +245,7 @@ export default function PricingContent() {
 
   return (
     <div className="relative min-h-screen bg-bg-deep">
-      <StarBackground />
+      {/* 星空背景なし — 購買判断に集中させる */}
       <Header />
 
       <main className="relative z-10 mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
