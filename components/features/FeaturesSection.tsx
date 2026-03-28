@@ -147,7 +147,7 @@ export default function FeaturesSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-20 sm:py-28 overflow-hidden bg-transparent"
+      className="relative py-10 sm:py-28 overflow-hidden bg-transparent"
     >
       <div className="mx-auto max-w-6xl px-5 sm:px-6 text-center">
         <p className="content-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
@@ -160,14 +160,14 @@ export default function FeaturesSection() {
 
       {/* 3D円形カルーセル */}
       <div
-        className="content-fade opacity-0 mt-12 sm:mt-16 relative"
+        className="content-fade opacity-0 mt-6 sm:mt-16 relative"
         style={{ perspective: "1200px" }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         <div
           className="relative mx-auto flex items-center justify-center"
-          style={{ height: "620px", transformStyle: "preserve-3d" }}
+          style={{ height: "clamp(380px, 50vw, 620px)", transformStyle: "preserve-3d" }}
         >
           {contents.map((item, i) => {
             const { isCenter, offset: cardOffset, ...style } = getCardStyle(i);
