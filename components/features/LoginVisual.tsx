@@ -83,7 +83,7 @@ export default function LoginVisual() {
       </div>
 
       {/* モバイル: 上部に小さく */}
-      <div className="relative h-48 lg:hidden">
+      <div className="relative h-56 sm:h-64 lg:hidden">
         {images.map((src, i) => (
           <img
             key={src}
