@@ -315,7 +315,7 @@ export default function PricingContent() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex h-full flex-col overflow-hidden rounded-xl border-2 p-6 sm:p-8 lg:p-10 transition-all duration-300 hover:border-white/50 hover:bg-[rgba(255,255,255,0.08)] ${
+                className={`relative flex h-full flex-col overflow-hidden rounded-xl border-2 p-6 sm:p-8 lg:p-10 transition-all duration-300 hover:border-white/50 hover:bg-[rgba(255,255,255,0.06)] hover:shadow-[0_0_20px_rgba(255,255,255,0.08),inset_0_0_20px_rgba(255,255,255,0.03)] ${
                   isCurrent
                     ? "border-[rgba(245,158,11,0.5)] bg-[rgba(255,255,255,0.04)]"
                     : isPopular
