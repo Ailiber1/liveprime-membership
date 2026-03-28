@@ -41,7 +41,7 @@ export default function CTASection() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 text-center">
-        <h2 className="cta-fade opacity-0 font-body text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight">
+        <h2 className="cta-fade opacity-0 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight">
           ライブの世界に、
           <br />
           飛び込もう。
@@ -53,20 +53,21 @@ export default function CTASection() {
           14日間無料で、すべてのコンテンツを体験。
         </p>
 
-        <div className="cta-fade opacity-0 mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-5">
+        <div className="cta-fade opacity-0 mt-10 flex flex-col items-center gap-5">
           <Link
             href="/register"
             prefetch={true}
-            className="inline-block rounded-lg bg-[#f59e0b] px-10 py-4 text-base font-semibold text-[#0a0a0f] transition-all duration-200 hover:bg-[#d97706] hover:shadow-[0_0_40px_rgba(245,158,11,0.25)] hover:scale-[1.02]"
+            className="group/cta relative inline-block overflow-hidden rounded-lg border-2 border-white/30 bg-white/10 px-12 py-5 text-base font-semibold text-white backdrop-blur-sm transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-white/90 hover:text-[#0a0a0f] hover:border-white/80 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:scale-[1.03] active:scale-[0.98] active:duration-100"
           >
-            14日間無料で試す
+            <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-[1200ms] ease-out group-hover/cta:translate-x-full" />
+            <span className="relative">14日間無料で試す</span>
           </Link>
           <Link
             href="/pricing"
             prefetch={true}
-            className="inline-block rounded-lg border border-border px-8 py-4 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-text-muted hover:text-text-primary"
+            className="text-sm text-text-muted transition-colors duration-300 hover:text-text-primary"
           >
-            料金プランを見る
+            料金プランを見る →
           </Link>
         </div>
 
