@@ -72,6 +72,20 @@
 /* ライトモード: ヒーロー・CTAの背景画像はそのまま表示（ダークと同じ） */
 /* テキストも白のまま維持（背景画像が暗いため） */
 
+/* ライトモード: 料金プランのボタン（白背景上で見えるように） */
+[data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.1\)\] {
+  background: rgba(0, 0, 0, 0.08) !important;
+}
+[data-theme="light"] .hover\:bg-\[rgba\(255\,255\,255\,0\.18\)\]:hover {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.15\)\] {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+[data-theme="light"] .hover\:border-\[rgba\(255\,255\,255\,0\.3\)\]:hover {
+  border-color: rgba(0, 0, 0, 0.25) !important;
+}
+
 /* ライトモード: フッター */
 [data-theme="light"] footer {
   background: #f0ede6 !important;
