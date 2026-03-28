@@ -1,11 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const heroImages = [
+  "/thumbnails/hero-bg-1.png",
+  "/thumbnails/hero-bg-2.png",
+];
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [current, setCurrent] = useState(0);
 
+  // 自動フェード（6秒間隔）
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % heroImages.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // フェードインアニメーション
   useEffect(() => {
     const section = sectionRef.current;
     if (section) {
@@ -28,13 +43,18 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
     >
-      {/* フルスクリーン背景画像 */}
+      {/* フルスクリーン背景画像（フェードスライド） */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/thumbnails/hero-bg-1.png"
-          alt=""
-          className="h-full w-full object-cover"
-        />
+        {heroImages.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[2000ms] ${
+              i === current ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-[#0a0a0f]/40" />
       </div>
@@ -60,6 +80,20 @@ export default function HeroSection() {
             創作を始める
           </Link>
         </div>
+      </div>
+
+      {/* ドットインジケーター */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+        {heroImages.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === current ? "w-8 bg-white" : "w-1.5 bg-white/30"
+            }`}
+            aria-label={`背景 ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
