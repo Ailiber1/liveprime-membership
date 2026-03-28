@@ -68,7 +68,6 @@ function CountUpNumber({ feature, shouldAnimate }: { feature: typeof features[0]
 
 export default function WhySection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [shouldAnimate, setShouldAnimate] = useState(false);
 
   // カウントアップ開始トリガー
@@ -90,69 +89,6 @@ export default function WhySection() {
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, []);
-
-  // 控えめな星パーティクル
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const section = sectionRef.current;
-    if (!canvas || !section) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let w = 0;
-    let h = 0;
-    let raf = 0;
-
-    const particles: { x: number; y: number; r: number; speed: number; alpha: number }[] = [];
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = section.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = `${w}px`;
-      canvas.style.height = `${h}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
-    const count = window.innerWidth < 768 ? 30 : 60;
-    for (let i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        r: Math.random() * 1.2 + 0.3,
-        speed: Math.random() * 0.15 + 0.05,
-        alpha: Math.random() * 0.3 + 0.1,
-      });
-    }
-
-    const draw = () => {
-      ctx.clearRect(0, 0, w, h);
-      for (const p of particles) {
-        p.y -= p.speed;
-        if (p.y < -5) {
-          p.y = h + 5;
-          p.x = Math.random() * w;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(245, 158, 11, ${p.alpha})`;
-        ctx.fill();
-      }
-      raf = requestAnimationFrame(draw);
-    };
-    raf = requestAnimationFrame(draw);
-
-    window.addEventListener("resize", resize, { passive: true });
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
-    };
   }, []);
 
   // フェードイン
@@ -182,13 +118,7 @@ export default function WhySection() {
       ref={sectionRef}
       className="relative py-32 sm:py-40 overflow-hidden bg-transparent"
     >
-      <canvas
-        ref={canvasRef}
-        className="pointer-events-none absolute inset-0 z-0 dark-only-canvas"
-        aria-hidden="true"
-      />
-
-      <div className="relative z-10 mx-auto max-w-5xl px-5 sm:px-6">
+      <div className="relative mx-auto max-w-5xl px-5 sm:px-6">
         <div className="text-center">
           <p className="why-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
             Why LIVE PRIME
