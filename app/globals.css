@@ -72,6 +72,46 @@
 /* ライトモード: ヒーロー・CTAの背景画像はそのまま表示（ダークと同じ） */
 /* テキストも白のまま維持（背景画像が暗いため） */
 
+/* ライトモード: カードのボーダーとバックグラウンドを見えるように */
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.06\)\] {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.08\)\] {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.1\)\] {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.12\)\] {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+[data-theme="light"] .border-\[rgba\(255\,255\,255\,0\.15\)\] {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+[data-theme="light"] .hover\:border-\[rgba\(255\,255\,255\,0\.2\)\]:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+[data-theme="light"] .hover\:border-\[rgba\(255\,255\,255\,0\.25\)\]:hover {
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+[data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.02\)\],
+[data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.03\)\],
+[data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.04\)\],
+[data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.05\)\] {
+  background: rgba(0, 0, 0, 0.03) !important;
+}
+[data-theme="light"] .hover\:bg-\[rgba\(255\,255\,255\,0\.08\)\]:hover {
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+[data-theme="light"] .divide-\[rgba\(255\,255\,255\,0\.06\)\] > * + * {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ライトモード: セクション区切り線 */
+[data-theme="light"] .via-\[\#f59e0b\]\/20 {
+  --tw-gradient-via: rgba(245, 158, 11, 0.15) !important;
+}
+
 /* ライトモード: 料金プランのボタン（白背景上で見えるように） */
 [data-theme="light"] .bg-\[rgba\(255\,255\,255\,0\.1\)\] {
   background: rgba(0, 0, 0, 0.08) !important;
