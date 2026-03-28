@@ -52,6 +52,13 @@ export default function Footer() {
             >
               特商法表記
             </Link>
+            <Link
+              href="/settings/cancel"
+              prefetch={true}
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
+            >
+              解約手続き
+            </Link>
           </nav>
         </div>
 

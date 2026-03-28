@@ -128,7 +128,7 @@ export default function SettingsTabs({
   };
 
   const handleCancel = () => {
-    openCustomerPortal();
+    window.location.href = "/settings/cancel";
   };
 
   // サブスク期間の進捗
