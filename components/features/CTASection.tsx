@@ -39,8 +39,8 @@ export default function CTASection() {
           alt=""
           className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-[#0a0a0f]/40" />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/60 via-transparent to-[#0a0a0f]/30" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 text-center">
