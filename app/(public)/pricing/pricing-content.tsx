@@ -461,7 +461,7 @@ export default function PricingContent() {
                         ? "bg-white text-[#0a0a0f] hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.2)] shadow-lg shadow-white/15 btn-shine-auto active:bg-white/80 active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
                         : isPremium(plan.id)
                         ? "border-2 border-[#f59e0b]/50 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/70 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] active:bg-[#f59e0b]/20 active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
-                        : "border-2 border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] text-text-primary hover:bg-[rgba(255,255,255,0.12)] hover:border-[rgba(255,255,255,0.35)] hover:shadow-[0_0_20px_rgba(255,255,255,0.08)] active:bg-[rgba(255,255,255,0.2)] active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
+                        : "border-2 border-white/40 bg-white/15 text-white hover:bg-white/25 hover:border-white/60 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:bg-white/35 active:shadow-[inset_0_2px_6px_rgba(0,0,0,0.2)]"
                     }`}
                   >
                     {isLoading ? (
