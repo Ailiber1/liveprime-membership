@@ -322,7 +322,7 @@ export default function PricingContent() {
                     ? "border-[rgba(245,158,11,0.3)] bg-[rgba(255,255,255,0.05)]"
                     : isPremium(plan.id)
                     ? "border-[rgba(245,158,11,0.15)] bg-[rgba(255,255,255,0.03)]"
-                    : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
+                    : "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)]"
                 }`}
                 style={
                   isPopular && !isCurrent
@@ -362,7 +362,7 @@ export default function PricingContent() {
                       </span>
                     )}
                   </div>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-text-muted">
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-text-secondary">
                     {plan.description}
                   </p>
                 </div>
@@ -391,7 +391,7 @@ export default function PricingContent() {
                     </p>
                   )}
                   {isFree && (
-                    <p className="mt-2.5 text-[13px] text-text-muted">
+                    <p className="mt-2.5 text-[13px] text-text-secondary">
                       クレジットカード不要
                     </p>
                   )}
@@ -438,7 +438,7 @@ export default function PricingContent() {
                       )}
                       <span
                         className={`text-[13px] leading-relaxed ${
-                          feature.included ? "text-text-secondary" : "text-text-muted/60"
+                          feature.included ? "text-text-primary" : "text-text-muted"
                         }`}
                       >
                         {feature.text}
