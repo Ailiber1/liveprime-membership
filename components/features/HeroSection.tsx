@@ -81,13 +81,23 @@ export default function HeroSection() {
             <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-[1200ms] ease-out group-hover/btn:translate-x-full" />
             <span className="relative">創作を始める</span>
           </Link>
-          <Link
-            href="/creator"
-            prefetch={true}
-            className="text-xs text-white/50 transition-colors hover:text-white/80"
-          >
-            クリエイターとして参加する &rarr;
-          </Link>
+          <div className="flex items-center gap-4 text-xs">
+            <Link
+              href="/login"
+              prefetch={true}
+              className="text-white/60 transition-colors hover:text-white"
+            >
+              ログインはこちら
+            </Link>
+            <span className="text-white/20">|</span>
+            <Link
+              href="/creator"
+              prefetch={true}
+              className="text-white/60 transition-colors hover:text-white"
+            >
+              クリエイターとして参加する →
+            </Link>
+          </div>
         </div>
       </div>
 
