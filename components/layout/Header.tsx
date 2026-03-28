@@ -178,6 +178,13 @@ export default function Header() {
                   クリエイター
                 </Link>
                 <Link
+                  href="/pricing"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  料金プラン
+                </Link>
+                <Link
                   href="/login"
                   className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
                   onClick={() => setMenuOpen(false)}
