@@ -496,10 +496,10 @@ export default function PricingContent() {
             <table className="w-full min-w-[540px] text-sm">
               <thead>
                 <tr className="border-b border-border bg-[rgba(255,255,255,0.03)]">
-                  <th className="px-4 py-4 text-left font-medium text-text-muted sm:px-6">機能</th>
-                  <th className="px-4 py-4 text-center font-medium text-text-muted sm:px-6">Free</th>
+                  <th className="px-4 py-4 text-left font-medium text-text-secondary sm:px-6">機能</th>
+                  <th className="px-4 py-4 text-center font-medium text-text-secondary sm:px-6">Free</th>
                   <th className="px-4 py-4 text-center font-bold text-[#f59e0b] sm:px-6">Standard</th>
-                  <th className="px-4 py-4 text-center font-medium text-text-muted sm:px-6">Premium</th>
+                  <th className="px-4 py-4 text-center font-medium text-text-secondary sm:px-6">Premium</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -513,7 +513,7 @@ export default function PricingContent() {
                   { label: "個別コンサル", free: false, standard: false, premium: true },
                 ].map((row, i) => (
                   <tr key={i} className="transition-colors hover:bg-[rgba(255,255,255,0.02)]">
-                    <td className="px-4 py-3.5 text-text-secondary sm:px-6">{row.label}</td>
+                    <td className="px-4 py-3.5 text-text-primary sm:px-6">{row.label}</td>
                     {(["free", "standard", "premium"] as const).map((plan) => {
                       const val = row[plan];
                       return (
@@ -553,7 +553,7 @@ export default function PricingContent() {
                     onClick={() => setOpenFaq(isOpen ? null : i)}
                     className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-text-primary"
                   >
-                    <span className="text-sm font-medium text-text-secondary sm:text-base">
+                    <span className="text-sm font-medium text-text-primary sm:text-base">
                       {faq.q}
                     </span>
                     <svg
@@ -578,7 +578,7 @@ export default function PricingContent() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="pb-5 text-sm leading-relaxed text-text-muted">
+                      <p className="pb-5 text-sm leading-relaxed text-text-secondary">
                         {faq.a}
                       </p>
                     </div>
