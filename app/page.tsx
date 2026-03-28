@@ -6,7 +6,7 @@ import WhySection from "@/components/features/WhySection";
 import TestimonialsSection from "@/components/features/TestimonialsSection";
 import HowItWorksSection from "@/components/features/HowItWorksSection";
 import CTASection from "@/components/features/CTASection";
-import StarBackground from "@/components/features/StarBackground";
+// StarBackground削除
 
 function SectionDivider() {
   return (
@@ -19,7 +19,7 @@ function SectionDivider() {
 export default function Home() {
   return (
     <>
-      <StarBackground />
+      {/* StarBackground削除 */}
       <Header />
       <main className="relative z-[1]">
         <HeroSection />
