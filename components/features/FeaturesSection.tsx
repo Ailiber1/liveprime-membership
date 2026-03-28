@@ -300,21 +300,7 @@ export default function FeaturesSection() {
           </svg>
         </button>
 
-        {/* ドット — PCのみ表示 */}
-        <div className="relative z-20 mt-6 hidden sm:flex items-center justify-center gap-2">
-          {contents.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              className={`rounded-full transition-all duration-500 ${
-                i === current
-                  ? "h-1.5 w-6 bg-[#f59e0b]"
-                  : "h-1.5 w-1.5 bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.3)]"
-              }`}
-              aria-label={`コンテンツ ${i + 1}`}
-            />
-          ))}
-        </div>
+        {/* ドットインジケーター削除 */}
       </div>
     </section>
   );
