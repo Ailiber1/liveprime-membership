@@ -172,54 +172,48 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-bg-deep"
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
     >
-      {/* ダークモード: 星空キャンバス / ライトモード: 温かみグラデーション */}
+      {/* フルスクリーン背景画像 */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/thumbnails/hero-bg-1.png"
+          alt=""
+          className="h-full w-full object-cover"
+        />
+        {/* 暗いオーバーレイ（テキストが読めるように） */}
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-[#0a0a0f]/40" />
+      </div>
+
+      {/* 星空キャンバス（画像の上に重ねて奥行き感） */}
       <canvas
         ref={canvasRef}
-        className="pointer-events-none absolute inset-0 z-0 dark-only-canvas"
+        className="pointer-events-none absolute inset-0 z-[1] dark-only-canvas"
         aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-0 z-0 light-only-bg"
-        aria-hidden="true"
-        style={{
-          background: "linear-gradient(180deg, #f8f6f1 0%, #fef3e2 40%, #fde8c8 70%, #f8f6f1 100%)",
-        }}
       />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-5 py-32 text-center sm:px-6">
-        <h1 className="hero-fade font-body text-[2.5rem] font-bold leading-[1.15] tracking-tight text-text-primary sm:text-[3.5rem] md:text-[4rem]">
+      {/* コンテンツ */}
+      <div className="relative z-10 mx-auto max-w-4xl px-5 py-32 text-center sm:px-6">
+        <h1 className="hero-fade font-display text-[2.8rem] font-bold leading-[1.1] tracking-[0.02em] text-white sm:text-[4rem] md:text-[5rem]">
           ライブの熱量を、
           <br />
           そのままあなたへ。
         </h1>
 
-        <p className="hero-fade mx-auto mt-8 max-w-md text-base font-light leading-relaxed text-text-secondary sm:text-lg">
-          限定配信、4K高画質、クリエイターとの直接交流。
-          <br className="hidden sm:block" />
-          月額980円から見放題。
+        <p className="hero-fade mx-auto mt-8 max-w-lg text-base font-light leading-relaxed text-white/70 sm:text-lg tracking-wide">
+          All in One, One for All
         </p>
 
-        <div className="hero-fade mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-5">
+        <div className="hero-fade mt-12">
           <Link
             href="/register"
             prefetch={true}
-            className="inline-block rounded-lg bg-[#f59e0b] px-8 py-4 text-sm font-semibold text-[#0a0a0f] transition-all duration-200 hover:bg-[#d97706] hover:shadow-[0_0_24px_rgba(245,158,11,0.2)]"
+            className="inline-block rounded-lg border border-white/30 bg-white/10 px-10 py-4 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:border-white/50"
           >
-            無料で始める
-          </Link>
-          <Link
-            href="/pricing"
-            prefetch={true}
-            className="inline-block rounded-lg border border-border px-8 py-4 text-sm font-medium text-text-secondary transition-all duration-200 hover:border-text-muted hover:text-text-primary"
-          >
-            料金プランを見る
+            創作を始める
           </Link>
         </div>
-        <p className="hero-fade mt-5 text-center text-xs text-text-muted">
-          14日間無料 ・ クレジットカード不要
-        </p>
       </div>
     </section>
   );
