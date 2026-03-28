@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
           <p className="testimonial-fade opacity-0 text-sm font-medium text-[#f59e0b] tracking-widest uppercase">
             Testimonials
           </p>
-          <h2 className="testimonial-fade opacity-0 mt-3 font-body text-2xl font-bold text-text-primary sm:text-4xl">
+          <h2 className="testimonial-fade opacity-0 mt-3 font-display text-3xl font-bold text-text-primary sm:text-5xl">
             利用者の声
           </h2>
         </div>
@@ -120,7 +120,7 @@ export default function TestimonialsSection() {
           {loopedTestimonials.map((t, i) => (
             <div
               key={`${t.name}-${i}`}
-              className="flex-shrink-0 w-[320px] sm:w-[360px] rounded-2xl border border-border bg-bg-card p-6 flex flex-col transition-transform duration-300 hover:-translate-y-1"
+              className="flex-shrink-0 w-[320px] sm:w-[360px] rounded-2xl border border-border bg-gradient-to-b from-bg-card to-[rgba(245,158,11,0.03)] p-6 flex flex-col transition-transform duration-300 hover:-translate-y-1"
             >
               <StarRating count={t.rating} />
 

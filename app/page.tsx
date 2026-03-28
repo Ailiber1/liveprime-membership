@@ -8,6 +8,14 @@ import HowItWorksSection from "@/components/features/HowItWorksSection";
 import CTASection from "@/components/features/CTASection";
 import StarBackground from "@/components/features/StarBackground";
 
+function SectionDivider() {
+  return (
+    <div className="relative h-px mx-auto max-w-4xl px-8" aria-hidden="true">
+      <div className="h-px bg-gradient-to-r from-transparent via-[#f59e0b]/20 to-transparent" />
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <>
@@ -16,9 +24,13 @@ export default function Home() {
       <main className="relative z-[1]">
         <HeroSection />
         <FeaturesSection />
+        <SectionDivider />
         <WhySection />
+        <SectionDivider />
         <TestimonialsSection />
+        <SectionDivider />
         <HowItWorksSection />
+        <SectionDivider />
         <CTASection />
       </main>
       <Footer />

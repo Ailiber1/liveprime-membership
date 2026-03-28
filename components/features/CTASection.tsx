@@ -32,11 +32,16 @@ export default function CTASection() {
       ref={sectionRef}
       className="relative py-24 sm:py-32 overflow-hidden bg-transparent"
     >
-      {/* 背景のアクセントグロー */}
+      {/* 背景画像 + オーバーレイ */}
       <div
         className="pointer-events-none absolute inset-0"
         aria-hidden="true"
       >
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{ backgroundImage: "url(/thumbnails/hero-bg-2.png)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-[#0a0a0f]/90" />
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[#f59e0b]/5 blur-[120px]" />
       </div>
 

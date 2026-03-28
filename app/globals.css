@@ -103,7 +103,9 @@
   .content-fade,
   .testimonial-fade,
   .cta-fade,
-  .hero-fade {
+  .hero-fade,
+  .why-fade,
+  .how-fade {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
