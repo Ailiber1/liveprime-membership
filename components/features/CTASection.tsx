@@ -33,26 +33,24 @@ export default function CTASection() {
       className="relative py-24 sm:py-32 overflow-hidden bg-transparent"
     >
       {/* 背景画像 + オーバーレイ */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden="true"
-      >
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
-          style={{ backgroundImage: "url(/thumbnails/hero-bg-2.png)" }}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/thumbnails/hero-bg-2.png"
+          alt=""
+          className="h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/80 to-[#0a0a0f]/90" />
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-[#f59e0b]/5 blur-[120px]" />
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-[#0a0a0f]/40" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 text-center">
-        <h2 className="cta-fade opacity-0 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight">
+        <h2 className="cta-fade opacity-0 font-display text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-tight">
           ライブの世界に、
           <br />
           飛び込もう。
         </h2>
 
-        <p className="cta-fade opacity-0 mt-6 text-base text-text-secondary max-w-md mx-auto leading-relaxed">
+        <p className="cta-fade opacity-0 mt-6 text-base text-white/70 max-w-md mx-auto leading-relaxed">
           10,000人以上のクリエイターが待っています。
           <br className="hidden sm:block" />
           14日間無料で、すべてのコンテンツを体験。
@@ -70,13 +68,13 @@ export default function CTASection() {
           <Link
             href="/pricing"
             prefetch={true}
-            className="text-sm text-text-muted transition-colors duration-300 hover:text-text-primary"
+            className="text-sm text-white/50 transition-colors duration-300 hover:text-white/80"
           >
             料金プランを見る →
           </Link>
         </div>
 
-        <p className="cta-fade opacity-0 mt-5 text-xs text-text-muted">
+        <p className="cta-fade opacity-0 mt-5 text-xs text-white/40">
           クレジットカード不要 ・ いつでもキャンセル可能
         </p>
       </div>

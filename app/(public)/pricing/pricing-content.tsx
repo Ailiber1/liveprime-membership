@@ -456,7 +456,7 @@ export default function PricingContent() {
                   <button
                     onClick={() => handleSubscribe(plan.id)}
                     disabled={isLoading}
-                    className="group/plan relative w-full overflow-hidden rounded-xl py-4 text-sm font-semibold tracking-wide bg-white text-[#0a0a0f] transition-all duration-[600ms] ease-out hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.2)] active:scale-[0.97] active:bg-white/80 active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)] active:duration-100 disabled:opacity-60"
+                    className="group/plan relative w-full overflow-hidden rounded-xl py-4 text-sm font-semibold tracking-wide bg-white/80 text-[#0a0a0f] transition-all duration-[600ms] ease-out hover:bg-white/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-[0.99] active:bg-white/70 active:duration-150 disabled:opacity-60"
                   >
                     {/* シャインエフェクト */}
                     <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-[1000ms] ease-out group-hover/plan:translate-x-full pointer-events-none" />
