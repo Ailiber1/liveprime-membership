@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 const heroImages = [
   "/thumbnails/hero-bg-1.png",
   "/thumbnails/hero-bg-2.png",
+  "/thumbnails/hero-bg-3.png",
 ];
 
 export default function HeroSection() {
