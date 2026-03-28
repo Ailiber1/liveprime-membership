@@ -83,7 +83,7 @@ export default async function VideoDetailPage({
   // 関連動画（同カテゴリ or ランダム、自身を除く）
   const { data: relatedVideos } = await supabase
     .from("videos")
-    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at")
+    .select("id, title, category, duration_seconds, is_live, access_level, is_published, created_at, thumbnail_url")
     .eq("is_published", true)
     .neq("id", video.id)
     .order("created_at", { ascending: false })
@@ -221,10 +221,13 @@ export default async function VideoDetailPage({
                   {/* ミニサムネイル */}
                   <div
                     className="relative h-20 w-32 shrink-0 overflow-hidden rounded-lg"
-                    style={{
+                    style={rv.thumbnail_url ? undefined : {
                       background: gradients[rv.title.length % gradients.length],
                     }}
                   >
+                    {rv.thumbnail_url && (
+                      <img src={rv.thumbnail_url} alt={rv.title} className="absolute inset-0 h-full w-full object-cover" />
+                    )}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-white/60">
                         <polygon points="5 3 19 12 5 21 5 3" />
