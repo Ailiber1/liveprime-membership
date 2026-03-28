@@ -315,14 +315,14 @@ export default function PricingContent() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex h-full flex-col overflow-hidden rounded-xl border p-6 sm:p-8 lg:p-10 transition-all duration-500 ease-out hover:border-[rgba(255,255,255,0.5)] hover:shadow-[0_0_30px_rgba(255,255,255,0.12),0_0_60px_rgba(255,255,255,0.04)] ${
+                className={`relative flex h-full flex-col overflow-hidden rounded-xl border p-6 sm:p-8 lg:p-10 transition-all duration-300 hover:bg-[rgba(255,255,255,0.08)] hover:border-[rgba(255,255,255,0.2)] ${
                   isCurrent
-                    ? "border-[rgba(245,158,11,0.5)] bg-[rgba(255,255,255,0.04)]"
+                    ? "border-[rgba(245,158,11,0.4)] bg-[rgba(255,255,255,0.04)]"
                     : isPopular
-                    ? "border-[rgba(245,158,11,0.3)] bg-[rgba(255,255,255,0.05)]"
+                    ? "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)]"
                     : isPremium(plan.id)
-                    ? "border-[rgba(245,158,11,0.15)] bg-[rgba(255,255,255,0.03)]"
-                    : "border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)]"
+                    ? "border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)]"
+                    : "border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)]"
                 }`}
                 style={
                   isPopular && !isCurrent
@@ -456,7 +456,7 @@ export default function PricingContent() {
                   <button
                     onClick={() => handleSubscribe(plan.id)}
                     disabled={isLoading}
-                    className="group/plan relative w-full overflow-hidden rounded-xl py-4 text-sm font-semibold tracking-wide bg-white/60 text-[#0a0a0f] border border-white/20 transition-all duration-500 ease-out hover:bg-white/75 disabled:opacity-60"
+                    className="group/plan relative w-full overflow-hidden rounded-lg py-3.5 text-sm font-semibold tracking-wide bg-[rgba(255,255,255,0.1)] text-text-primary border border-[rgba(255,255,255,0.15)] transition-all duration-300 hover:bg-[rgba(255,255,255,0.18)] hover:border-[rgba(255,255,255,0.3)] disabled:opacity-60"
                   >
                     {/* シャインエフェクト */}
                     <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-[1000ms] ease-out group-hover/plan:translate-x-full pointer-events-none" />
