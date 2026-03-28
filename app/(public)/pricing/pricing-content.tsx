@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useToast } from "@/components/ui/Toast";
 import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/layout/Header";
+import StarBackground from "@/components/features/StarBackground";
 
 interface PlanFeature {
   text: string;
@@ -217,11 +218,37 @@ export default function PricingContent() {
 
   const isPremium = (id: string) => id === "premium";
 
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      q: "いつでもキャンセルできますか？",
+      a: "はい、いつでもワンクリックで解約できます。日割り返金にも対応しています。",
+    },
+    {
+      q: "無料トライアルはありますか？",
+      a: "はい、14日間の無料トライアルをご用意しています。クレジットカード不要で始められます。",
+    },
+    {
+      q: "プランの変更はできますか？",
+      a: "はい、いつでもアップグレード・ダウングレードが可能です。変更は即時反映されます。",
+    },
+    {
+      q: "支払い方法は？",
+      a: "クレジットカード（Visa, Mastercard, AMEX, JCB）に対応しています。",
+    },
+    {
+      q: "契約期間の縛りはありますか？",
+      a: "いいえ、最低利用期間はありません。月払いなら1ヶ月単位、年払いでもいつでも解約可能です。",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-bg-deep">
+    <div className="relative min-h-screen bg-bg-deep">
+      <StarBackground />
       <Header />
 
-      <main className="mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
+      <main className="relative z-10 mx-auto max-w-5xl px-4 pt-28 pb-16 sm:px-6 sm:pt-36 sm:pb-28">
         {/* キャンセル時のバナー */}
         {canceled === "true" && (
           <div className="mb-8 rounded-xl border border-[#f59e0b]/30 bg-[#f59e0b]/5 px-4 py-3 text-center text-sm text-[#f59e0b]">
@@ -232,12 +259,14 @@ export default function PricingContent() {
         {/* タイトル */}
         <div className="mb-10 text-center sm:mb-16">
           <h1 className="font-display text-3xl font-bold tracking-tight text-text-primary sm:text-4xl lg:text-5xl">
-            あなたに合ったプランを選ぶ
+            あなたの配信スタイルに
+            <br />
+            <span className="text-[#f59e0b]">合ったプラン</span>を
           </h1>
           <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-text-secondary sm:text-base">
-            すべてのプランで基本機能をご利用いただけます。
+            14日間の無料トライアルで、すべての機能をお試しいただけます。
             <br className="hidden sm:block" />
-            いつでもアップグレード・ダウングレードが可能です。
+            いつでもプラン変更・解約OK。まずは気軽にはじめましょう。
           </p>
         </div>
 
@@ -295,6 +324,11 @@ export default function PricingContent() {
                     ? "border-[rgba(245,158,11,0.15)] bg-[rgba(255,255,255,0.03)]"
                     : "border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
                 }`}
+                style={
+                  isPopular && !isCurrent
+                    ? { boxShadow: "0 0 24px 2px rgba(245, 158, 11, 0.10), 0 0 48px 4px rgba(245, 158, 11, 0.05)" }
+                    : undefined
+                }
               >
                 {/* 現在のプランバッジ */}
                 {isCurrent && (
@@ -452,6 +486,56 @@ export default function PricingContent() {
         <p className="mt-14 text-center text-xs leading-relaxed text-text-muted">
           すべてのプランは即時キャンセル可能です。年払いプランは残期間分を日割り返金いたします。
         </p>
+
+        {/* よくある質問 */}
+        <section className="mt-20 sm:mt-28">
+          <h2 className="font-display mb-10 text-center text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+            よくある質問
+          </h2>
+          <div className="mx-auto max-w-2xl divide-y divide-[rgba(255,255,255,0.06)]">
+            {faqs.map((faq, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={i}>
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-text-primary"
+                  >
+                    <span className="text-sm font-medium text-text-secondary sm:text-base">
+                      {faq.q}
+                    </span>
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={`shrink-0 text-text-muted transition-transform duration-200 ${
+                        isOpen ? "rotate-180" : ""
+                      }`}
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+                  <div
+                    className={`grid transition-all duration-200 ${
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="pb-5 text-sm leading-relaxed text-text-muted">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
       </main>
     </div>
   );
