@@ -79,6 +79,13 @@ export default function Header() {
           ) : (
             <>
               <Link
+                href="/creator"
+                prefetch={true}
+                className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+              >
+                クリエイター
+              </Link>
+              <Link
                 href="/pricing"
                 prefetch={true}
                 className="text-sm text-text-secondary transition-colors hover:text-text-primary"
@@ -163,6 +170,13 @@ export default function Header() {
               </>
             ) : (
               <>
+                <Link
+                  href="/creator"
+                  className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  クリエイター
+                </Link>
                 <Link
                   href="/login"
                   className="rounded-lg px-3 py-2.5 text-sm text-text-secondary transition-colors hover:bg-black/5 hover:text-text-primary"

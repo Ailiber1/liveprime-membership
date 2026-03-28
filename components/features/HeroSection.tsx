@@ -72,13 +72,20 @@ export default function HeroSection() {
           All in One, One for All
         </p>
 
-        <div className="hero-fade mt-12">
+        <div className="hero-fade mt-12 flex flex-col items-center gap-4">
           <Link
             href="/register"
             prefetch={true}
             className="inline-block rounded-lg border border-white/30 bg-white/10 px-10 py-4 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/20 hover:border-white/50"
           >
             創作を始める
+          </Link>
+          <Link
+            href="/creator"
+            prefetch={true}
+            className="text-xs text-white/50 transition-colors hover:text-white/80"
+          >
+            クリエイターとして参加する &rarr;
           </Link>
         </div>
       </div>

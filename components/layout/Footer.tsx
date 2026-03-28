@@ -18,6 +18,13 @@ export default function Footer() {
           {/* リンク */}
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <Link
+              href="/creator"
+              prefetch={true}
+              className="text-xs text-text-muted transition-colors hover:text-text-secondary"
+            >
+              クリエイター
+            </Link>
+            <Link
               href="/pricing"
               prefetch={true}
               className="text-xs text-text-muted transition-colors hover:text-text-secondary"
