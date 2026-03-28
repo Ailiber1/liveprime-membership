@@ -75,9 +75,9 @@
   display: none !important;
 }
 
-/* ライトモード: ヒーロー背景画像を非表示 */
-[data-theme="light"] section img[src*="hero-bg"],
-[data-theme="light"] div[style*="hero-bg"] {
+/* ライトモード: ヒーロー・CTAの背景画像のみ薄く */
+[data-theme="light"] section > div:first-child > img[src*="hero-bg"],
+[data-theme="light"] .bg-cover[style*="hero-bg"] {
   opacity: 0.15 !important;
 }
 
