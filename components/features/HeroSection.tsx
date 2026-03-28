@@ -76,9 +76,9 @@ export default function HeroSection() {
           <Link
             href="/register"
             prefetch={true}
-            className="group/btn relative inline-block overflow-hidden rounded-lg border-2 border-white/30 bg-white/10 px-12 py-5 text-base font-semibold text-white backdrop-blur-sm transition-all duration-500 ease-out hover:bg-white/90 hover:text-[#0a0a0f] hover:border-white/80 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:scale-[1.03]"
+            className="group/btn relative inline-block overflow-hidden rounded-lg border-2 border-white/30 bg-white/10 px-12 py-5 text-base font-semibold text-white backdrop-blur-sm transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] hover:bg-white/90 hover:text-[#0a0a0f] hover:border-white/80 hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] hover:scale-[1.03] active:scale-[0.98] active:duration-100"
           >
-            <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full" />
+            <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-[1200ms] ease-out group-hover/btn:translate-x-full" />
             <span className="relative">創作を始める</span>
           </Link>
           <Link
