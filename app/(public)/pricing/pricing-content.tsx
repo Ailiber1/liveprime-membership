@@ -315,14 +315,14 @@ export default function PricingContent() {
             return (
               <div
                 key={plan.id}
-                className={`relative flex h-full flex-col overflow-hidden rounded-xl border p-6 sm:p-8 lg:p-10 transition-all duration-200 hover:-translate-y-0.5 ${
+                className={`relative flex h-full flex-col overflow-hidden rounded-xl border-2 p-6 sm:p-8 lg:p-10 transition-all duration-300 hover:border-white/50 hover:bg-[rgba(255,255,255,0.08)] ${
                   isCurrent
-                    ? "border-[rgba(245,158,11,0.4)] bg-[rgba(255,255,255,0.04)]"
+                    ? "border-[rgba(245,158,11,0.5)] bg-[rgba(255,255,255,0.04)]"
                     : isPopular
                     ? "border-[rgba(245,158,11,0.3)] bg-[rgba(255,255,255,0.05)]"
                     : isPremium(plan.id)
                     ? "border-[rgba(245,158,11,0.15)] bg-[rgba(255,255,255,0.03)]"
-                    : "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.05)]"
+                    : "border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.03)]"
                 }`}
                 style={
                   isPopular && !isCurrent
