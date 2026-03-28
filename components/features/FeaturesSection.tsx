@@ -272,7 +272,7 @@ export default function FeaturesSection() {
             };
             window.addEventListener("mouseup", up);
           }}
-          className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
+          className="absolute left-4 sm:left-8 lg:left-16 top-1/2 -translate-y-1/2 z-30 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="前へ"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -292,7 +292,7 @@ export default function FeaturesSection() {
             };
             window.addEventListener("mouseup", up);
           }}
-          className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
+          className="absolute right-4 sm:right-8 lg:right-16 top-1/2 -translate-y-1/2 z-30 hidden sm:flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-white/70 transition-all hover:bg-white/15 hover:text-white hover:scale-110"
           aria-label="次へ"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -300,16 +300,16 @@ export default function FeaturesSection() {
           </svg>
         </button>
 
-        {/* ドット */}
-        <div className="relative z-20 mt-6 flex items-center justify-center gap-2">
+        {/* ドット — PCのみ表示 */}
+        <div className="relative z-20 mt-6 hidden sm:flex items-center justify-center gap-2">
           {contents.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
               className={`rounded-full transition-all duration-500 ${
                 i === current
-                  ? "h-2 w-8 bg-[#f59e0b]"
-                  : "h-2 w-2 bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.3)]"
+                  ? "h-1.5 w-6 bg-[#f59e0b]"
+                  : "h-1.5 w-1.5 bg-[rgba(255,255,255,0.12)] hover:bg-[rgba(255,255,255,0.3)]"
               }`}
               aria-label={`コンテンツ ${i + 1}`}
             />
