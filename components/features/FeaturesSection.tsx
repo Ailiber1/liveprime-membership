@@ -72,45 +72,13 @@ export default function FeaturesSection() {
   const radiusX = 650; // 楕円の横半径（広い）
   const radiusZ = 350; // 楕円の奥行き半径（浅い）
 
-  // カードを配る「シュッ」という効果音（Web Audio API）
-  const playSwish = useCallback(() => {
-    try {
-      const ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-      const duration = 0.08;
-      const buffer = ctx.createBuffer(1, ctx.sampleRate * duration, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < data.length; i++) {
-        const t = i / ctx.sampleRate;
-        const envelope = Math.exp(-t * 60);
-        data[i] = (Math.random() * 2 - 1) * envelope * 0.15;
-      }
-      const source = ctx.createBufferSource();
-      source.buffer = buffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = "highpass";
-      filter.frequency.value = 2000;
-      source.connect(filter);
-      filter.connect(ctx.destination);
-      source.start();
-      source.onended = () => ctx.close();
-    } catch { /* 音声未対応時は無視 */ }
-  }, []);
-
-  // 効果音なしで移動（自動回転用）
-  const silentNext = useCallback(() => {
+  const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % total);
   }, [total]);
 
-  // 効果音ありで移動（ユーザー操作用）
-  const next = useCallback(() => {
-    setCurrent((prev) => (prev + 1) % total);
-    playSwish();
-  }, [total, playSwish]);
-
   const prev = useCallback(() => {
     setCurrent((prev) => (prev - 1 + total) % total);
-    playSwish();
-  }, [total, playSwish]);
+  }, [total]);
 
   // 自動回転
   useEffect(() => {
@@ -118,11 +86,11 @@ export default function FeaturesSection() {
       if (intervalRef.current) clearInterval(intervalRef.current);
       return;
     }
-    intervalRef.current = setInterval(silentNext, 2000);
+    intervalRef.current = setInterval(next, 2000);
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [silentNext, isHovered]);
+  }, [next, isHovered]);
 
   // フェードイン
   useEffect(() => {
