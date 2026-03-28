@@ -69,59 +69,8 @@
   display: block;
 }
 
-/* ライトモード: ヒーロー・CTAの背景画像を非表示にし、明るい背景に */
-[data-theme="light"] .bg-black\/50,
-[data-theme="light"] .bg-gradient-to-t.from-\[\#0a0a0f\] {
-  display: none !important;
-}
-
-/* ライトモード: ヒーロー・CTAの背景画像のみ薄く */
-[data-theme="light"] section > div:first-child > img[src*="hero-bg"],
-[data-theme="light"] .bg-cover[style*="hero-bg"] {
-  opacity: 0.15 !important;
-}
-
-/* ライトモード: テキストカラー */
-[data-theme="light"] .text-white {
-  color: var(--color-text-primary);
-}
-[data-theme="light"] .text-white\/70,
-[data-theme="light"] .text-white\/60,
-[data-theme="light"] .text-white\/50 {
-  color: var(--color-text-secondary);
-}
-[data-theme="light"] .text-white\/20 {
-  color: var(--color-text-muted);
-}
-
-/* ライトモード: ボタン */
-[data-theme="light"] .border-white\/30 {
-  border-color: rgba(0, 0, 0, 0.2) !important;
-}
-[data-theme="light"] .bg-white\/10 {
-  background: rgba(0, 0, 0, 0.06) !important;
-}
-[data-theme="light"] .hover\:bg-white\/20:hover {
-  background: rgba(0, 0, 0, 0.1) !important;
-}
-[data-theme="light"] .active\:bg-white\/40:active {
-  background: rgba(0, 0, 0, 0.15) !important;
-}
-
-/* ライトモード: 星空背景を非表示 */
-[data-theme="light"] .fixed.z-0 canvas {
-  display: none;
-}
-
-/* ライトモード: テスティモニアル・CTAのフェードグラデーション */
-[data-theme="light"] .from-\[\#0a0a0f\] {
-  --tw-gradient-from: #f8f6f1 !important;
-}
-
-/* ライトモード: シャインを暗色に */
-[data-theme="light"] .btn-shine-auto::after {
-  background: linear-gradient(to right, transparent, rgba(0,0,0,0.08), transparent);
-}
+/* ライトモード: ヒーロー・CTAの背景画像はそのまま表示（ダークと同じ） */
+/* テキストも白のまま維持（背景画像が暗いため） */
 
 /* ライトモード: フッター */
 [data-theme="light"] footer {
