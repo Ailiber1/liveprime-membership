@@ -456,14 +456,16 @@ export default function PricingContent() {
                   <button
                     onClick={() => handleSubscribe(plan.id)}
                     disabled={isLoading}
-                    className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-300 disabled:opacity-60 active:scale-[0.92] active:translate-y-[2px] active:duration-75 ${
+                    className={`group/plan relative w-full overflow-hidden rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-[600ms] ease-out disabled:opacity-60 active:scale-[0.97] active:duration-100 ${
                       isPopular
-                        ? "bg-white text-[#0a0a0f] hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.2)] shadow-lg shadow-white/15 btn-shine-auto active:bg-white/70 active:shadow-[inset_0_4px_12px_rgba(0,0,0,0.3)]"
+                        ? "bg-white text-[#0a0a0f] hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] shadow-lg shadow-white/15 btn-shine-auto active:bg-white/80 active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.2)]"
                         : isPremium(plan.id)
-                        ? "border-2 border-[#f59e0b]/50 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/10 hover:border-[#f59e0b]/70 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)] active:bg-[#f59e0b]/25 active:shadow-[inset_0_4px_12px_rgba(0,0,0,0.3)]"
-                        : "border-2 border-white/40 bg-white/15 text-white hover:bg-white/25 hover:border-white/60 hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:bg-white/40 active:shadow-[inset_0_4px_12px_rgba(0,0,0,0.3)]"
+                        ? "border-2 border-[#f59e0b]/50 bg-[#f59e0b]/5 text-[#f59e0b] hover:bg-[#f59e0b]/15 hover:border-[#f59e0b]/70 hover:shadow-[0_0_24px_rgba(245,158,11,0.15)] active:bg-[#f59e0b]/25 active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.2)]"
+                        : "border-2 border-white/40 bg-white/15 text-white hover:bg-white/25 hover:border-white/60 hover:shadow-[0_0_24px_rgba(255,255,255,0.1)] active:bg-white/35 active:shadow-[inset_0_2px_8px_rgba(0,0,0,0.2)]"
                     }`}
                   >
+                    {/* シャインエフェクト */}
+                    <span className="absolute inset-0 -translate-x-full skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-[1000ms] ease-out group-hover/plan:translate-x-full pointer-events-none" />
                     {isLoading ? (
                       <span className="inline-flex items-center gap-2">
                         <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -473,7 +475,7 @@ export default function PricingContent() {
                         {isRedirecting ? "決済画面に移動中..." : "準備中..."}
                       </span>
                     ) : (
-                      btnInfo.label
+                      <span className="relative">{btnInfo.label}</span>
                     )}
                   </button>
                 )}
