@@ -61,7 +61,7 @@ export default function HeroSection() {
       </div>
 
       {/* コンテンツ */}
-      <div className="relative z-10 mx-auto max-w-4xl px-5 py-32 text-center sm:px-6">
+      <div className="relative z-10 mx-auto max-w-4xl px-5 pt-24 pb-16 sm:py-32 text-center sm:px-6">
         <h1 className="hero-fade font-display text-[1.5rem] font-bold leading-[1.2] tracking-[0.02em] text-white sm:text-[3rem] md:text-[4rem] lg:text-[5rem]">
           <span className="block sm:inline">ライブの熱量を、</span>
           <br className="hidden sm:block" />
@@ -101,19 +101,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* ドットインジケーター */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-        {heroImages.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setCurrent(i)}
-            className={`h-1.5 rounded-full transition-all duration-500 ${
-              i === current ? "w-8 bg-white" : "w-1.5 bg-white/30"
-            }`}
-            aria-label={`背景 ${i + 1}`}
-          />
-        ))}
-      </div>
+      {/* ドットインジケーター削除 */}
     </section>
   );
 }
