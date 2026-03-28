@@ -158,9 +158,9 @@ export default function PricingContent() {
   const handleSubscribe = async (planId: string) => {
     if (planId === "free") {
       if (isLoggedIn && currentPlan === "free") {
-        return; // 現在のプラン → 何もしない
+        return;
       }
-      showToast("Freeプランは登録するだけでご利用いただけます", "info");
+      window.location.href = "/register";
       return;
     }
 
