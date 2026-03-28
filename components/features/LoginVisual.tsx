@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const images = [
   "/thumbnails/VTuber Portrait.jpg",
@@ -16,6 +16,25 @@ const creators = [
 
 export default function LoginVisual() {
   const [current, setCurrent] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+  const preloaded = useRef(false);
+
+  // 全画像をプリロード
+  useEffect(() => {
+    if (preloaded.current) return;
+    preloaded.current = true;
+    let count = 0;
+    images.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => {
+        count++;
+        if (count === images.length) setLoaded(true);
+      };
+    });
+    // 1枚目が重い場合のフォールバック
+    setTimeout(() => setLoaded(true), 500);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,7 +46,7 @@ export default function LoginVisual() {
   return (
     <>
       {/* PC: 左半分 */}
-      <div className="relative hidden lg:block">
+      <div className="relative hidden lg:block" style={{ background: "#0c1020" }}>
         {images.map((src, i) => (
           <img
             key={src}

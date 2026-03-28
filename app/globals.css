@@ -176,6 +176,25 @@ button[type="submit"]:active,
   background: var(--color-border);
 }
 
+/* CTAボタンの常時シャインアニメーション */
+@keyframes btn-shine {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+  }
+  40%, 100% {
+    transform: translateX(200%) skewX(-20deg);
+  }
+}
+
+.btn-shine-auto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%) skewX(-20deg);
+  animation: btn-shine 3s ease-in-out infinite;
+}
+
 /* 利用者の声 自動スライド */
 @keyframes testimonial-slide {
   0% {
