@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const images = [
@@ -30,15 +29,14 @@ export default function LoginVisual() {
       {/* PC: 左半分 */}
       <div className="relative hidden lg:block">
         {images.map((src, i) => (
-          <Image
+          <img
             key={src}
             src={src}
             alt={creators[i]}
-            fill
-            className={`object-cover transition-opacity duration-1000 ${
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
               i === current ? "opacity-100" : "opacity-0"
             }`}
-            priority={i === 0}
+            loading={i === 0 ? "eager" : "lazy"}
           />
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -68,15 +66,14 @@ export default function LoginVisual() {
       {/* モバイル: 上部に小さく */}
       <div className="relative h-48 lg:hidden">
         {images.map((src, i) => (
-          <Image
+          <img
             key={src}
             src={src}
             alt={creators[i]}
-            fill
-            className={`object-cover transition-opacity duration-1000 ${
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
               i === current ? "opacity-100" : "opacity-0"
             }`}
-            priority={i === 0}
+            loading={i === 0 ? "eager" : "lazy"}
           />
         ))}
         <div className="absolute inset-0 bg-gradient-to-t from-bg-deep via-black/40 to-transparent" />
