@@ -216,6 +216,7 @@ export default async function VideoDetailPage({
                 <Link
                   key={rv.id}
                   href={`/videos/${rv.id}`}
+                  prefetch={true}
                   className="group flex gap-3 rounded-lg p-2 transition-all duration-200 hover:-translate-y-0.5 hover:opacity-80"
                 >
                   {/* ミニサムネイル */}
