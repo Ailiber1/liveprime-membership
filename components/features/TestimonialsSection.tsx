@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const testimonials = [
   {
@@ -71,6 +71,32 @@ function StarRating({ count }: { count: number }) {
 
 export default function TestimonialsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef({ x: 0, scrollLeft: 0 });
+
+  // ドラッグ/スワイプ操作
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setIsDragging(true);
+    el.style.animationPlayState = "paused";
+    dragStart.current = { x: e.clientX, scrollLeft: el.scrollLeft };
+    el.setPointerCapture(e.pointerId);
+  }, []);
+
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    scrollRef.current.scrollLeft = dragStart.current.scrollLeft - dx;
+  }, [isDragging]);
+
+  const handlePointerUp = useCallback(() => {
+    setIsDragging(false);
+    if (scrollRef.current) {
+      scrollRef.current.style.animationPlayState = "running";
+    }
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -116,7 +142,15 @@ export default function TestimonialsSection() {
         <div className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-r from-[#0a0a0f] to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-16 sm:w-32 bg-gradient-to-l from-[#0a0a0f] to-transparent" />
 
-        <div className="flex testimonial-scroll gap-5 pl-5">
+        <div
+          ref={scrollRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          className={`flex testimonial-scroll gap-5 pl-5 overflow-x-auto scrollbar-hide touch-pan-x ${isDragging ? "cursor-grabbing [animation-play-state:paused]" : "cursor-grab"}`}
+          style={{ WebkitOverflowScrolling: "touch" }}
+        >
           {loopedTestimonials.map((t, i) => (
             <div
               key={`${t.name}-${i}`}
