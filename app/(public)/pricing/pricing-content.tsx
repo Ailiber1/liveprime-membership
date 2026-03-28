@@ -418,7 +418,7 @@ export default function PricingContent() {
                           strokeWidth="2.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="mt-0.5 shrink-0 text-[#f59e0b]"
+                          className="mt-0.5 shrink-0 text-[#2ed573]"
                         >
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
@@ -458,10 +458,10 @@ export default function PricingContent() {
                     disabled={isLoading}
                     className={`w-full rounded-xl py-4 text-sm font-semibold tracking-wide transition-all duration-200 disabled:opacity-60 ${
                       isPopular
-                        ? "bg-[#f59e0b] text-[#0a0a0f] hover:bg-[#d97706] shadow-lg shadow-[#f59e0b]/15"
+                        ? "bg-white text-[#0a0a0f] hover:bg-white/90 shadow-lg shadow-white/15 btn-shine-auto"
                         : isPremium(plan.id)
-                        ? "border border-[#f59e0b]/30 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/5 hover:border-[#f59e0b]/50"
-                        : "border border-[rgba(255,255,255,0.1)] bg-transparent text-text-secondary hover:border-[rgba(255,255,255,0.2)] hover:text-text-primary"
+                        ? "border border-[#f59e0b]/40 bg-transparent text-[#f59e0b] hover:bg-[#f59e0b]/5 hover:border-[#f59e0b]/60"
+                        : "border border-[rgba(255,255,255,0.08)] bg-transparent text-text-muted hover:border-[rgba(255,255,255,0.15)] hover:text-text-secondary"
                     }`}
                   >
                     {isLoading ? (
@@ -486,6 +486,58 @@ export default function PricingContent() {
         <p className="mt-14 text-center text-xs leading-relaxed text-text-muted">
           すべてのプランは即時キャンセル可能です。年払いプランは残期間分を日割り返金いたします。
         </p>
+
+        {/* プラン比較表 */}
+        <section className="mt-20 sm:mt-28">
+          <h2 className="font-display mb-10 text-center text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+            プラン比較
+          </h2>
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full min-w-[540px] text-sm">
+              <thead>
+                <tr className="border-b border-border bg-[rgba(255,255,255,0.03)]">
+                  <th className="px-4 py-4 text-left font-medium text-text-muted sm:px-6">機能</th>
+                  <th className="px-4 py-4 text-center font-medium text-text-muted sm:px-6">Free</th>
+                  <th className="px-4 py-4 text-center font-bold text-[#f59e0b] sm:px-6">Standard</th>
+                  <th className="px-4 py-4 text-center font-medium text-text-muted sm:px-6">Premium</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {[
+                  { label: "コンテンツ視聴", free: "無料のみ", standard: "全コンテンツ", premium: "全コンテンツ" },
+                  { label: "画質", free: "480p", standard: "1080p", premium: "4K" },
+                  { label: "視聴数制限", free: "月5本", standard: "無制限", premium: "無制限" },
+                  { label: "ライブ配信視聴", free: false, standard: true, premium: true },
+                  { label: "オフライン再生", free: false, standard: false, premium: true },
+                  { label: "優先サポート", free: false, standard: false, premium: true },
+                  { label: "個別コンサル", free: false, standard: false, premium: true },
+                ].map((row, i) => (
+                  <tr key={i} className="transition-colors hover:bg-[rgba(255,255,255,0.02)]">
+                    <td className="px-4 py-3.5 text-text-secondary sm:px-6">{row.label}</td>
+                    {(["free", "standard", "premium"] as const).map((plan) => {
+                      const val = row[plan];
+                      return (
+                        <td key={plan} className="px-4 py-3.5 text-center sm:px-6">
+                          {typeof val === "string" ? (
+                            <span className={`text-[13px] ${plan === "standard" ? "font-medium text-text-primary" : "text-text-secondary"}`}>{val}</span>
+                          ) : val ? (
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto text-[#2ed573]">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          ) : (
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="mx-auto text-text-muted/30">
+                              <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
 
         {/* よくある質問 */}
         <section className="mt-20 sm:mt-28">
@@ -534,6 +586,53 @@ export default function PricingContent() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* 会員専用機能 */}
+        <section className="mt-20 sm:mt-28">
+          <h2 className="font-display mb-10 text-center text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+            会員専用機能
+          </h2>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {[
+              {
+                title: "4K高画質配信",
+                desc: "Premiumプランなら全コンテンツを4K画質で視聴可能。細部まで鮮明な映像体験をお楽しみいただけます。",
+                img: "/thumbnails/hero-bg-1.png",
+              },
+              {
+                title: "限定ライブ配信",
+                desc: "会員限定のライブ配信イベントにリアルタイムで参加。チャットやQ&Aでクリエイターと直接交流できます。",
+                img: "/thumbnails/hero-bg-2.png",
+              },
+              {
+                title: "クリエイターコミュニティ",
+                desc: "同じ志を持つ仲間と繋がれる会員専用コミュニティ。情報交換やコラボレーションの場として活用できます。",
+                img: "/thumbnails/hero-bg-3.png",
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                className="group overflow-hidden rounded-xl border border-border bg-[rgba(255,255,255,0.02)] transition-all duration-300 hover:-translate-y-1 hover:border-[rgba(255,255,255,0.12)] hover:shadow-lg hover:shadow-black/20"
+              >
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={card.img}
+                    alt={card.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-5 sm:p-6">
+                  <h3 className="font-display text-base font-bold tracking-tight text-text-primary sm:text-lg">
+                    {card.title}
+                  </h3>
+                  <p className="mt-2 text-[13px] leading-relaxed text-text-muted">
+                    {card.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </main>
