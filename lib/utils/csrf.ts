@@ -11,30 +11,22 @@ export function validateCsrf(request: NextRequest): NextResponse | null {
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-  // 許可するOriginリスト（Vercelのプレビューデプロイも含む）
+  // 許可するOriginリスト
   const allowedOrigins: string[] = [
     new URL(siteUrl).origin,
     "http://localhost:3000",
   ];
 
-  // Vercelのデプロイ URL（プレビュー含む）を許可
-  const vercelUrl = process.env.VERCEL_URL;
-  if (vercelUrl) {
-    allowedOrigins.push(`https://${vercelUrl}`);
-  }
-  const vercelBranchUrl = process.env.VERCEL_BRANCH_URL;
-  if (vercelBranchUrl) {
-    allowedOrigins.push(`https://${vercelBranchUrl}`);
-  }
-  const vercelProjectUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-  if (vercelProjectUrl) {
-    allowedOrigins.push(`https://${vercelProjectUrl}`);
+  // Cloudflare Workers のデプロイ URL を許可
+  const cfWorkerUrl = process.env.CF_PAGES_URL;
+  if (cfWorkerUrl) {
+    allowedOrigins.push(cfWorkerUrl);
   }
 
   function isAllowed(checkOrigin: string): boolean {
     return allowedOrigins.some(
       (allowed) => checkOrigin === allowed
-    ) || checkOrigin.endsWith(".vercel.app");
+    ) || checkOrigin.endsWith(".workers.dev");
   }
 
   // Origin ヘッダーがあればそれで検証
